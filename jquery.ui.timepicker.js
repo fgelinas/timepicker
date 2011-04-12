@@ -1,5 +1,5 @@
 /*
- * jQuery UI Timepicker 0.1.1
+ * jQuery UI Timepicker 0.1.2
  *
  * Copyright 2010-2011, Francois Gelinas
  * Dual licensed under the MIT or GPL Version 2 licenses.
@@ -40,7 +40,7 @@
 
 (function ($, undefined) {
 
-    $.extend($.ui, { timepicker: { version: "0.1.1"} });
+    $.extend($.ui, { timepicker: { version: "0.1.2"} });
 
     var PROP_NAME = 'timepicker';
     var tpuuid = new Date().getTime();
@@ -952,7 +952,7 @@
     $.timepicker = new Timepicker(); // singleton instance
     $.timepicker.initialized = false;
     $.timepicker.uuid = new Date().getTime();
-    $.timepicker.version = "0.1.1";
+    $.timepicker.version = "0.1.2";
 
     // Workaround for #4055
     // Add another global to avoid noConflict issues with inline event handlers

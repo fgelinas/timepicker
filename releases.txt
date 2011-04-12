@@ -30,7 +30,7 @@ Added defaultTime value to use when input field is missing (inline) or input val
 
 Release 0.0.7 - Fev 10, 2011
 Added function to set time after initialisation :$('#timepicker').timepicker('setTime',newTime);
-Added support for disabled period of time : onHourShow and onMinuteShow (thanks Rene Felgenträger)
+Added support for disabled period of time : onHourShow and onMinuteShow (thanks Rene Felgentrï¿½ger)
 
 Release 0.0.8 - Fev 17, 2011
 Fixed close event not triggered when switching to another input with time picker (thanks Stuart Gregg)
@@ -46,3 +46,6 @@ Fixed some bugs with release 0.0.9
 0.1.1 - April 6, 2011
 Changed the cells click and dblclick binding for faster rendering in IE6/7 (Thanks Blair Parsons)
 Fixed a class naming bug created in 0.1.0 (Thanks Morlion Peter)
+
+0.1.2 - April 11, 2011
+So in 0.1.1 I created a bug that made timepicker changes the location hash, well not i'ts fixed. (Thanks Lucas Falk)

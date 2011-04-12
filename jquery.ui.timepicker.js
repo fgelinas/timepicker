@@ -453,7 +453,7 @@
                 // yes I know, duplicate code, sorry
                 .find('.ui-timepicker-minute-cell')
                     .bind("click", { fromDoubleClick:false }, $.proxy($.timepicker.selectMinutes, this))
-                    .bind("dblclick", { fromDoubleClick:true }, $.proxy($.timepicker.selectMinutes, this));
+                    .bind("dblclick", { fromDoubleClick:true }, $.proxy($.timepicker.selectMinutes, this) );
 
 
         },
@@ -816,11 +816,13 @@
             inst._hoursClicked = true;
             if ((inst._minutesClicked) || (fromDoubleClick)) {
                 $.timepicker._hideTimepicker();
-                return;
+                return false;
             }
             // added for onMinuteShow callback
             var onMinuteShow = this._get(inst, 'onMinuteShow');
             if (onMinuteShow) { this._updateMinuteDisplay(inst); }
+
+            return false;
         },
 
         selectMinutes: function (event) {
@@ -840,6 +842,8 @@
 
             inst._minutesClicked = true;
             if ((inst._hoursClicked) || (fromDoubleClick)) { $.timepicker._hideTimepicker(); }
+
+            return false;
         },
 
         _updateSelectedValue: function (inst) {

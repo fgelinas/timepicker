@@ -1,32 +1,25 @@
 
 As it is a timepicker, I inspired most of the code from the datepicker
-Francois Gelinas - first release : Nov 2010
+Francois Gelinas - Nov 2010
 
+Release 0.0.2 - Jan 6, 2011
+Updated to include common display options for USA users
+Stephen Commisso - Jan 2011
 
-Release 0.1.3 - April 12, 2011
-Fixed a bug for when input Id had a dot in it, it was getting double escaped when it should not. (Thanks Zdenek Machac)
+release 0.0.3 - Jan 8, 2011
+Re-added a display:none on the main div (fix a small empty div visible at the bottom of the page before timepicker is called) (Thanks Gertjan van Roekel)
+Fixed a problem where the timepicker was never displayed with jquery ui 1.8.7 css,
+    the problem was the class ui-helper-hidden-accessible, witch I removed.
+    Thanks Alexander Fietz and StackOverflow : http://stackoverflow.com/questions/4522274/jquery-timepicker-and-jqueryui-1-8-7-conflict
 
-Release 0.1.2 - April 11, 2011
-So in 0.1.1 I created a bug that made timepicker changes the location hash, well not i'ts fixed. (Thanks Lucas Falk)
+Release 0.0.4 - jan 10, 2011
+changed showLeadingZero to affect only hours, added showMinutesLeadingZero for minutes display
+Removed width:100% for tables in css
 
-Release 0.1.1 - April 6, 2011
-Changed the cells click and dblclick binding for faster rendering in IE6/7 (Thanks Blair Parsons)
-Fixed a class naming bug created in 0.1.0 (Thanks Morlion Peter)
-
-Release 0.1.0 - March 23, 2011
-Fixed some bugs with release 0.0.9
-
-Release 0.0.9 - March 22, 2011
-Added zIndex option (Thanks Frank Enderle)
-Added option showPeriodLabels that defines if the AM/PM labels are displayed on the left (Thanks Frank Enderle)
-Added showOn ['focus'|'button'|'both'] and button options for alternate trigger method
-
-Release 0.0.8 - Fev 17, 2011
-Fixed close event not triggered when switching to another input with time picker (thanks Stuart Gregg)
-
-Release 0.0.7 - Fev 10, 2011
-Added function to set time after initialisation :$('#timepicker').timepicker('setTime',newTime);
-Added support for disabled period of time : onHourShow and onMinuteShow (thanks Rene Felgentr�ger)
+Release 0.0.5 - Jan 18, 2011
+Now updating time picker selected value when manually typing in the text field (thanks Rasmus Schultz)
+Fixed : with showPeriod: true and showLeadingZero: true, PM hours did not show leading zeros (thanks Chandler May)
+Fixed : with showPeriod: true and showLeadingZero: true, Selecting 12 AM shows as 00 AM in the input field, also parsing 12AM did not work correctly (thanks Rasmus Schultz)
 
 Release 0.0.6 - Jan 19, 2011
 Added standard "change" event being triggered on the input when the content changes. (Thanks Rasmus Schultz)
@@ -35,21 +28,27 @@ Added altField that receive the parsed time value when selected time changes
 Added defaultTime value to use when input field is missing (inline) or input value is empty
       if defaultTime is missing, current time is used
 
-Release 0.0.5 - Jan 18, 2011
-Now updating time picker selected value when manually typing in the text field (thanks Rasmus Schultz)
-Fixed : with showPeriod: true and showLeadingZero: true, PM hours did not show leading zeros (thanks Chandler May)
-Fixed : with showPeriod: true and showLeadingZero: true, Selecting 12 AM shows as 00 AM in the input field, also parsing 12AM did not work correctly (thanks Rasmus Schultz)
+Release 0.0.7 - Fev 10, 2011
+Added function to set time after initialisation :$('#timepicker').timepicker('setTime',newTime);
+Added support for disabled period of time : onHourShow and onMinuteShow (thanks Rene Felgentr�ger)
 
-Release 0.0.4 - jan 10, 2011
-changed showLeadingZero to affect only hours, added showMinutesLeadingZero for minutes display
-Removed width:100% for tables in css
+Release 0.0.8 - Fev 17, 2011
+Fixed close event not triggered when switching to another input with time picker (thanks Stuart Gregg)
 
-Release 0.0.3 - Jan 8, 2011
-Re-added a display:none on the main div (fix a small empty div visible at the bottom of the page before timepicker is called) (Thanks Gertjan van Roekel)
-Fixed a problem where the timepicker was never displayed with jquery ui 1.8.7 css,
-    the problem was the class ui-helper-hidden-accessible, witch I removed.
-    Thanks Alexander Fietz and StackOverflow : http://stackoverflow.com/questions/4522274/jquery-timepicker-and-jqueryui-1-8-7-conflict
+Release 0.0.9 - March 22, 2011
+Added zIndex option (Thanks Frank Enderle)
+Added option showPeriodLabels that defines if the AM/PM labels are displayed on the left (Thanks Frank Enderle)
+Added showOn ['focus'|'button'|'both'] and button options for alternate trigger method
 
-Release 0.0.2 - Jan 6, 2011
-Updated to include common display options for USA users
-Stephen Commisso - Jan 2011
+Release 0.1.0 - March 23, 2011
+Fixed some bugs with release 0.0.9
+
+0.1.1 - April 6, 2011
+Changed the cells click and dblclick binding for faster rendering in IE6/7 (Thanks Blair Parsons)
+Fixed a class naming bug created in 0.1.0 (Thanks Morlion Peter)
+
+0.1.2 - Mai 26, 2011
+Fixed a bug with inline timepickers that would append a #timepickr hashtag when selecting hours and minutes.
+Fixed z-index problem with IE6 (Thanks Graham Bentley)
+Added selection of highlighted text when enter is pressed on the input field (Thanks Glen Chiacchieri)
+Adjusted some focus problems, now the input gets the focus back when the used click on hours / minutes.

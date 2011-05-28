@@ -1,5 +1,5 @@
 /*
- * jQuery UI Timepicker 0.1.2
+ * jQuery UI Timepicker 0.2
  *
  * Copyright 2010-2011, Francois Gelinas
  * Dual licensed under the MIT or GPL Version 2 licenses.
@@ -40,7 +40,7 @@
 
 (function ($, undefined) {
 
-    $.extend($.ui, { timepicker: { version: "0.1.2"} });
+    $.extend($.ui, { timepicker: { version: "0.2"} });
 
     var PROP_NAME = 'timepicker';
     var tpuuid = new Date().getTime();
@@ -538,7 +538,7 @@
             }
 
             if (enabled) {
-            	html = '<td class="ui-timepicker-hour-cell" data-timepicker-instance-id="#' + inst.id + '" data-hour="' + hour.toString() + '">' +
+                html = '<td class="ui-timepicker-hour-cell" data-timepicker-instance-id="#' + inst.id.replace("\\\\","\\") + '" data-hour="' + hour.toString() + '">' +
                    '<a class="ui-state-default ' +
                    (hour == inst.hours ? 'ui-state-active' : '') +
                    '">' +
@@ -569,7 +569,7 @@
              }
 
              if (enabled) {
-	            html = '<td class="ui-timepicker-minute-cell" data-timepicker-instance-id="#' + inst.id + '" data-minute="' + minute.toString() + '" >' +
+	             html = '<td class="ui-timepicker-minute-cell" data-timepicker-instance-id="#' + inst.id.replace("\\\\","\\") + '" data-minute="' + minute.toString() + '" >' +
 	                   '<a class="ui-state-default ' +
 	                   (minute == inst.minutes ? 'ui-state-active' : '') +
 	                   '" >' +
@@ -973,7 +973,7 @@
     $.timepicker = new Timepicker(); // singleton instance
     $.timepicker.initialized = false;
     $.timepicker.uuid = new Date().getTime();
-    $.timepicker.version = "0.1.2";
+    $.timepicker.version = "0.2";
 
     // Workaround for #4055
     // Add another global to avoid noConflict issues with inline event handlers

@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
     <title>jQuery UI Time Picker by Francois Gelinas</title>
     <link rel="stylesheet" href="ui-lightness/jquery-ui-1.8.13.custom.css" type="text/css" />
-    <link rel="stylesheet" href="jquery-ui-timepicker.css?v=0.1.2" type="text/css" />
+    <link rel="stylesheet" href="jquery-ui-timepicker.css?v=0.2" type="text/css" />
 
     <script type="text/javascript" src="jquery-1.5.1.min.js"></script>
     <script type="text/javascript" src="jquery.ui.core.js"></script>
-    <script type="text/javascript" src="jquery.ui.timepicker.js?v=0.1.2"></script>
+    <script type="text/javascript" src="jquery.ui.timepicker.js?v=0.2"></script>
     <style type="text/css">
         /* some styling for the page */
         body { font-size: 10px; /* for the widget natural size */}
@@ -41,7 +42,9 @@
     </span>
 </div> 
     
-<h1>jQuery UI Timepicker</h1>
+<h1>jQuery UI Timepicker
+    <span style="color: #999; font-size:10px;">(By <a href="http://fgelinas.com">Fran&ccedil;ois G&eacute;linas</a>)</span>
+</h1>
 
 <h2>What is this?</h2>
 <p>
@@ -91,10 +94,10 @@
 
     <div>
         Default time picker :
-        <input type="text" style="width: 70px;" id="timepicker_1" value="" />
+        <input type="text" style="width: 70px;" id="timepicker.1" value="" />
         <script type="text/javascript">
             $(document).ready(function() {
-                $('#timepicker_1').timepicker();
+                $('#timepicker\\.1').timepicker();
             });
         </script>
 
@@ -102,9 +105,10 @@
         <pre id="script_1" style="display: none" class="code">$('#timepicker').timepicker();</pre>
     </div>
 
-    <hr />
+
 
     <div style="display: none"> <!-- Too many examples already -->
+        <hr />
         Time picker with "h" time separator :
         <input type="text" style="width: 70px;" id="timepicker_2" value="09h45" />
         <script type="text/javascript">
@@ -120,10 +124,11 @@
         timeSeparator: 'h:'
     });</pre>
 
-        <hr />
     </div>
 
-    <div>
+    
+    <div style="display: none"> <!-- Too many examples already -->
+        <hr />
         Time picker with period (AM/PM) in input and without hours leading 0s :
         <input type="text" style="width: 70px;" id="timepicker_4" value="7:30 PM" />
         <script type="text/javascript">
@@ -141,6 +146,7 @@
     showLeadingZero: false
 });</pre>
     </div>
+
 
     <hr />
 
@@ -195,7 +201,8 @@
                     hourText: 'Heures',
                     minuteText: 'Minutes',
                     amPmText: ['AM', 'PM'],
-                    timeSeparator: 'h'
+                    timeSeparator: 'h',
+                    showLeadingZero: false
                 });
             });
 
@@ -418,13 +425,13 @@ function setNewTime() {
         </li>
 
         <li>
-            <a href="jquery.ui.timepicker.js?v=0.1.2">
+            <a href="jquery.ui.timepicker.js?v=0.2">
                 jquery.ui.timepicker.js
             </a>
         </li>
 
         <li>
-            <a href="jquery-ui-timepicker.css?v=0.1.2">
+            <a href="jquery-ui-timepicker.css?v=0.2">
                 jquery-ui-timepicker.css
             </a>
         </li>
@@ -435,7 +442,7 @@ function setNewTime() {
         <strong>New! New!</strong> TimePicker is not 100% more social, on GitHub @ <a href="http://github.com/fgelinas/timepicker">http://github.com/fgelinas/timepicker</a>.
     </p>
     <p>
-        Get the release package here : <a href="releases/jquery-ui-timepicker-0.1.2.zip">jquery-ui-timepicker-0.1.2.zip</a>
+        Get the release package here : <a href="releases/jquery-ui-timepicker-0.2.zip">jquery-ui-timepicker-0.2.zip</a>
     </p>
 
 
@@ -443,11 +450,20 @@ function setNewTime() {
 <!-- =============================================================================================================== -->
     <h2>Releases :</h2>
     <dl>
+
+        <dt>0.2 - May 28, 2011</dt>
+        <dd>In the last release, I messed up versions and lost some changes so I'm fixing all this up with release 0.2</dd>
+
+
         <dt>0.1.2 - May 26, 2011</dt>
         <dd>Fixed a bug with inline timepickers that would append a #timepickr hashtag when selecting hours and minutes.</dd>
         <dd>Fixed z-index problem with IE6 (Thanks Graham Bentley)</dd>
         <dd>Added selection of highlighted text when enter is pressed on the input field (Thanks Glen Chiacchieri)</dd>
         <dd>Adjusted some focus problems, now the input gets the focus back when the used click on hours / minutes.</dd>
+
+        <dt>0.1.something aka the lost release - around April 11</dt>
+        <dd>Fixed a bug for when input Id had a dot in it, it was getting double escaped when it should not. (Thanks Zdenek Machac)</dd>
+        <dd>So in 0.1.1 I created a bug that made timepicker changes the location hash, well now it's fixed. (Thanks Lucas Falk)</dd>
 
         <dt>0.1.1 - April 6, 2011</dt>
         <dd>Changed the cells click and dblclick binding for faster rendering in IE6/7 (Thanks Blair Parsons)</dd>
@@ -466,7 +482,7 @@ function setNewTime() {
 
         <dt>0.0.7 - February 10, 2011</dt>
         <dd>Added function to set time after initialisation :$('#timepicker').timepicker('setTime',newTime);</dd>
-        <dd>Added support for disabled period of time : onHourShow and onMinuteShow (thanks Rene Felgentr�ger)</dd>
+        <dd>Added support for disabled period of time : onHourShow and onMinuteShow (thanks Rene Felgenträger)</dd>
         
         <dt>0.0.6 - January 19, 2011</dt>
         <dd>Replaced some div with tables to : fix some display bugs in IE7, fix inline display and fix my headhake.</dd>

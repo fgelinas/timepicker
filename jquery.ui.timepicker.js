@@ -507,7 +507,12 @@
                 onMinuteShow = this._get(inst, 'onMinuteShow'),
                 minuteLabel = this._get(inst, 'minuteText');
 
-
+            if ( ! minutes_options.starts) {
+                minutes_options.starts = 0;
+            }
+            if ( ! minutes_options.ends) {
+                minutes_options.ends = 59;
+            }
             for (m = minutes_options.starts; m <= minutes_options.ends; m += minutes_options.interval) {
                 minutes.push(m);
             }

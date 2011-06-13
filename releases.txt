@@ -1,3 +1,7 @@
+Release 0.2.1 - June 12, 2011
+Timepicker does not give the focus back to the input any more after time selection. This is similar to the datepicker behaviour and is more natural to the user because it shows the dialog again when the user click on the input again, as expected.
+Added options to customize the hours and minutes ranges and interval for more customization.
+
 Release 0.2 - May 28, 2011
 So in the previous release I mixed up versions and lost some changes, I guess that's what happen when you drink and code.
 

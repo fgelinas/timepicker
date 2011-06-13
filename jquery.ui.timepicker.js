@@ -1,5 +1,5 @@
 /*
- * jQuery UI Timepicker 0.2
+ * jQuery UI Timepicker 0.2.1
  *
  * Copyright 2010-2011, Francois Gelinas
  * Dual licensed under the MIT or GPL Version 2 licenses.
@@ -40,7 +40,7 @@
 
 (function ($, undefined) {
 
-    $.extend($.ui, { timepicker: { version: "0.2"} });
+    $.extend($.ui, { timepicker: { version: "0.2.1"} });
 
     var PROP_NAME = 'timepicker';
     var tpuuid = new Date().getTime();
@@ -90,7 +90,20 @@
             onHourShow: null,			    // callback for enabling / disabling on selectable hours  ex : function(hour) { return true; }
             onMinuteShow: null,             // callback for enabling / disabling on time selection  ex : function(hour,minute) { return true; }
             // 2011-03-22 - v 0.0.9
-            zIndex: null                    // specify zIndex
+            zIndex: null,                   // specify zIndex
+
+            hours: {
+                starts: 0,                  // first displayed hour
+                ends: 23                    // last displayed hour
+            },
+            minutes: {
+                starts: 0,                  // first displayed minute
+                ends: 55,                   // last displayed minute
+                interval: 5                 // interval of displayed minutes
+            },
+            rows: 4                         // number of rows for the input tables, minimum 2, makes more sense if you use multiple of 2 
+
+
         };
         $.extend(this._defaults, this.regional['']);
 
@@ -235,15 +248,16 @@
                 inst.append = $('<span class="' + this._appendClass + '">' + appendText + '</span>');
                 input[isRTL ? 'before' : 'after'](inst.append);
             }
-            input.unbind('focus', this._showTimepicker);
+            input.unbind('focus.timepicker', this._showTimepicker);
             if (inst.trigger) { inst.trigger.remove(); }
+
             var showOn = this._get(inst, 'showOn');
             if (showOn == 'focus' || showOn == 'both') { // pop-up time picker when in the marked field
-                input.focus(this._showTimepicker);
+                input.bind("focus.timepicker", this._showTimepicker);
             }
             if (showOn == 'button' || showOn == 'both') { // pop-up time picker when 'button' element is clicked
                 var button = this._get(inst, 'button');
-                $(button).click(function () {
+                $(button).bind("click.timepicker", function () {
                     if ($.timepicker._timepickerShowing && $.timepicker._lastInput == input[0]) { $.timepicker._hideTimepicker(); }
                     else { $.timepicker._showTimepicker(input[0]); }
                     return false;
@@ -398,44 +412,55 @@
 
         /* Generate the HTML for the current state of the date picker. */
         _generateHTML: function (inst) {
-            var h, m, html = '';
-            var showPeriod = (this._get(inst, 'showPeriod') == true);
-            var showPeriodLabels = (this._get(inst, 'showPeriodLabels') == true);
-            var showLeadingZero = (this._get(inst, 'showLeadingZero') == true);
-            var amPmText = this._get(inst, 'amPmText');
 
+            var h, m, row, html = '',
+                showPeriod = (this._get(inst, 'showPeriod') == true),
+                showPeriodLabels = (this._get(inst, 'showPeriodLabels') == true),
+                showLeadingZero = (this._get(inst, 'showLeadingZero') == true),
+                amPmText = this._get(inst, 'amPmText'),
+                rows = this._get(inst, 'rows'),
+                amRows = rows / 2,
+                pmFirstRow = amRows + 1,
+                hours = Array(),
+                hours_options = this._get(inst, 'hours'),
+                hoursPerRow = null,
+                hourCounter = 0,
+                hourLabel = this._get(inst, 'hourText');
 
+            
+
+            // prepare all hours and minutes, makes it easier to distribute by rows
+            for (h = hours_options.starts; h <= hours_options.ends; h++) {
+                hours.push (h);
+            }
+            hoursPerRow = Math.round(hours.length / rows + 0.49); // always round up
+            
+
+            
             html = '<table class="ui-timepicker-table ui-widget-content ui-corner-all"><tr>' +
                    '<td class="ui-timepicker-hours">' +
                    '<div class="ui-timepicker-title ui-widget-header ui-helper-clearfix ui-corner-all">' +
-                   this._get(inst, 'hourText') +
+                   hourLabel +
                    '</div>' +
                    '<table class="ui-timepicker">';
 
-            // AM
-            html += '<tr>'
-                 + (showPeriodLabels ? '<th rowspan="2" class="periods">' + amPmText[0] + '</th>' : '');
-
-            for (h = 0; h <= 5; h++) {
-                html += this._generateHTMLHourCell(inst, h, showPeriod, showLeadingZero);
+            for (row = 1; row <= rows; row++) {
+                html += '<tr>';
+                // AM
+                if (row == 1 && showPeriodLabels) {
+                    html += '<th rowspan="' + amRows.toString() + '" class="periods">' + amPmText[0] + '</th>';
+                }
+                // PM
+                if (row == pmFirstRow && showPeriodLabels) {
+                    html += '<th rowspan="' + amRows.toString() + '" class="periods">' + amPmText[1] + '</th>';
+                }
+                while (hourCounter < hoursPerRow * row) {
+                    html += this._generateHTMLHourCell(inst, hours[hourCounter], showPeriod, showLeadingZero);
+                    hourCounter++;
+                }
+                html += '</tr>';
             }
-
-            html += '</tr><tr>';
-            for (h = 6; h <= 11; h++) {
-                html += this._generateHTMLHourCell(inst, h, showPeriod, showLeadingZero);
-            }
-
-            // PM
-            html += '</tr><tr>'
-                 + (showPeriodLabels ? '<th rowspan="2" class="periods">' + amPmText[1] + '</th>' : '');
-            for (h = 12; h <= 17; h++) {
-                html += this._generateHTMLHourCell(inst, h, showPeriod, showLeadingZero);
-            }
-
-            html += '</tr><tr>';
-            for (h = 18; h <= 23; h++) {
-                html += this._generateHTMLHourCell(inst, h, showPeriod, showLeadingZero);
-            }
+          
             html += '</tr></table>' + // Close the hours cells table
                     '</td>' +         // Close the Hour td
                     '<td class="ui-timepicker-minutes">';
@@ -466,52 +491,67 @@
 
         },
 
-        /* Generate the minutes table */
+        /*
+         * Generate the minutes table
+         * This is separated from the _generateHTML function because is can be called separately (when hours changes)
+         */
         _generateHTMLMinutes: function (inst) {
 
-            var m;
-            var showMinutesLeadingZero = (this._get(inst, 'showMinutesLeadingZero') == true);
-            var onMinuteShow = this._get(inst, 'onMinuteShow');
-            // if currently selected minute is not enabled, we have a problem and need to select a new minute.
-            if ( (onMinuteShow) ) {
+            var m, row, html = '',
+                rows = this._get(inst, 'rows'),
+                minutes = Array(),
+                minutes_options = this._get(inst, 'minutes'),
+                minutesPerRow = null,
+                minuteCounter = 0,
+                showMinutesLeadingZero = (this._get(inst, 'showMinutesLeadingZero') == true),
+                onMinuteShow = this._get(inst, 'onMinuteShow'),
+                minuteLabel = this._get(inst, 'minuteText');
 
-                if (onMinuteShow.apply((inst.input ? inst.input[0] : null), [inst.hours , inst.minutes]) == false) {
-                    // loop minutes and select first available
-                    for (m = 0; m < 60; m += 5) {
-                        if (onMinuteShow.apply((inst.input ? inst.input[0] : null), [inst.hours, m])) {
-                            inst.minutes = m;
-                            break;
-                        }
+
+            for (m = minutes_options.starts; m <= minutes_options.ends; m += minutes_options.interval) {
+                minutes.push(m);
+            }
+            if (minutes_options.interval == 15) {
+                console.log('found it');
+                console.log(minutes_options.starts);
+            }
+            minutesPerRow = Math.round(minutes.length / rows + 0.49); // always round up
+
+            /*
+             * The minutes table
+             */
+            // if currently selected minute is not enabled, we have a problem and need to select a new minute.
+            if (onMinuteShow &&
+                (onMinuteShow.apply((inst.input ? inst.input[0] : null), [inst.hours , inst.minutes]) == false) ) {
+                // loop minutes and select first available
+                for (minuteCounter = 0; minuteCounter < minutes.length; minuteCounter += 1) {
+                    m = minutes[minuteCounter];
+                    if (onMinuteShow.apply((inst.input ? inst.input[0] : null), [inst.hours, m])) {
+                        inst.minutes = m;
+                        break;
                     }
                 }
             }
 
-            var html = '' + // open minutes td
-                       /* Add the minutes */
-                       '<div class="ui-timepicker-title ui-widget-header ui-helper-clearfix ui-corner-all">' +
-                       this._get(inst, 'minuteText') +
-                       '</div>' +
-                       '<table class="ui-timepicker">' +
-                       '<tr>';
 
 
-            for (m = 0; m < 15; m += 5) {
-                html += this._generateHTMLMinuteCell(inst, m, (m < 10) && showMinutesLeadingZero ? "0" + m.toString() : m.toString());
+            html += '<div class="ui-timepicker-title ui-widget-header ui-helper-clearfix ui-corner-all">' +
+                    minuteLabel +
+                    '</div>' +
+                    '<table class="ui-timepicker">';
+            
+            minuteCounter = 0;
+            for (row = 1; row <= rows; row++) {
+                html += '<tr>';
+                while (minuteCounter < row * minutesPerRow) {
+                    m = minutes[minuteCounter];
+                    html += this._generateHTMLMinuteCell(inst, m, (m < 10) && showMinutesLeadingZero ? "0" + m.toString() : m.toString());
+                    minuteCounter++;
+                }
+                html += '</tr>';
             }
-            html += '</tr><tr>';
-            for (m = 15; m < 30; m += 5) {
-                html += this._generateHTMLMinuteCell(inst, m, m.toString());
-            }
-            html += '</tr><tr>';
-            for (m = 30; m < 45; m += 5) {
-                html += this._generateHTMLMinuteCell(inst, m, m.toString());
-            }
-            html += '</tr><tr>';
-            for (m = 45; m < 60; m += 5) {
-                html += this._generateHTMLMinuteCell(inst, m, m.toString());
-            }
-
-            html += '</tr></table>';
+            
+            html += '</table>';
 
             return html;
         },
@@ -820,9 +860,6 @@
             inst.hours = newHours;
             this._updateSelectedValue(inst);
 
-            // return the focus to the input
-            if (inst.input.is(':visible') && !inst.input.is(':disabled')) { inst.input.focus(); }
-
             inst._hoursClicked = true;
             if ((inst._minutesClicked) || (fromDoubleClick)) {
                 $.timepicker._hideTimepicker();
@@ -850,9 +887,6 @@
 
             inst.minutes = newMinutes;
             this._updateSelectedValue(inst);
-
-            // return the focus to the input
-            if (inst.input.is(':visible') && !inst.input.is(':disabled')) { inst.input.focus(); }
 
             inst._minutesClicked = true;
             if ((inst._hoursClicked) || (fromDoubleClick)) {
@@ -973,7 +1007,7 @@
     $.timepicker = new Timepicker(); // singleton instance
     $.timepicker.initialized = false;
     $.timepicker.uuid = new Date().getTime();
-    $.timepicker.version = "0.2";
+    $.timepicker.version = "0.2.1";
 
     // Workaround for #4055
     // Add another global to avoid noConflict issues with inline event handlers

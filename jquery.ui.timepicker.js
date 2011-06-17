@@ -84,7 +84,7 @@
             showLeadingZero: true,          // Define whether or not to show a leading zero for hours < 10. [true/false]
             showMinutesLeadingZero: true,   // Define whether or not to show a leading zero for minutes < 10.
             altField: '',                   // Selector for an alternate field to store selected time into
-            defaultTime: '',                // Used as default time when input field is empty or for inline timePicker
+            defaultTime: '',                // Used as default time when input field is empty or for inline timePicker (set to 'now' for the current time)
 
             //NEW: 2011-02-03
             onHourShow: null,			    // callback for enabling / disabling on selectable hours  ex : function(hour) { return true; }
@@ -764,16 +764,19 @@
             if (inst.input.val() == inst.lastVal) { return; }
             var defaultTime = this._get(inst, 'defaultTime');
 
-
-            var timeToParse = this._getCurrentTimeRounded(inst);
-            if (defaultTime != '') { timeToParse = defaultTime }
+            var timeToParse = defaultTime == 'now' ? this._getCurrentTimeRounded(inst) : defaultTime;
             if ((inst.inline == false) && (inst.input.val() != '')) { timeToParse = inst.input.val() }
 
             var timeVal = inst.lastVal = timeToParse;
 
-            var time = this.parseTime(inst, timeVal);
-            inst.hours = time.hours;
-            inst.minutes = time.minutes;
+            if (timeToParse == '') {
+              inst.hours = -1;
+              inst.minutes = -1;
+            } else {
+              var time = this.parseTime(inst, timeVal);
+              inst.hours = time.hours;
+              inst.minutes = time.minutes;
+            }
 
             $.timepicker._updateTimepicker(inst);
         },

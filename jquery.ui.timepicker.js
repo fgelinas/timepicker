@@ -84,7 +84,8 @@
             showLeadingZero: true,          // Define whether or not to show a leading zero for hours < 10. [true/false]
             showMinutesLeadingZero: true,   // Define whether or not to show a leading zero for minutes < 10.
             altField: '',                   // Selector for an alternate field to store selected time into
-            defaultTime: '',                // Used as default time when input field is empty or for inline timePicker (set to 'now' for the current time)
+            defaultTime: 'now',             // Used as default time when input field is empty or for inline timePicker
+                                            // (set to 'now' for the current time, '' for no highlighted time)
 
             //NEW: 2011-02-03
             onHourShow: null,			    // callback for enabling / disabling on selectable hours  ex : function(hour) { return true; }

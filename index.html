@@ -65,7 +65,9 @@
     showPeriod: false,            // Define whether or not to show AM/PM with selected time. (default: false)
     showPeriodLabels: true,       // Define if the AM/PM labels on the left are displayed. (default: true)
     altField: '#alternate_input', // Define an alternate input to parse selected time to
-    defaultTime: '12:34',         // Define a default time to use if displayed inline or input is empty
+    defaultTime: '12:34',         // Used as default time when input field is empty or for inline timePicker
+                                  // (set to 'now' for the current time, '' for no highlighted time, default value: now)
+
     zIndex: null,                 // Overwrite the default zIndex used by the time picker
     
     // trigger options
@@ -445,6 +447,7 @@ function setNewTime() {
 
         <dt>0.2.3 (pending) </dt>
         <dd>Fix github issue #3 : Bug when hours or minutes choices does not divide by number of rows (thanks wukimus).</dd>
+        <dd>Changed default behavior of the defaultTime option, if set to '' and input is empty, there will be no highlighted time in the popup (Thanks Rasmus Schultz)</dd>
 
         <dt>0.2.2 - June 16, 2011</dt>
         <dd>Fixed a "console.log" line that I forgot to remove before release 0.2.1. (Thanks Derek Lavine)</dd>

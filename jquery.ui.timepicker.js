@@ -574,6 +574,12 @@
             var html = "";
             var enabled = true;
             var onHourShow = this._get(inst, 'onHourShow');		//custom callback
+
+            if (hour == undefined) {
+                html = '<td class="ui-state-default ui-state-disabled">&nbsp;</td>';
+                return html;
+            }
+
             if (onHourShow) {
             	enabled = onHourShow.apply((inst.input ? inst.input[0] : null), [hour]);
             }
@@ -607,6 +613,11 @@
              if (onMinuteShow) {
             	 //NEW: 2011-02-03  we should give the hour as a parameter as well!
              	enabled = onMinuteShow.apply((inst.input ? inst.input[0] : null), [inst.hours,minute]);		//trigger callback
+             }
+
+             if (minute == undefined) {
+                 html = '<td class=ui-state-default ui-state-disabled">&nbsp;</td>';
+                 return html;
              }
 
              if (enabled) {

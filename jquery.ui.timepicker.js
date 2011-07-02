@@ -1,5 +1,5 @@
 /*
- * jQuery UI Timepicker 0.2.2
+ * jQuery UI Timepicker 0.2.3
  *
  * Copyright 2010-2011, Francois Gelinas
  * Dual licensed under the MIT or GPL Version 2 licenses.
@@ -40,7 +40,7 @@
 
 (function ($, undefined) {
 
-    $.extend($.ui, { timepicker: { version: "0.2.2"} });
+    $.extend($.ui, { timepicker: { version: "0.2.3"} });
 
     var PROP_NAME = 'timepicker';
     var tpuuid = new Date().getTime();
@@ -546,8 +546,12 @@
             for (row = 1; row <= rows; row++) {
                 html += '<tr>';
                 while (minuteCounter < row * minutesPerRow) {
-                    m = minutes[minuteCounter];
-                    html += this._generateHTMLMinuteCell(inst, m, (m < 10) && showMinutesLeadingZero ? "0" + m.toString() : m.toString());
+                    var m = minutes[minuteCounter];
+                    var displayText = '';
+                    if (m !== undefined ) {
+                        displayText = (m < 10) && showMinutesLeadingZero ? "0" + m.toString() : m.toString();
+                    }
+                    html += this._generateHTMLMinuteCell(inst, m, displayText);
                     minuteCounter++;
                 }
                 html += '</tr>';
@@ -928,7 +932,7 @@
 
             var displayHours = selectedHours;
             if ( ! displayHours) {
-                displayHoyrs = 0;
+                displayHours = 0;
             }
 
 
@@ -1023,7 +1027,7 @@
     $.timepicker = new Timepicker(); // singleton instance
     $.timepicker.initialized = false;
     $.timepicker.uuid = new Date().getTime();
-    $.timepicker.version = "0.2.2";
+    $.timepicker.version = "0.2.3";
 
     // Workaround for #4055
     // Add another global to avoid noConflict issues with inline event handlers

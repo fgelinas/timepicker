@@ -982,6 +982,12 @@
                     $(e).val(newTime);
                 });
             }
+        },
+
+        /* This might look unused but it's called by the $.fn.timepicker function with param getTime */
+        /* added v 0.2.3 - gitHub issue #5 - Thanks edanuff */
+        _getTimeTimepicker : function(input) {
+            return input ? input.value : '';
         }
     });
 

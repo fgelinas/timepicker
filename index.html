@@ -9,6 +9,8 @@
     <script type="text/javascript" src="jquery-1.5.1.min.js"></script>
     <script type="text/javascript" src="jquery.ui.core.js"></script>
     <script type="text/javascript" src="jquery.ui.timepicker.js?v=0.2.2"></script>
+
+    <script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
     <style type="text/css">
         /* some styling for the page */
         body { font-size: 10px; /* for the widget natural size */}
@@ -21,6 +23,19 @@
         a { cursor: pointer; }
     </style>
 
+    <script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-24327002-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
 </head>
 <body>
 <div id="content">
@@ -43,7 +58,9 @@
 </div> 
     
 <h1>jQuery UI Timepicker
+
     <span style="color: #999; font-size:10px;">(By <a href="http://fgelinas.com">Fran&ccedil;ois G&eacute;linas</a>)</span>
+    <g:plusone></g:plusone>
 </h1>
 
 <h2>What is this?</h2>

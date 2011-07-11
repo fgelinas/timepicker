@@ -987,7 +987,8 @@
         /* This might look unused but it's called by the $.fn.timepicker function with param getTime */
         /* added v 0.2.3 - gitHub issue #5 - Thanks edanuff */
         _getTimeTimepicker : function(input) {
-            return input ? input.value : '';
+            var inst = this._getInst(input);
+            return inst.hours + this._get(inst, 'timeSeparator') + inst.minutes;
         }
     });
 

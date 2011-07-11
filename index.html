@@ -60,8 +60,19 @@
 <h1>jQuery UI Timepicker
 
     <span style="color: #999; font-size:10px;">(By <a href="http://fgelinas.com">Fran&ccedil;ois G&eacute;linas</a>)</span>
-    <g:plusone></g:plusone>
+    <g:plusone callback='plusone_clicked'></g:plusone>
+
+    <span id="thankyou" style="display: none; font-size: 0.6em;" class="code">
+        Thanks !! (:
+    </span>
 </h1>
+
+
+<script>
+    function plusone_clicked() {
+        $('#thankyou').fadeIn(300);
+    }
+</script>
 
 <h2>What is this?</h2>
 <p>
@@ -81,6 +92,7 @@
     showMinutesLeadingZero: true, // Define whether or not to show a leading zero for minutes < 10. (default: true)
     showPeriod: false,            // Define whether or not to show AM/PM with selected time. (default: false)
     showPeriodLabels: true,       // Define if the AM/PM labels on the left are displayed. (default: true)
+    periodSeparator: ' ',         // The character to use to separate the time from the time period.
     altField: '#alternate_input', // Define an alternate input to parse selected time to
     defaultTime: '12:34',         // Used as default time when input field is empty or for inline timePicker
                                   // (set to 'now' for the current time, '' for no highlighted time, default value: now)
@@ -386,7 +398,10 @@ $('#timepicker').timepicker({
             </span>
             <br />
             <input type="button" value="Change time to 16:55" onclick="javascript:$('#timepicker_inline_7').timepicker('setTime','16:55');">
-
+            <br>
+            <input type="button" id='tp7_getTime_button' value="Get selected time" onclick="javascript:tp7_getTime();" >
+            <br>
+            <input type="button" id="tp7_getHourMinute_button" value="Get hour and minute" onclick="javascript:tp7_getHourMinute();" >
             <br />
             <a onclick="$('#script_inline').toggle(200); return false;">[Show code]</a>
         </div>
@@ -398,6 +413,16 @@ $('#timepicker').timepicker({
                    defaultTime: '13:30'
                });
             });
+            function tp7_getTime() {
+                $('#tp7_getTime_button').val('Selected time : ' + $('#timepicker_inline_7').timepicker('getTime'));
+            }
+            function tp7_getHourMinute() {
+                $('#tp7_getHourMinute_button').val(
+                        'Hour : ' + $('#timepicker_inline_7').timepicker('getHour')
+                        + ', ' +
+                        'minute : ' + $('#timepicker_inline_7').timepicker('getMinute')
+                );
+            }
         </script>
         <div style="clear: both"></div>
         
@@ -407,7 +432,18 @@ $('#timepicker').timepicker({
 });
 function setNewTime() {
     $('#timepicker_inline_div').timepicker('setTime','16:55');
-}</pre>
+}
+function getTime() {
+    $('#getTime_button').val('Selected time : ' + $('#timepicker').timepicker('getTime'));
+}
+function getHourMinute() {
+    $('#getHourMinute_button').val(
+            'Hour : ' + $('#timepicker').timepicker('getHour')
+            + ', ' +
+            'minute : ' + $('#timepicker').timepicker('getMinute')
+    );
+}
+</pre>
 
     </div>
 

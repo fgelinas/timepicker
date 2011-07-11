@@ -374,7 +374,7 @@
         _updateTimepicker: function (inst) {
             var self = this;
             var borders = $.timepicker._getBorders(inst.tpDiv);
- 
+
             inst.tpDiv.empty().append(this._generateHTML(inst))
 			.find('iframe.ui-timepicker-cover') // IE6- only
 				.css({ left: -borders[0], top: -borders[1],
@@ -868,29 +868,30 @@
 
 
         selectHours: function (event) {
-            var $td = $(event.currentTarget);
-            var id = $td.attr("data-timepicker-instance-id");
-            var newHours = $td.attr("data-hour");
-            var fromDoubleClick = event.data.fromDoubleClick;
-            var target = $(id);
-            var inst = this._getInst(target[0]);
+            var $td = $(event.currentTarget),
+                id = $td.attr("data-timepicker-instance-id"),
+                newHours = $td.attr("data-hour"),
+                fromDoubleClick = event.data.fromDoubleClick,
+                target = $(id),
+                inst = this._getInst(target[0]);
+            
             $td.parents('.ui-timepicker-hours:first').find('a').removeClass('ui-state-active');
-            //inst.tpDiv.children('.ui-timepicker-hours a').removeClass('ui-state-active');
             $td.children('a').addClass('ui-state-active');
-
             inst.hours = newHours;
+
+            // added for onMinuteShow callback
+            var onMinuteShow = this._get(inst, 'onMinuteShow');
+            if (onMinuteShow) {
+                // this will trigger a callback on selected hour to make sure selected minute is allowed. 
+                this._updateMinuteDisplay(inst);
+            }
+
             this._updateSelectedValue(inst);
 
             inst._hoursClicked = true;
             if ((inst._minutesClicked) || (fromDoubleClick)) {
                 $.timepicker._hideTimepicker();
-                // return false because if used inline, prevent the url to change to a hashtag
-                return false;
             }
-            // added for onMinuteShow callback
-            var onMinuteShow = this._get(inst, 'onMinuteShow');
-            if (onMinuteShow) { this._updateMinuteDisplay(inst); }
-
             // return false because if used inline, prevent the url to change to a hashtag
             return false;
         },
@@ -921,21 +922,29 @@
         },
 
         _updateSelectedValue: function (inst) {
+            var newTime = this._getParsedTime(inst);
+            if (inst.input) {
+                inst.input.val(newTime);
+                inst.input.trigger('change');
+            }
+            var onSelect = this._get(inst, 'onSelect');
+            if (onSelect) { onSelect.apply((inst.input ? inst.input[0] : null), [newTime, inst]); } // trigger custom callback
+            this._updateAlternate(inst, newTime);
+            return newTime;
+        },
+        
+        /* this function process selected time and return it parsed according to instance options */
+        _getParsedTime: function(inst) {
             if ((inst.hours < 0) || (inst.hours > 23)) { inst.hours = 12; }
             if ((inst.minutes < 0) || (inst.minutes > 59)) { inst.minutes = 0; }
 
-            var period = "";
-            var showPeriod = (this._get(inst, 'showPeriod') == true);
-            var showLeadingZero = (this._get(inst, 'showLeadingZero') == true);
-            var amPmText = this._get(inst, 'amPmText');
-            var selectedHours = inst.hours ? inst.hours : 0;
-            var selectedMinutes = inst.minutes ? inst.minutes : 0;
-
-            var displayHours = selectedHours;
-            if ( ! displayHours) {
-                displayHours = 0;
-            }
-
+            var period = "",
+                showPeriod = (this._get(inst, 'showPeriod') == true),
+                showLeadingZero = (this._get(inst, 'showLeadingZero') == true),
+                amPmText = this._get(inst, 'amPmText'),
+                selectedHours = inst.hours ? inst.hours : 0,
+                selectedMinutes = inst.minutes ? inst.minutes : 0,
+                displayHours = selectedHours ? selectedHours : 0;
 
             if (showPeriod) {
                 if (inst.hours == 0) {
@@ -955,26 +964,15 @@
             var h = displayHours.toString();
             if (showLeadingZero && (displayHours < 10)) { h = '0' + h; }
 
-
             var m = selectedMinutes.toString();
             if (selectedMinutes < 10) { m = '0' + m; }
 
-            var newTime = h + this._get(inst, 'timeSeparator') + m;
-            if (period.length > 0) { newTime += this._get(inst, 'periodSeparator') + period; }
-
-            if (inst.input) {
-                inst.input.val(newTime);
-                inst.input.trigger('change');
-            }
-
-            var onSelect = this._get(inst, 'onSelect');
-            if (onSelect) { onSelect.apply((inst.input ? inst.input[0] : null), [newTime, inst]); } // trigger custom callback
-
-            this._updateAlternate(inst, newTime);
-
-            return newTime;
+            var parsedTime = h + this._get(inst, 'timeSeparator') + m;
+            if (period.length > 0) { parsedTime += this._get(inst, 'periodSeparator') + period; }
+            
+            return parsedTime;
         },
-
+        
         /* Update any alternate field to synchronise with the main field. */
         _updateAlternate: function(inst, newTime) {
             var altField = this._get(inst, 'altField');
@@ -988,8 +986,18 @@
         /* This might look unused but it's called by the $.fn.timepicker function with param getTime */
         /* added v 0.2.3 - gitHub issue #5 - Thanks edanuff */
         _getTimeTimepicker : function(input) {
-            return input ? input.value : '';
+            var inst = this._getInst(input);
+            return this._getParsedTime(inst);
+        },
+        _getHourTimepicker: function(input) {
+            var inst = this._getInst(input);
+            return inst.hours;
+        },
+        _getMinuteTimepicker: function(input) {
+            var inst= this._getInst(input);
+            return inst.minutes;
         }
+
     });
 
 
@@ -1008,7 +1016,7 @@
         }
 
         var otherArgs = Array.prototype.slice.call(arguments, 1);
-        if (typeof options == 'string' && (options == 'isDisabled' || options == 'getTime' || options == 'widget'))
+        if (typeof options == 'string' && (options == 'getTime' || options == 'getHour' || options == 'getMinute' ))
             return $.timepicker['_' + options + 'Timepicker'].
 			apply($.timepicker, [this[0]].concat(otherArgs));
         if (options == 'option' && arguments.length == 2 && typeof arguments[1] == 'string')

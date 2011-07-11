@@ -78,7 +78,8 @@
             appendText: '',                 // Display text following the input box, e.g. showing the format
             onSelect: null,                 // Define a callback function when a hour / minutes is selected
             onClose: null,                  // Define a callback function when the timepicker is closed
-            timeSeparator: ':',             // The caracter to use to separate hours and minutes.
+            timeSeparator: ':',             // The character to use to separate hours and minutes.
+            periodSeparator: ' ',           // The character to use to separate the time from the time period.
             showPeriod: false,              // Define whether or not to show AM/PM with selected time
             showPeriodLabels: true,         // Show the AM/PM labels on the left of the time picker
             showLeadingZero: true,          // Define whether or not to show a leading zero for hours < 10. [true/false]
@@ -959,7 +960,7 @@
             if (selectedMinutes < 10) { m = '0' + m; }
 
             var newTime = h + this._get(inst, 'timeSeparator') + m;
-            if (period.length > 0) { newTime += " " + period; }
+            if (period.length > 0) { newTime += this._get(inst, 'periodSeparator') + period; }
 
             if (inst.input) {
                 inst.input.val(newTime);

@@ -415,14 +415,16 @@
         /* Generate the HTML for the current state of the date picker. */
         _generateHTML: function (inst) {
 
-            var h, m, row, html = '',
+            var h, m, row, col, html = '',
                 showPeriod = (this._get(inst, 'showPeriod') == true),
                 showPeriodLabels = (this._get(inst, 'showPeriodLabels') == true),
                 showLeadingZero = (this._get(inst, 'showLeadingZero') == true),
                 amPmText = this._get(inst, 'amPmText'),
                 rows = this._get(inst, 'rows'),
-                amRows = rows / 2,
-                pmFirstRow = amRows + 1,
+                amRows = Math.floor(rows / 2),
+                pmRows = amRows,
+                amFirstRow = null,
+                pmFirstRow = null,
                 hours = Array(),
                 hours_options = this._get(inst, 'hours'),
                 hoursPerRow = null,
@@ -435,8 +437,18 @@
             for (h = hours_options.starts; h <= hours_options.ends; h++) {
                 hours.push (h);
             }
-            hoursPerRow = Math.round(hours.length / rows + 0.49); // always round up
-            
+            hoursPerRow = Math.ceil(hours.length / rows); // always round up
+
+            // assign the middle row to the period that owns its first cell
+            if (rows != amRows + pmRows) {
+                if (hours[amRows * hoursPerRow] < 12) {
+                    amRows++;
+                } else {
+                    pmRows++;
+                }
+            }
+            amFirstRow = Math.min(amRows, 1);
+            pmFirstRow = amRows + 1;
 
             
             html = '<table class="ui-timepicker-table ui-widget-content ui-corner-all"><tr>' +
@@ -449,14 +461,14 @@
             for (row = 1; row <= rows; row++) {
                 html += '<tr>';
                 // AM
-                if (row == 1 && showPeriodLabels) {
+                if (row == amFirstRow && showPeriodLabels) {
                     html += '<th rowspan="' + amRows.toString() + '" class="periods">' + amPmText[0] + '</th>';
                 }
                 // PM
                 if (row == pmFirstRow && showPeriodLabels) {
-                    html += '<th rowspan="' + amRows.toString() + '" class="periods">' + amPmText[1] + '</th>';
+                    html += '<th rowspan="' + pmRows.toString() + '" class="periods">' + amPmText[1] + '</th>';
                 }
-                while (hourCounter < hoursPerRow * row) {
+                for (col = 1; col <= hoursPerRow; col++) {
                     html += this._generateHTMLHourCell(inst, hours[hourCounter], showPeriod, showLeadingZero);
                     hourCounter++;
                 }

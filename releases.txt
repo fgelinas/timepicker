@@ -1,4 +1,4 @@
-Release 0.2.3 - Not Released Yet
+Release 0.2.3 - July 11, 2011
 Fix github issue #3 : Bug when hours or minutes choices does not divide by number of rows (thanks wukimus)
 Changed default behavior of the defaultTime option, if set to '' and input is empty, there will be no highlighted time in the popup (Thanks Rasmus Schultz)
 Fix github issue #4 : Error when generating empty minute cell. (Thanks 123Haynes)

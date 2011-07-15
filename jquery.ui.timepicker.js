@@ -421,17 +421,19 @@
                 showLeadingZero = (this._get(inst, 'showLeadingZero') == true),
                 amPmText = this._get(inst, 'amPmText'),
                 rows = this._get(inst, 'rows'),
-                amRows = Math.floor(rows / 2),
-                pmRows = amRows,
-                amFirstRow = null,
-                pmFirstRow = null,
+                amRows = 0,
+                pmRows = 0,
+                amItems = 0,
+                pmItems = 0,
+                amFirstRow = 0,
+                pmFirstRow = 0,
                 hours = Array(),
                 hours_options = this._get(inst, 'hours'),
                 hoursPerRow = null,
                 hourCounter = 0,
                 hourLabel = this._get(inst, 'hourText');
 
-            
+
 
             // prepare all hours and minutes, makes it easier to distribute by rows
             for (h = hours_options.starts; h <= hours_options.ends; h++) {
@@ -439,18 +441,35 @@
             }
             hoursPerRow = Math.ceil(hours.length / rows); // always round up
 
-            // assign the middle row to the period that owns its first cell
-            if (rows != amRows + pmRows) {
-                if (hours[amRows * hoursPerRow] < 12) {
-                    amRows++;
-                } else {
-                    pmRows++;
+            if (showPeriodLabels) {
+                for (hourCounter = 0; hourCounter < hours.length; hourCounter++) {
+                    if (hours[hourCounter] < 12) {
+                        amItems++;
+                    }
+                    else {
+                        pmItems++;
+                    }
                 }
-            }
-            amFirstRow = Math.min(amRows, 1);
-            pmFirstRow = amRows + 1;
+                hourCounter = 0; 
 
-            
+                amRows = Math.floor(amItems / hours.length * rows);
+                pmRows = Math.floor(pmItems / hours.length * rows);
+
+                // assign the extra row to the period that is more densly populated
+                if (rows != amRows + pmRows) {
+                    // Make sure: AM Has Items and either PM Does Not, AM has no rows yet, or AM is more dense
+                    if (amItems && (!pmItems || !amRows || (pmRows && amItems / amRows >= pmItems / pmRows))) {
+                        amRows++;
+                    } else {
+                        pmRows++;
+                    }
+                }
+                amFirstRow = Math.min(amRows, 1);
+                pmFirstRow = amRows + 1;
+                hoursPerRow = Math.ceil(Math.max(amItems / amRows, pmItems / pmRows));
+            }
+
+
             html = '<table class="ui-timepicker-table ui-widget-content ui-corner-all"><tr>' +
                    '<td class="ui-timepicker-hours">' +
                    '<div class="ui-timepicker-title ui-widget-header ui-helper-clearfix ui-corner-all">' +
@@ -469,8 +488,12 @@
                     html += '<th rowspan="' + pmRows.toString() + '" class="periods">' + amPmText[1] + '</th>';
                 }
                 for (col = 1; col <= hoursPerRow; col++) {
-                    html += this._generateHTMLHourCell(inst, hours[hourCounter], showPeriod, showLeadingZero);
-                    hourCounter++;
+                    if (showPeriodLabels && row < pmFirstRow && hours[hourCounter] >= 12) {
+                        html += this._generateHTMLHourCell(inst, undefined, showPeriod, showLeadingZero);
+                    } else {
+                        html += this._generateHTMLHourCell(inst, hours[hourCounter], showPeriod, showLeadingZero);
+                        hourCounter++;
+                    }
                 }
                 html += '</tr>';
             }
@@ -594,7 +617,7 @@
             var onHourShow = this._get(inst, 'onHourShow');		//custom callback
 
             if (hour == undefined) {
-                html = '<td class="ui-state-default ui-state-disabled">&nbsp;</td>';
+                html = '<td><span class="ui-state-default ui-state-disabled">&nbsp;</span></td>';
                 return html;
             }
 
@@ -634,7 +657,7 @@
              }
 
              if (minute == undefined) {
-                 html = '<td class=ui-state-default ui-state-disabled">&nbsp;</td>';
+                 html = '<td><span class="ui-state-default ui-state-disabled">&nbsp;</span></td>';
                  return html;
              }
 

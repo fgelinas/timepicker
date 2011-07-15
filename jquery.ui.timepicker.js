@@ -481,11 +481,11 @@
                 html += '<tr>';
                 // AM
                 if (row == amFirstRow && showPeriodLabels) {
-                    html += '<th rowspan="' + amRows.toString() + '" class="periods">' + amPmText[0] + '</th>';
+                    html += '<th rowspan="' + amRows.toString() + '" class="periods" scope="row">' + amPmText[0] + '</th>';
                 }
                 // PM
                 if (row == pmFirstRow && showPeriodLabels) {
-                    html += '<th rowspan="' + pmRows.toString() + '" class="periods">' + amPmText[1] + '</th>';
+                    html += '<th rowspan="' + pmRows.toString() + '" class="periods" scope="row">' + amPmText[1] + '</th>';
                 }
                 for (col = 1; col <= hoursPerRow; col++) {
                     if (showPeriodLabels && row < pmFirstRow && hours[hourCounter] >= 12) {

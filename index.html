@@ -10,6 +10,7 @@
     <script type="text/javascript" src="include/jquery.ui.core.min.js"></script>
     <script type="text/javascript" src="include/jquery.ui.widget.min.js"></script>
     <script type="text/javascript" src="include/jquery.ui.tabs.min.js"></script>
+    <script type="text/javascript" src="include/jquery.ui.position.min.js"></script>
 
     <script type="text/javascript" src="jquery.ui.timepicker.js?v=0.2.3"></script>
 
@@ -265,14 +266,15 @@ function OnMinuteShowCallback(hour, minute) {
 
     <div>
 
-        Custom defined hours range (Business hours 6am to 9pm) and minutes increment set to 15 instead of 5
+        Custom defined hours range (Business hours 6am to 7pm) and minutes increment set to 15 instead of 5, on 3 rows
         <input type="text" style="width: 70px" id="timepicker_customrange" value="13:30">
         <script type="text/javascript">
             $(document).ready(function() {
                $('#timepicker_customrange').timepicker({
-                   hours: { starts: 6, ends: 21 },
+                   hours: { starts: 6, ends: 19 },
                    minutes: { interval: 15 },
-                   showPeriodLabels: false,
+                   rows: 3,
+                   showPeriodLabels: true,
                    minuteText: 'Min'
                })
             });
@@ -281,9 +283,10 @@ function OnMinuteShowCallback(hour, minute) {
 
         <a onclick="$('#script_2').toggle(200)">[Show code]</a>
 <pre id="script_2" style="display: none" class="code"> $('#timepicke').timepicker({
-   hours: { starts: 6, ends: 21 },
+   hours: { starts: 6, ends: 19 },
    minutes: { interval: 15 },
-   showPeriodLabels: false,
+   rows: 3
+   showPeriodLabels: true,
    minuteText: 'Min'
 });
 </pre>
@@ -430,6 +433,10 @@ function getHourMinute() {
     minuteText: 'Minute',         // Define the locale text for "Minute"
     amPmText: ['AM', 'PM'],       // Define the locale text for periods
 
+    // Position
+    myPosition: 'left top',       // Corner of the dialog to position, used with the jQuery UI Position utility if present.
+    atPosition: 'left bottom',    // Corner of the input to position
+
     // Events
     onSelect: onSelectCallback,   // Define a callback function when an hour / minutes is selected.
     onClose: onCloseCallback,     // Define a callback function when the timepicker is closed.
@@ -466,6 +473,11 @@ function getHourMinute() {
             <li>
                 <a href="http://jqueryui.com/">
                     jQuery UI Core (included in jquery-ui-x.x.x.custom.min.js)
+                </a>
+            </li>
+            <li>
+                <a href="http://jqueryui.com/demos/position/">
+                    jQuery UI Position utility (optional for special position of the dialog)
                 </a>
             </li>
             <li>

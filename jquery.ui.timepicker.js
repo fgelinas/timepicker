@@ -87,7 +87,10 @@
             altField: '',                   // Selector for an alternate field to store selected time into
             defaultTime: 'now',             // Used as default time when input field is empty or for inline timePicker
                                             // (set to 'now' for the current time, '' for no highlighted time)
-
+            myPosition: 'left top',         // Position of the dialog relative to the input.
+                                            // see the position utility for more info : http://jqueryui.com/demos/position/
+            atPosition: 'left bottom',      // Position of the input element to match
+                                            // Note : if the position utility is not loaded, the timepicker will attach left top to left bottom
             //NEW: 2011-02-03
             onHourShow: null,			    // callback for enabling / disabling on selectable hours  ex : function(hour) { return true; }
             onMinuteShow: null,             // callback for enabling / disabling on time selection  ex : function(hour,minute) { return true; }
@@ -171,9 +174,8 @@
         /* Create a new instance object. */
         _newInst: function (target, inline) {
             var id = target[0].id.replace(/([^A-Za-z0-9_-])/g, '\\\\$1'); // escape jQuery meta chars
-            return { id: id, input: target, // associated target
-
-
+            return {
+                id: id, input: target, // associated target
                 inline: inline, // is timepicker inline or not :
                 tpDiv: (!inline ? this.tpDiv : // presentation div
                     $('<div class="' + this._inlineClass + ' ui-timepicker ui-widget  ui-helper-clearfix"></div>'))
@@ -308,6 +310,8 @@
             $.timepicker._lastInput = input;
 
             $.timepicker._setTimeFromField(inst);
+
+            // calculate default position
             if ($.timepicker._inDialog) { input.value = ''; } // hide cursor
             if (!$.timepicker._pos) { // position below input
                 $.timepicker._pos = $.timepicker._findPos(input);
@@ -322,11 +326,29 @@
                 $.timepicker._pos[0] -= document.documentElement.scrollLeft;
                 $.timepicker._pos[1] -= document.documentElement.scrollTop;
             }
+
             var offset = { left: $.timepicker._pos[0], top: $.timepicker._pos[1] };
+
             $.timepicker._pos = null;
             // determine sizing offscreen
             inst.tpDiv.css({ position: 'absolute', display: 'block', top: '-1000px' });
             $.timepicker._updateTimepicker(inst);
+
+
+            // position with the ui position utility, if loaded
+            if ( ( ! inst.inline ) && ( typeof inst.tpDiv.position == 'function') ) {
+                inst.tpDiv.position({
+                    of: inst.input,
+                    my: $.timepicker._get( inst, 'myPosition' ),
+                    at: $.timepicker._get( inst, 'atPosition' ),
+                    // offset: $( "#offset" ).val(),
+                    // using: using,
+                    collision: 'flip'
+                });
+                var offset = inst.tpDiv.offset();
+                $.timepicker._pos = [offset.top, offset.left];
+            }
+
 
             // reset clicked state
             inst._hoursClicked = false;
@@ -336,10 +358,10 @@
             // and adjust position before showing
             offset = $.timepicker._checkOffset(inst, offset, isFixed);
             inst.tpDiv.css({ position: ($.timepicker._inDialog && $.blockUI ?
-			'static' : (isFixed ? 'fixed' : 'absolute')), display: 'none',
+			    'static' : (isFixed ? 'fixed' : 'absolute')), display: 'none',
                 left: offset.left + 'px', top: offset.top + 'px'
             });
-            if (!inst.inline) {
+            if ( ! inst.inline ) {
                 var showAnim = $.timepicker._get(inst, 'showAnim');
                 var duration = $.timepicker._get(inst, 'duration');
                 var zIndex = $.timepicker._get(inst, 'zIndex');

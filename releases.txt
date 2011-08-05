@@ -1,6 +1,7 @@
-Release 0.2.4 - not yet released
+Release 0.2.4 - August 5, 2011
 Fixed the hand cursor in the css file. (Thanks Mike Neumegen)
 Added position option to use with the jquery ui position utility.
+Added option to display only hours or only minutes.
 
 Release 0.2.3 - July 11, 2011
 Fix github issue #3 : Bug when hours or minutes choices does not divide by number of rows (thanks wukimus)

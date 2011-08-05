@@ -1,5 +1,5 @@
 /*
- * jQuery UI Timepicker 0.2.3
+ * jQuery UI Timepicker 0.2.4
  *
  * Copyright 2010-2011, Francois Gelinas
  * Dual licensed under the MIT or GPL Version 2 licenses.
@@ -40,7 +40,7 @@
 
 (function ($, undefined) {
 
-    $.extend($.ui, { timepicker: { version: "0.2.3"} });
+    $.extend($.ui, { timepicker: { version: "0.2.4"} });
 
     var PROP_NAME = 'timepicker';
     var tpuuid = new Date().getTime();
@@ -106,8 +106,10 @@
                 ends: 55,                   // last displayed minute
                 interval: 5                 // interval of displayed minutes
             },
-            rows: 4                         // number of rows for the input tables, minimum 2, makes more sense if you use multiple of 2 
-
+            rows: 4,                        // number of rows for the input tables, minimum 2, makes more sense if you use multiple of 2
+            // 2011-08-05 0.2.4
+            showHours: true,                // display the hours section of the dialog
+            showMinutes: true               // display the minute section of the dialog
 
         };
         $.extend(this._defaults, this.regional['']);
@@ -437,10 +439,12 @@
         /* Generate the HTML for the current state of the date picker. */
         _generateHTML: function (inst) {
 
-            var h, m, row, col, html = '',
+            var h, m, row, col, html, hoursHtml, minutesHtml = '',
                 showPeriod = (this._get(inst, 'showPeriod') == true),
                 showPeriodLabels = (this._get(inst, 'showPeriodLabels') == true),
                 showLeadingZero = (this._get(inst, 'showLeadingZero') == true),
+                showHours = (this._get(inst, 'showHours') == true),
+                showMinutes = (this._get(inst, 'showMinutes') == true),
                 amPmText = this._get(inst, 'amPmText'),
                 rows = this._get(inst, 'rows'),
                 amRows = 0,
@@ -492,41 +496,47 @@
             }
 
 
-            html = '<table class="ui-timepicker-table ui-widget-content ui-corner-all"><tr>' +
-                   '<td class="ui-timepicker-hours">' +
-                   '<div class="ui-timepicker-title ui-widget-header ui-helper-clearfix ui-corner-all">' +
-                   hourLabel +
-                   '</div>' +
-                   '<table class="ui-timepicker">';
+            html = '<table class="ui-timepicker-table ui-widget-content ui-corner-all"><tr>';
 
-            for (row = 1; row <= rows; row++) {
-                html += '<tr>';
-                // AM
-                if (row == amFirstRow && showPeriodLabels) {
-                    html += '<th rowspan="' + amRows.toString() + '" class="periods" scope="row">' + amPmText[0] + '</th>';
-                }
-                // PM
-                if (row == pmFirstRow && showPeriodLabels) {
-                    html += '<th rowspan="' + pmRows.toString() + '" class="periods" scope="row">' + amPmText[1] + '</th>';
-                }
-                for (col = 1; col <= hoursPerRow; col++) {
-                    if (showPeriodLabels && row < pmFirstRow && hours[hourCounter] >= 12) {
-                        html += this._generateHTMLHourCell(inst, undefined, showPeriod, showLeadingZero);
-                    } else {
-                        html += this._generateHTMLHourCell(inst, hours[hourCounter], showPeriod, showLeadingZero);
-                        hourCounter++;
+            if (showHours) {
+
+                html += '<td class="ui-timepicker-hours">' +
+                        '<div class="ui-timepicker-title ui-widget-header ui-helper-clearfix ui-corner-all">' +
+                        hourLabel +
+                        '</div>' +
+                        '<table class="ui-timepicker">';
+
+                for (row = 1; row <= rows; row++) {
+                    html += '<tr>';
+                    // AM
+                    if (row == amFirstRow && showPeriodLabels) {
+                        html += '<th rowspan="' + amRows.toString() + '" class="periods" scope="row">' + amPmText[0] + '</th>';
                     }
+                    // PM
+                    if (row == pmFirstRow && showPeriodLabels) {
+                        html += '<th rowspan="' + pmRows.toString() + '" class="periods" scope="row">' + amPmText[1] + '</th>';
+                    }
+                    for (col = 1; col <= hoursPerRow; col++) {
+                        if (showPeriodLabels && row < pmFirstRow && hours[hourCounter] >= 12) {
+                            html += this._generateHTMLHourCell(inst, undefined, showPeriod, showLeadingZero);
+                        } else {
+                            html += this._generateHTMLHourCell(inst, hours[hourCounter], showPeriod, showLeadingZero);
+                            hourCounter++;
+                        }
+                    }
+                    html += '</tr>';
                 }
-                html += '</tr>';
+                html += '</tr></table>' + // Close the hours cells table
+                        '</td>';          // Close the Hour td
             }
-          
-            html += '</tr></table>' + // Close the hours cells table
-                    '</td>' +         // Close the Hour td
-                    '<td class="ui-timepicker-minutes">';
 
-            html += this._generateHTMLMinutes(inst);
-
-            html += '</td></tr></table>';
+            if (showMinutes) {
+                html += '<td class="ui-timepicker-minutes">';
+                html += this._generateHTMLMinutes(inst);
+                html += '</td>';
+            }
+            
+            html += '</tr></table>';
 
              /* IE6 IFRAME FIX (taken from datepicker 1.5.3, fixed in 0.1.2 */
             html += ($.browser.msie && parseInt($.browser.version,10) < 7 && !inst.inline ?
@@ -930,7 +940,8 @@
                 newHours = $td.attr("data-hour"),
                 fromDoubleClick = event.data.fromDoubleClick,
                 target = $(id),
-                inst = this._getInst(target[0]);
+                inst = this._getInst(target[0]),
+                showMinutes = (this._get(inst, 'showMinutes') == true);
             
             $td.parents('.ui-timepicker-hours:first').find('a').removeClass('ui-state-active');
             $td.children('a').addClass('ui-state-active');
@@ -946,7 +957,7 @@
             this._updateSelectedValue(inst);
 
             inst._hoursClicked = true;
-            if ((inst._minutesClicked) || (fromDoubleClick)) {
+            if ((inst._minutesClicked) || (fromDoubleClick) || (showMinutes == false)) {
                 $.timepicker._hideTimepicker();
             }
             // return false because if used inline, prevent the url to change to a hashtag
@@ -954,13 +965,14 @@
         },
 
         selectMinutes: function (event) {
-            var $td = $(event.currentTarget);
-            var id = $td.attr("data-timepicker-instance-id");
-            var newMinutes = $td.attr("data-minute");
-            var fromDoubleClick = event.data.fromDoubleClick;
+            var $td = $(event.currentTarget),
+                id = $td.attr("data-timepicker-instance-id"),
+                newMinutes = $td.attr("data-minute"),
+                fromDoubleClick = event.data.fromDoubleClick,
+                target = $(id),
+                inst = this._getInst(target[0]),
+                showHours = (this._get(inst, 'showHours') == true);
             
-            var target = $(id);
-            var inst = this._getInst(target[0]);
             $td.parents('.ui-timepicker-minutes:first').find('a').removeClass('ui-state-active');
             $td.children('a').addClass('ui-state-active');
 
@@ -968,7 +980,7 @@
             this._updateSelectedValue(inst);
 
             inst._minutesClicked = true;
-            if ((inst._hoursClicked) || (fromDoubleClick)) {
+            if ((inst._hoursClicked) || (fromDoubleClick) || (showHours == false)) {
                 $.timepicker._hideTimepicker();
                 // return false because if used inline, prevent the url to change to a hashtag
                 return false;
@@ -992,16 +1004,20 @@
         
         /* this function process selected time and return it parsed according to instance options */
         _getParsedTime: function(inst) {
+
             if ((inst.hours < 0) || (inst.hours > 23)) { inst.hours = 12; }
             if ((inst.minutes < 0) || (inst.minutes > 59)) { inst.minutes = 0; }
 
             var period = "",
                 showPeriod = (this._get(inst, 'showPeriod') == true),
                 showLeadingZero = (this._get(inst, 'showLeadingZero') == true),
+                showHours = (this._get(inst, 'showHours') == true),
+                showMinutes = (this._get(inst, 'showMinutes') == true),
                 amPmText = this._get(inst, 'amPmText'),
                 selectedHours = inst.hours ? inst.hours : 0,
                 selectedMinutes = inst.minutes ? inst.minutes : 0,
-                displayHours = selectedHours ? selectedHours : 0;
+                displayHours = selectedHours ? selectedHours : 0,
+                parsedTime = '';
 
             if (showPeriod) {
                 if (inst.hours == 0) {
@@ -1024,8 +1040,18 @@
             var m = selectedMinutes.toString();
             if (selectedMinutes < 10) { m = '0' + m; }
 
-            var parsedTime = h + this._get(inst, 'timeSeparator') + m;
-            if (period.length > 0) { parsedTime += this._get(inst, 'periodSeparator') + period; }
+            if (showHours) {
+                parsedTime += h;
+            }
+            if (showHours && showMinutes) {
+                parsedTime += this._get(inst, 'timeSeparator');
+            }
+            if (showMinutes) {
+                parsedTime += m;
+            }
+            if (showHours) {
+                if (period.length > 0) { parsedTime += this._get(inst, 'periodSeparator') + period; }
+            }
             
             return parsedTime;
         },
@@ -1099,7 +1125,7 @@
     $.timepicker = new Timepicker(); // singleton instance
     $.timepicker.initialized = false;
     $.timepicker.uuid = new Date().getTime();
-    $.timepicker.version = "0.2.3";
+    $.timepicker.version = "0.2.4";
 
     // Workaround for #4055
     // Add another global to avoid noConflict issues with inline event handlers

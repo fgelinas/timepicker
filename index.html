@@ -4,7 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
     <title>jQuery UI Time Picker by Francois Gelinas</title>
     <link rel="stylesheet" href="include/jquery-ui-1.8.14.custom.css" type="text/css" />
-    <link rel="stylesheet" href="jquery-ui-timepicker.css?v=0.2.3" type="text/css" />
+    <link rel="stylesheet" href="jquery-ui-timepicker.css?v=0.2.4" type="text/css" />
 
     <script type="text/javascript" src="include/jquery-1.5.1.min.js"></script>
     <script type="text/javascript" src="include/jquery.ui.core.min.js"></script>
@@ -12,7 +12,7 @@
     <script type="text/javascript" src="include/jquery.ui.tabs.min.js"></script>
     <script type="text/javascript" src="include/jquery.ui.position.min.js"></script>
 
-    <script type="text/javascript" src="jquery.ui.timepicker.js?v=0.2.3"></script>
+    <script type="text/javascript" src="jquery.ui.timepicker.js?v=0.2.4"></script>
 
     <script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
     <style type="text/css">
@@ -95,7 +95,7 @@
         <li><a href="#usage">Usage</a></li>
         <li><a href="#requirements">Requirements</a></li>
         <li><a href="#release_notes">Release notes</a></li>
-        <li><a href="#get_timepicker">Get Timepicker version 0.2.3</a></li>
+        <li><a href="#get_timepicker">Get Timepicker version 0.2.4</a></li>
     </ul>
 
     <div id="examples">
@@ -292,6 +292,38 @@ function OnMinuteShowCallback(hour, minute) {
 </pre>
     </div>
 
+    <hr />
+
+    <div>
+        Input for hours only :
+        <input type="text" style="width: 70px" id="timepicker_hours" value="5 PM">
+        , input for minutes only :
+        <input type="text" style="width: 70px" id="timepicker_minutes" value="45">
+
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $('#timepicker_hours').timepicker({
+                    showMinutes: false,
+                    showPeriod: true,
+                    showLeadingZero: false
+                });
+                $('#timepicker_minutes').timepicker({
+                    showHours: false
+                });
+            })
+        </script>
+
+        <a onclick="$('#script_hoursminutesonly').toggle(200)">[Show code]</a>
+<pre id="script_hoursminutesonly" style="display: none" class="code">$('#timepicker_hours').timepicker({
+    showMinutes: false,
+    showPeriod: true,
+    showLeadingZero: false
+});
+$('#timepicker_minutes').timepicker({
+    showHours: false
+});</pre>
+
+    </div>
 
 
     <hr />
@@ -445,15 +477,17 @@ function getHourMinute() {
 
     // custom hours and minutes
     hours: {
-        starts: 0,                  // first displayed hour
-        ends: 23                    // last displayed hour
+        starts: 0,                // First displayed hour
+        ends: 23                  // Last displayed hour
     },
     minutes: {
-        starts: 0,                  // first displayed minute
-        ends: 55,                   // last displayed minute
-        interval: 5                 // interval of displayed minutes
+        starts: 0,                // First displayed minute
+        ends: 55,                 // Last displayed minute
+        interval: 5               // Interval of displayed minutes
     },
-    rows: 4                         // number of rows for the input tables, minimum 2, makes more sense if you use multiple of 2
+    rows: 4,                      // Number of rows for the input tables, minimum 2, makes more sense if you use multiple of 2
+    showHours: true,              // Define if the hours section is displayed or not. Set to false to get a minute only dialog
+    showMinutes: true             // Define if the minutes section is displayed or not. Set to false to get an hour only dialog
 });</pre>
 
     </div>
@@ -487,13 +521,13 @@ function getHourMinute() {
             </li>
 
             <li>
-                <a href="jquery.ui.timepicker.js?v=0.2.3">
+                <a href="jquery.ui.timepicker.js?v=0.2.4">
                     jquery.ui.timepicker.js
                 </a>
             </li>
 
             <li>
-                <a href="jquery-ui-timepicker.css?v=0.2.3">
+                <a href="jquery-ui-timepicker.css?v=0.2.4">
                     jquery-ui-timepicker.css
                 </a>
             </li>
@@ -510,6 +544,11 @@ function getHourMinute() {
 
         <h2>Releases :</h2>
         <dl>
+
+            <dt>0.2.4 - August 5, 2011</dt>
+            <dd>Fixed the hand cursor in the css file. (Thanks Mike Neumegen)</dd>
+            <dd>Added position option to use with the jquery ui position utility.</dd>
+            <dd>Added option to display only hours or only minutes.</dd>
 
             <dt>0.2.3 - July 11, 2011 </dt>
             <dd>Fix github issue #3 : Bug when hours or minutes choices does not divide by number of rows (thanks wukimus).</dd>
@@ -620,7 +659,7 @@ function getHourMinute() {
         <h2>Download Timepicker</h2>
 
         <p>
-            Current version : 0.2.3 - released July 11, 2011
+            Current version : 0.2.4 - released August 5, 2011
         </p>
 
         <p>
@@ -628,7 +667,20 @@ function getHourMinute() {
         </p>
 
         <p>
-            <a href="releases/jquery-ui-timepicker-0.2.3.zip">Download from here (.zip)</a>
+            <a href="releases/jquery-ui-timepicker-0.2.4.zip">Download from here (.zip)</a>
+        </p>
+
+        <hr >
+
+        <p>
+            I put a lot of time and effort in this project. If you like it, please <span style="text-decoration: line-through">pay me a beer</span> donate
+            <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+            <input type="hidden" name="cmd" value="_s-xclick">
+            <input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----
+            ">
+            <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+            <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+            </form>
         </p>
 
     </div>
@@ -650,8 +702,22 @@ function getHourMinute() {
         <strong>New! New!</strong> TimePicker is now 100% more social, on GitHub @ <a href="http://github.com/fgelinas/timepicker">http://github.com/fgelinas/timepicker</a>.
     </p>
     <p>
-        Get the release package here : <a href="releases/jquery-ui-timepicker-0.2.3.zip">jquery-ui-timepicker-0.2.3.zip</a>
+        Get the release package here : <a href="releases/jquery-ui-timepicker-0.2.4.zip">jquery-ui-timepicker-0.2.4.zip</a>
     </p>
+
+    <hr />
+
+    <p>
+        <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+        I put a lot of time and effort in this project. If you like it, please <span style="text-decoration: line-through">pay me a beer</span> donate 
+        <input type="hidden" name="cmd" value="_s-xclick">
+        <input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----
+        ">
+        <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+        <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+        </form>
+    </p>
+
 
     <hr />
     Bug, ideas or comments : <a href="mailto:frank@fgelinas.com">frank@fgelinas.com</a>

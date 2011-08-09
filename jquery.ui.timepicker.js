@@ -338,7 +338,7 @@
 
 
             // position with the ui position utility, if loaded
-            if ( ( ! inst.inline ) && ( typeof inst.tpDiv.position == 'function') ) {
+            if ( ( ! inst.inline )  && ( typeof $.ui.position == 'object' ) ) {
                 inst.tpDiv.position({
                     of: inst.input,
                     my: $.timepicker._get( inst, 'myPosition' ),
@@ -378,9 +378,9 @@
 
                 // if not zIndex specified in options, use target zIndex + 1
                 if ( ! zIndex) {
-                    zIndex = $(input).zIndex() + 1;
+                    zIndex = $(input).attr('zIndex') + 1;
                 }
-                inst.tpDiv.zIndex(zIndex);
+                inst.tpDiv.attr('zIndex', zIndex);
 
                 if ($.effects && $.effects[showAnim]) {
                     inst.tpDiv.show(showAnim, $.timepicker._get(inst, 'showOptions'), duration, postProcess);

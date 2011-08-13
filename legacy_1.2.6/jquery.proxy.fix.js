@@ -1,3 +1,14 @@
+/*
+ * This is a fix to add the proxy function to jquery
+ * can be used for when using older jquery library.
+ *
+ * Francois Gelinas
+ * August 9, 2011
+ *
+ * Licensed using the jQuery license : MIT and GPL
+ * http://jquery.org/license/
+ */
+
 (function( $, undefined ) {
 	// Bind a function to a context, optionally partially applying any
 	// arguments.

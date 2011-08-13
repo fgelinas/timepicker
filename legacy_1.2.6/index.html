@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="../jquery-ui-timepicker.css?v=0.2.4" type="text/css" />
 
     <script type="text/javascript" src="jquery-1.2.6.js"></script>
-    <script type="text/javascript" src="jquery.fix.for.1.2.6.js"></script>
+    <script type="text/javascript" src="jquery.proxy.fix.js"></script>
     <script type="text/javascript" src="jquery.ui.1.6.all.js"></script>
 
     <!--
@@ -339,7 +339,7 @@ $('#timepicker_minutes').timepicker({
     <hr />
 
     <div>
-        onSelect (hours and minutes both trigger event) and onClose events :
+        onSelect (hours and minutes both trigger event), beforeShow and onClose events :
         <input type="text" style="width: 70px" id="timepicker_3" value="13:30" />
         <script type="text/javascript">
             $(document).ready(function() {

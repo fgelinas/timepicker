@@ -340,11 +340,14 @@ $('#timepicker_minutes').timepicker({
     <hr />
 
     <div>
-        onSelect (hours and minutes both trigger event) and onClose events :
+        onSelect (hours and minutes both trigger event), beforeShow and onClose events :
         <input type="text" style="width: 70px" id="timepicker_3" value="13:30" />
         <script type="text/javascript">
             $(document).ready(function() {
                 $('#timepicker_3').timepicker({
+                    beforeShow: function(input, inst) {
+                        log_event('beforeShow triggered for instance id ' + inst.id);
+                    },
                     onClose: function(time, inst) {
                         log_event('onClose triggered with time : ' + time + ' for instance id : ' + inst.id);
                     },
@@ -481,6 +484,7 @@ function getHourMinute() {
     atPosition: 'left bottom',    // Corner of the input to position
 
     // Events
+    beforeShow: beforeShowCallback, // Callback function executed before the timepicker is rendered and displayed.
     onSelect: onSelectCallback,   // Define a callback function when an hour / minutes is selected.
     onClose: onCloseCallback,     // Define a callback function when the timepicker is closed.
     onHourShow: onHourShow,       // Define a callback to enable / disable certain hours. ex: function onHourShow(hour)

@@ -76,8 +76,11 @@
             showAnim: 'fadeIn',             // Name of jQuery animation for popup
             showOptions: {},                // Options for enhanced animations
             appendText: '',                 // Display text following the input box, e.g. showing the format
+
+            beforeShow: null,               // Define a callback function executed before the timepicker is shown
             onSelect: null,                 // Define a callback function when a hour / minutes is selected
             onClose: null,                  // Define a callback function when the timepicker is closed
+
             timeSeparator: ':',             // The character to use to separate hours and minutes.
             periodSeparator: ' ',           // The character to use to separate the time from the time period.
             showPeriod: false,              // Define whether or not to show AM/PM with selected time

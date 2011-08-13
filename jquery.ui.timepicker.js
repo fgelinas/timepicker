@@ -399,10 +399,15 @@
 
         /* Generate the time picker content. */
         _updateTimepicker: function (inst) {
-            var self = this;
-            var borders = $.timepicker._getBorders(inst.tpDiv);
+            inst.tpDiv.empty().append(this._generateHTML(inst));
+            this._rebindDialogEvents(inst);
 
-            inst.tpDiv.empty().append(this._generateHTML(inst))
+        },
+
+        _rebindDialogEvents: function (inst) {
+            var borders = $.timepicker._getBorders(inst.tpDiv),
+                self = this;
+            inst.tpDiv
 			.find('iframe.ui-timepicker-cover') // IE6- only
 				.css({ left: -borders[0], top: -borders[1],
 				    width: inst.tpDiv.outerWidth(), height: inst.tpDiv.outerHeight()
@@ -426,7 +431,7 @@
 				    if (this.className.indexOf('ui-timepicker-next') != -1) $(this).removeClass('ui-timepicker-next-hover');
 				})
 				.bind('mouseover', function () {
-				    if (!self._isDisabledTimepicker(inst.inline ? inst.tpDiv.parent()[0] : inst.input[0])) {
+				    if ( ! self._isDisabledTimepicker(inst.inline ? inst.tpDiv.parent()[0] : inst.input[0])) {
 				        $(this).parents('.ui-timepicker-calendar').find('a').removeClass('ui-state-hover');
 				        $(this).addClass('ui-state-hover');
 				        if (this.className.indexOf('ui-timepicker-prev') != -1) $(this).addClass('ui-timepicker-prev-hover');
@@ -552,14 +557,15 @@
          * called on hour selection when onMinuteShow is defined  */
         _updateMinuteDisplay: function (inst) {
             var newHtml = this._generateHTMLMinutes(inst);
-            inst.tpDiv.find('td.ui-timepicker-minutes').html(newHtml)
+            inst.tpDiv.find('td.ui-timepicker-minutes').html(newHtml);
+            this._rebindDialogEvents(inst);
                 // after the picker html is appended bind the click & double click events (faster in IE this way
                 // then letting the browser interpret the inline events)
                 // yes I know, duplicate code, sorry
-                .find('.ui-timepicker-minute-cell')
+/*                .find('.ui-timepicker-minute-cell')
                     .bind("click", { fromDoubleClick:false }, $.proxy($.timepicker.selectMinutes, this))
                     .bind("dblclick", { fromDoubleClick:true }, $.proxy($.timepicker.selectMinutes, this));
-
+*/
 
         },
 

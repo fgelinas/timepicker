@@ -384,6 +384,7 @@
                     zIndex = $(input).attr('zIndex') + 1;
                 }
                 inst.tpDiv.attr('zIndex', zIndex);
+                inst.tpDiv.css('zIndex', zIndex);
 
                 if ($.effects && $.effects[showAnim]) {
                     inst.tpDiv.show(showAnim, $.timepicker._get(inst, 'showOptions'), duration, postProcess);

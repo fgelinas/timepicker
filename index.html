@@ -4,7 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
     <title>jQuery UI Time Picker by Francois Gelinas</title>
     <link rel="stylesheet" href="include/jquery-ui-1.8.14.custom.css" type="text/css" />
-    <link rel="stylesheet" href="jquery-ui-timepicker.css?v=0.2.4" type="text/css" />
+    <link rel="stylesheet" href="jquery.ui.timepicker.css?v=0.2.5" type="text/css" />
 
 <!-- uncomment to test with legacy jquery -->
 <!--
@@ -19,7 +19,7 @@
     <script type="text/javascript" src="include/jquery.ui.tabs.min.js"></script>
     <script type="text/javascript" src="include/jquery.ui.position.min.js"></script>
 
-    <script type="text/javascript" src="jquery.ui.timepicker.js?v=0.2.4"></script>
+    <script type="text/javascript" src="jquery.ui.timepicker.js?v=0.2.5"></script>
 
     <script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
     <style type="text/css">
@@ -106,7 +106,7 @@
         <li><a href="#usage">Usage</a></li>
         <li><a href="#requirements">Requirements</a></li>
         <li><a href="#release_notes">Release notes</a></li>
-        <li><a href="#get_timepicker">Get Timepicker version 0.2.4</a></li>
+        <li><a href="#get_timepicker">Get Timepicker version 0.2.5</a></li>
     </ul>
 
     <div id="examples">
@@ -226,7 +226,7 @@ function OnMinuteShowCallback(hour, minute) {
              style="width: 16px; height:16px; background: url(include/ui-lightness/images/ui-icons_222222_256x240.png) -80px, -96px;
                     display: inline-block; border-radius: 2px; border: 1px solid #222222; margin-top: 3px; cursor:pointer"></div>
         <button class='timepicker_button_trigger' id="btn_trigger_timepicker">Show</button>
-
+        <button id="btn_change_showon">Change showOn to focus</button>
 
 
         <script type="text/javascript">
@@ -237,6 +237,11 @@ function OnMinuteShowCallback(hour, minute) {
                     showLeadingZero: false,
                     timeSeparator: 'h'
                 });
+
+                $('#btn_change_showon').click(function() {
+                    $('#timepicker_showon').timepicker('option', 'showLeadingZero', true );
+                });
+
             });
 
         </script>
@@ -445,6 +450,171 @@ function getHourMinute() {
 
     </div>
 
+
+    <hr />
+
+    <div>
+
+        Two timepickers to select chronological time range, the first timepicker is restricted to before the time selected in the second timepicker, and vice versa.
+        <br>
+        Start time :
+        <input type="text" style="width: 70px" id="timepicker_start" value="9:15" />
+        end time :
+        <input type="text" style="width: 70px" id="timepicker_end" value="16:30" />
+
+        <a onclick="$('#script_time_range').toggle(200); return false;">[Show code]</a>
+
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $('#timepicker_start').timepicker({
+                    showLeadingZero: false,
+                    onHourShow: tpStartOnHourShowCallback,
+                    onMinuteShow: tpStartOnMinuteShowCallback
+                });
+                $('#timepicker_end').timepicker({
+                    showLeadingZero: false,
+                    onHourShow: tpEndOnHourShowCallback,
+                    onMinuteShow: tpEndOnMinuteShowCallback
+                });
+            });
+
+            function tpStartOnHourShowCallback(hour) {
+                var tpEndHour = $('#timepicker_end').timepicker('getHour');
+                // Check if proposed hour is prior or equal to selected end time hour
+                if (hour <= tpEndHour) { return true; }
+                // if hour did not match, it can not be selected
+                return false;
+            }
+            function tpStartOnMinuteShowCallback(hour, minute) {
+                var tpEndHour = $('#timepicker_end').timepicker('getHour');
+                var tpEndMinute = $('#timepicker_end').timepicker('getMinute');
+                // Check if proposed hour is prior to selected end time hour
+                if (hour < tpEndHour) { return true; }
+                // Check if proposed hour is equal to selected end time hour and minutes is prior
+                if ( (hour == tpEndHour) && (minute < tpEndMinute) ) { return true; }
+                // if minute did not match, it can not be selected
+                return false;
+            }
+
+            function tpEndOnHourShowCallback(hour) {
+                var tpStartHour = $('#timepicker_start').timepicker('getHour');
+                // Check if proposed hour is after or equal to selected start time hour
+                if (hour >= tpStartHour) { return true; }
+                // if hour did not match, it can not be selected
+                return false;
+            }
+            function tpEndOnMinuteShowCallback(hour, minute) {
+                var tpStartHour = $('#timepicker_start').timepicker('getHour');
+                var tpStartMinute = $('#timepicker_start').timepicker('getMinute');
+                // Check if proposed hour is after selected start time hour
+                if (hour > tpStartHour) { return true; }
+                // Check if proposed hour is equal to selected start time hour and minutes is after
+                if ( (hour == tpStartHour) && (minute > tpStartMinute) ) { return true; }
+                // if minute did not match, it can not be selected
+                return false;
+            }
+
+        </script>
+
+<pre class="code" id="script_time_range" style="display: none">
+$(document).ready(function() {
+    $('#timepicker_start').timepicker({
+        showLeadingZero: false,
+        onHourShow: tpStartOnHourShowCallback,
+        onMinuteShow: tpStartOnMinuteShowCallback
+    });
+    $('#timepicker_end').timepicker({
+        showLeadingZero: false,
+        onHourShow: tpEndOnHourShowCallback,
+        onMinuteShow: tpEndOnMinuteShowCallback
+    });
+});
+
+function tpStartOnHourShowCallback(hour) {
+    var tpEndHour = $('#timepicker_end').timepicker('getHour');
+    // Check if proposed hour is prior or equal to selected end time hour
+    if (hour <= tpEndHour) { return true; }
+    // if hour did not match, it can not be selected
+    return false;
+}
+function tpStartOnMinuteShowCallback(hour, minute) {
+    var tpEndHour = $('#timepicker_end').timepicker('getHour');
+    var tpEndMinute = $('#timepicker_end').timepicker('getMinute');
+    // Check if proposed hour is prior to selected end time hour
+    if (hour < tpEndHour) { return true; }
+    // Check if proposed hour is equal to selected end time hour and minutes is prior
+    if ( (hour == tpEndHour) && (minute < tpEndMinute) ) { return true; }
+    // if minute did not match, it can not be selected
+    return false;
+}
+
+function tpEndOnHourShowCallback(hour) {
+    var tpStartHour = $('#timepicker_start').timepicker('getHour');
+    // Check if proposed hour is after or equal to selected start time hour
+    if (hour >= tpStartHour) { return true; }
+    // if hour did not match, it can not be selected
+    return false;
+}
+function tpEndOnMinuteShowCallback(hour, minute) {
+    var tpStartHour = $('#timepicker_start').timepicker('getHour');
+    var tpStartMinute = $('#timepicker_start').timepicker('getMinute');
+    // Check if proposed hour is after selected start time hour
+    if (hour > tpStartHour) { return true; }
+    // Check if proposed hour is equal to selected start time hour and minutes is after
+    if ( (hour == tpStartHour) && (minute > tpStartMinute) ) { return true; }
+    // if minute did not match, it can not be selected
+    return false;
+}
+</pre>
+
+    </div>
+
+
+
+    <hr />
+
+    <div>
+        Example to disable and re-enable a timepicker.
+        <br />
+        <div id="timepicker_disable_inline" style="font-size: 10px; float: left;"></div>
+        <input type="text" style="width: 70px" id="timepicker_disable" value="9:15" />
+        <br />
+        <button id="btn_disable_tp">Disable the time pickers</button>
+        <br />
+        <button id="btn_enable_tp">Re-enable the time pickers</button>
+        <br />
+        <a onclick="$('#script_tp_disable').toggle(200); return false;">[Show code]</a>
+        <div style="clear: both"></div>
+        
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $('#timepicker_disable_inline').timepicker();
+                $('#timepicker_disable').timepicker({showLeadingZero: false });
+                $('#btn_disable_tp').click(function() {
+                    $('#timepicker_disable_inline').timepicker('disable');
+                    $('#timepicker_disable').timepicker('disable');
+                });
+                $('#btn_enable_tp').click(function() {
+                    $('#timepicker_disable_inline').timepicker('enable');
+                    $('#timepicker_disable').timepicker('enable');
+                });
+            });
+        </script>
+<pre class="code" style="display: none" id="script_tp_disable">
+$('#timepicker_disable_inline').timepicker();
+$('#timepicker_disable').timepicker({showLeadingZero: false });
+$('#btn_disable_tp').click(function() {
+    $('#timepicker_disable_inline').timepicker('disable');
+    $('#timepicker_disable').timepicker('disable');
+});
+$('#btn_enable_tp').click(function() {
+    $('#timepicker_disable_inline').timepicker('enable');
+    $('#timepicker_disable').timepicker('enable');
+});
+</pre>
+    </div>
+
+
     </div>
 
     <!------------------------------------------------------------------------------------------------------------->
@@ -536,14 +706,14 @@ function getHourMinute() {
             </li>
 
             <li>
-                <a href="jquery.ui.timepicker.js?v=0.2.4">
+                <a href="jquery.ui.timepicker.js?v=0.2.5">
                     jquery.ui.timepicker.js
                 </a>
             </li>
 
             <li>
-                <a href="jquery-ui-timepicker.css?v=0.2.4">
-                    jquery-ui-timepicker.css
+                <a href="jquery.ui.timepicker.css?v=0.2.5">
+                    jquery.ui.timepicker.css
                 </a>
             </li>
 
@@ -559,6 +729,10 @@ function getHourMinute() {
 
         <h2>Releases :</h2>
         <dl>
+            <dt>0.2.5 - September 13, 2011</dt>
+            <dd>Added support for disable and enable. (Suggested by danielrex, github issue #17)</dd>
+            <dd>Added an example for 2 timepicker to behave as a period selector (start time and end time). (Thanks Bill Pellowe)</dd>
+            <dd>Renamed the stylesheet to jquery.ui.timepicker.css to be more consistent with jQuery UI file name convention.</dd>
 
             <dt>0.2.4 - August 5, 2011</dt>
             <dd>Fixed the hand cursor in the css file. (Thanks Mike Neumegen)</dd>
@@ -674,7 +848,7 @@ function getHourMinute() {
         <h2>Download Timepicker</h2>
 
         <p>
-            Current version : 0.2.4 - released August 5, 2011
+            Current version : 0.2.5 - released September 13, 2011
         </p>
 
         <p>
@@ -682,7 +856,7 @@ function getHourMinute() {
         </p>
 
         <p>
-            <a href="releases/jquery-ui-timepicker-0.2.4.zip">Download from here (.zip)</a>
+            <a href="releases/jquery-ui-timepicker-0.2.5.zip">Download from here (.zip)</a>
         </p>
 
         <hr >
@@ -741,7 +915,7 @@ function getHourMinute() {
         <strong>New! New!</strong> TimePicker is now 100% more social, on GitHub @ <a href="http://github.com/fgelinas/timepicker">http://github.com/fgelinas/timepicker</a>.
     </p>
     <p>
-        Get the release package here : <a href="releases/jquery-ui-timepicker-0.2.4.zip">jquery-ui-timepicker-0.2.4.zip</a>
+        Get the release package here : <a href="releases/jquery-ui-timepicker-0.2.5.zip">jquery-ui-timepicker-0.2.5.zip</a>
     </p>
 
     <hr />

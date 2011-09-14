@@ -1,5 +1,5 @@
 /*
- * jQuery UI Timepicker 0.2.4
+ * jQuery UI Timepicker 0.2.5
  *
  * Copyright 2010-2011, Francois Gelinas
  * Dual licensed under the MIT or GPL Version 2 licenses.
@@ -9,7 +9,7 @@
  *
  * Depends:
  *	jquery.ui.core.js
- *
+ *  jquery.ui.position.js (only if position settngs are used)
  *
  * Change version 0.1.0 - moved the t-rex up here
  *
@@ -40,7 +40,7 @@
 
 (function ($, undefined) {
 
-    $.extend($.ui, { timepicker: { version: "0.2.4"} });
+    $.extend($.ui, { timepicker: { version: "0.2.5"} });
 
     var PROP_NAME = 'timepicker';
     var tpuuid = new Date().getTime();
@@ -171,9 +171,13 @@
             inst.settings = $.extend({}, settings || {}, inlineSettings || {});
             if (nodeName == 'input') {
                 this._connectTimepicker(target, inst);
+                // init inst.hours and inst.minutes from the input value
+                this._setTimeFromField(inst);
             } else if (inline) {
                 this._inlineTimepicker(target, inst);
             }
+
+
         },
 
         /* Create a new instance object. */
@@ -203,7 +207,6 @@
                 bind("getData.timepicker", function (event, key) {
                     return this._get(inst, key);
                 });
-            //this._autoSize(inst);
             $.data(target, PROP_NAME, inst);
         },
 
@@ -722,13 +725,63 @@
              return html;
         },
 
+
+        /* Enable the date picker to a jQuery selection.
+           @param  target    element - the target input field or division or span */
+        _enableTimepicker: function(target) {
+            var $target = $(target),
+                target_id = $target.attr('id'),
+                inst = $.data(target, PROP_NAME);
+            
+            if (!$target.hasClass(this.markerClassName)) {
+                return;
+            }
+            var nodeName = target.nodeName.toLowerCase();
+            if (nodeName == 'input') {
+                target.disabled = false;
+                inst.trigger.filter('button').
+                    each(function() { this.disabled = false; }).end();
+            }
+            else if (nodeName == 'div' || nodeName == 'span') {
+                var inline = $target.children('.' + this._inlineClass);
+                inline.children().removeClass('ui-state-disabled');
+            }
+            this._disabledInputs = $.map(this._disabledInputs,
+                function(value) { return (value == target_id ? null : value); }); // delete entry
+        },
+
+        /* Disable the time picker to a jQuery selection.
+           @param  target    element - the target input field or division or span */
+        _disableTimepicker: function(target) {
+            var $target = $(target);
+            var inst = $.data(target, PROP_NAME);
+            if (!$target.hasClass(this.markerClassName)) {
+                return;
+            }
+            var nodeName = target.nodeName.toLowerCase();
+            if (nodeName == 'input') {
+                target.disabled = true;
+
+                inst.trigger.filter('button').
+                    each(function() { this.disabled = true; }).end();
+
+            }
+            else if (nodeName == 'div' || nodeName == 'span') {
+                var inline = $target.children('.' + this._inlineClass);
+                inline.children().addClass('ui-state-disabled');
+            }
+            this._disabledInputs = $.map(this._disabledInputs,
+                function(value) { return (value == target ? null : value); }); // delete entry
+            this._disabledInputs[this._disabledInputs.length] = $target.attr('id');
+        },
+
         /* Is the first field in a jQuery collection disabled as a timepicker?
         @param  target    element - the target input field or division or span
         @return boolean - true if disabled, false if enabled */
-        _isDisabledTimepicker: function (target) {
-            if (!target) { return false; }
+        _isDisabledTimepicker: function (target_id) {
+            if ( ! target_id) { return false; }
             for (var i = 0; i < this._disabledInputs.length; i++) {
-                if (this._disabledInputs[i] == target) { return true; }
+                if (this._disabledInputs[i] == target_id) { return true; }
             }
             return false;
         },
@@ -863,13 +916,15 @@
 
             var timeVal = inst.lastVal = timeToParse;
 
+            
+
             if (timeToParse == '') {
-              inst.hours = -1;
-              inst.minutes = -1;
+                inst.hours = -1;
+                inst.minutes = -1;
             } else {
-              var time = this.parseTime(inst, timeVal);
-              inst.hours = time.hours;
-              inst.minutes = time.minutes;
+                var time = this.parseTime(inst, timeVal);
+                inst.hours = time.hours;
+                inst.minutes = time.minutes;
             }
 
             $.timepicker._updateTimepicker(inst);
@@ -949,10 +1004,13 @@
                 id = $td.attr("data-timepicker-instance-id"),
                 newHours = $td.attr("data-hour"),
                 fromDoubleClick = event.data.fromDoubleClick,
-                target = $(id),
-                inst = this._getInst(target[0]),
+                $target = $(id),
+                inst = this._getInst($target[0]),
                 showMinutes = (this._get(inst, 'showMinutes') == true);
-            
+
+            // don't select if disabled
+            if ( $.timepicker._isDisabledTimepicker($target.attr('id')) ) { return false }
+
             $td.parents('.ui-timepicker-hours:first').find('a').removeClass('ui-state-active');
             $td.children('a').addClass('ui-state-active');
             inst.hours = newHours;
@@ -979,10 +1037,13 @@
                 id = $td.attr("data-timepicker-instance-id"),
                 newMinutes = $td.attr("data-minute"),
                 fromDoubleClick = event.data.fromDoubleClick,
-                target = $(id),
-                inst = this._getInst(target[0]),
+                $target = $(id),
+                inst = this._getInst($target[0]),
                 showHours = (this._get(inst, 'showHours') == true);
-            
+
+            // don't select if disabled
+            if ( $.timepicker._isDisabledTimepicker($target.attr('id')) ) { return false }
+
             $td.parents('.ui-timepicker-minutes:first').find('a').removeClass('ui-state-active');
             $td.children('a').addClass('ui-state-active');
 
@@ -1084,10 +1145,12 @@
         },
         _getHourTimepicker: function(input) {
             var inst = this._getInst(input);
+            if ( inst == undefined) { return -1; }
             return inst.hours;
         },
         _getMinuteTimepicker: function(input) {
             var inst= this._getInst(input);
+            if ( inst == undefined) { return -1; }
             return inst.minutes;
         }
 
@@ -1135,7 +1198,7 @@
     $.timepicker = new Timepicker(); // singleton instance
     $.timepicker.initialized = false;
     $.timepicker.uuid = new Date().getTime();
-    $.timepicker.version = "0.2.4";
+    $.timepicker.version = "0.2.5";
 
     // Workaround for #4055
     // Add another global to avoid noConflict issues with inline event handlers

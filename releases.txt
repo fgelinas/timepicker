@@ -1,3 +1,8 @@
+Release 0.2.5 - September 13, 2011
+Added support for disable and enable. (Suggested by danielrex, github issue #17)
+Added an example for 2 timepicker to behave as a period selector (start time and end time). (Thanks Bill Pellowe)
+Renamed the stylesheet to jquery.ui.timepicker.css to be more consistent with jQuery UI file name convention.
+
 Release 0.2.4 - August 5, 2011
 Fixed the hand cursor in the css file. (Thanks Mike Neumegen)
 Added position option to use with the jquery ui position utility.

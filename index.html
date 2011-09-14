@@ -226,7 +226,6 @@ function OnMinuteShowCallback(hour, minute) {
              style="width: 16px; height:16px; background: url(include/ui-lightness/images/ui-icons_222222_256x240.png) -80px, -96px;
                     display: inline-block; border-radius: 2px; border: 1px solid #222222; margin-top: 3px; cursor:pointer"></div>
         <button class='timepicker_button_trigger' id="btn_trigger_timepicker">Show</button>
-        <button id="btn_change_showon">Change showOn to focus</button>
 
 
         <script type="text/javascript">
@@ -236,10 +235,6 @@ function OnMinuteShowCallback(hour, minute) {
                     button: $('.timepicker_button_trigger'),
                     showLeadingZero: false,
                     timeSeparator: 'h'
-                });
-
-                $('#btn_change_showon').click(function() {
-                    $('#timepicker_showon').timepicker('option', 'showLeadingZero', true );
                 });
 
             });

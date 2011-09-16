@@ -1,3 +1,6 @@
+Release 0.2.6 - Not released yet
+Fixed a bug when input ID have more then one special char. (Thamks Jacqueline Krijnen)
+
 Release 0.2.5 - September 13, 2011
 Added support for disable and enable. (Suggested by danielrex, github issue #17)
 Added an example for 2 timepicker to behave as a period selector (start time and end time). (Thanks Bill Pellowe)

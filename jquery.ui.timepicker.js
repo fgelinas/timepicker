@@ -471,8 +471,6 @@
                 hourCounter = 0,
                 hourLabel = this._get(inst, 'hourText');
 
-
-
             // prepare all hours and minutes, makes it easier to distribute by rows
             for (h = hours_options.starts; h <= hours_options.ends; h++) {
                 hours.push (h);
@@ -671,7 +669,7 @@
             }
 
             if (enabled) {
-                html = '<td class="ui-timepicker-hour-cell" data-timepicker-instance-id="#' + inst.id.replace("\\\\","\\") + '" data-hour="' + hour.toString() + '">' +
+                html = '<td class="ui-timepicker-hour-cell" data-timepicker-instance-id="#' + inst.id.replace(/\\\\/g,"\\") + '" data-hour="' + hour.toString() + '">' +
                    '<a class="ui-state-default ' +
                    (hour == inst.hours ? 'ui-state-active' : '') +
                    '">' +
@@ -707,7 +705,7 @@
              }
 
              if (enabled) {
-	             html = '<td class="ui-timepicker-minute-cell" data-timepicker-instance-id="#' + inst.id.replace("\\\\","\\") + '" data-minute="' + minute.toString() + '" >' +
+	             html = '<td class="ui-timepicker-minute-cell" data-timepicker-instance-id="#' + inst.id.replace(/\\\\/g,"\\") + '" data-minute="' + minute.toString() + '" >' +
 	                   '<a class="ui-state-default ' +
 	                   (minute == inst.minutes ? 'ui-state-active' : '') +
 	                   '" >' +

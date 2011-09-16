@@ -112,10 +112,10 @@
     <div id="examples">
     <div>
         Default time picker :
-        <input type="text" style="width: 70px;" id="timepicker.1" value="" />
+        <input type="text" style="width: 70px;" id="timepicker.[1]" value="" />
         <script type="text/javascript">
             $(document).ready(function() {
-                $('#timepicker\\.1').timepicker();
+                $('#timepicker\\.\\[1\\]').timepicker();
             });
         </script>
 
@@ -724,6 +724,10 @@ $('#btn_enable_tp').click(function() {
 
         <h2>Releases :</h2>
         <dl>
+
+            <dt>0.2.6 - not released yet</dt>
+            <dd>Fixed a bug when input ID have more then one special char. (Thamks Jacqueline Krijnen)</dd>
+            
             <dt>0.2.5 - September 13, 2011</dt>
             <dd>Added support for disable and enable. (Suggested by danielrex, github issue #17)</dd>
             <dd>Added an example for 2 timepicker to behave as a period selector (start time and end time). (Thanks Bill Pellowe)</dd>

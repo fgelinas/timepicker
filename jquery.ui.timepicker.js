@@ -774,7 +774,7 @@
         },
 
         /* Is the first field in a jQuery collection disabled as a timepicker?
-        @param  target    element - the target input field or division or span
+        @param  target_id element - the target input field or division or span
         @return boolean - true if disabled, false if enabled */
         _isDisabledTimepicker: function (target_id) {
             if ( ! target_id) { return false; }

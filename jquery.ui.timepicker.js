@@ -974,24 +974,38 @@
             retVal.hours = -1;
             retVal.minutes = -1;
 
-            var timeSeparator = this._get(inst, 'timeSeparator');
-            var amPmText = this._get(inst, 'amPmText');
-            var p = timeVal.indexOf(timeSeparator);
-            if (p == -1) { return retVal; }
+            var timeSeparator = this._get(inst, 'timeSeparator'),
+                amPmText = this._get(inst, 'amPmText'),
+                showHours = this._get(inst, 'showHours'),
+                showMinutes = this._get(inst, 'showMinutes'),
+                showPeriod = (this._get(inst, 'showPeriod') == true),
+                p = timeVal.indexOf(timeSeparator);
 
-            retVal.hours = parseInt(timeVal.substr(0, p), 10);
-            retVal.minutes = parseInt(timeVal.substr(p + 1), 10);
-
-            var showPeriod = (this._get(inst, 'showPeriod') == true);
-            var timeValUpper = timeVal.toUpperCase();
-            if ((retVal.hours < 12) && (showPeriod) && (timeValUpper.indexOf(amPmText[1].toUpperCase()) != -1)) {
-                retVal.hours += 12;
+            // check if time separator found
+            if (p != -1) {
+                retVal.hours = parseInt(timeVal.substr(0, p), 10);
+                retVal.minutes = parseInt(timeVal.substr(p + 1), 10);
             }
-            // fix for 12 AM
-            if ((retVal.hours == 12) && (showPeriod) && (timeValUpper.indexOf(amPmText[0].toUpperCase()) != -1)) {
-                retVal.hours = 0;
+            // check for hours only
+            else if ( (showHours) && ( ! showMinutes) ) {
+                retVal.hours = parseInt(timeVal, 10);
+            }
+            // check for minutes only
+            else if ( ( ! showHours) && (showMinutes) ) {
+                retVal.minutes = parseInt(timeVal, 10);
             }
 
+            if (showHours) {
+                var timeValUpper = timeVal.toUpperCase();
+                if ((retVal.hours < 12) && (showPeriod) && (timeValUpper.indexOf(amPmText[1].toUpperCase()) != -1)) {
+                    retVal.hours += 12;
+                }
+                // fix for 12 AM
+                if ((retVal.hours == 12) && (showPeriod) && (timeValUpper.indexOf(amPmText[0].toUpperCase()) != -1)) {
+                    retVal.hours = 0;
+                }
+            }
+            
             return retVal;
         },
 

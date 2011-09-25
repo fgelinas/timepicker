@@ -386,8 +386,13 @@
                 if ( ! zIndex) {
                     zIndex = $(input).attr('zIndex') + 1;
                 }
-                inst.tpDiv.attr('zIndex', zIndex);
-                inst.tpDiv.css('zIndex', zIndex);
+                try {
+                    inst.tpDiv.attr('zIndex', zIndex);
+                    inst.tpDiv.css('zIndex', zIndex);
+                } catch (e) {
+                    // let's just do nothing for now, it seems to work most of the time,
+                    // except for 1MB with jQuery 1.4.2 and IE8. github issue #21
+                }
 
                 if ($.effects && $.effects[showAnim]) {
                     inst.tpDiv.show(showAnim, $.timepicker._get(inst, 'showOptions'), duration, postProcess);

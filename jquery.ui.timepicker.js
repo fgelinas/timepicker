@@ -112,7 +112,9 @@
             rows: 4,                        // number of rows for the input tables, minimum 2, makes more sense if you use multiple of 2
             // 2011-08-05 0.2.4
             showHours: true,                // display the hours section of the dialog
-            showMinutes: true               // display the minute section of the dialog
+            showMinutes: true,              // display the minute section of the dialog
+            showConfirmButton : false,       // shows an OK button to confirm the edit
+            confirmButtonCssClasses : ''    // css classes to be applied to the confirmation button
 
         };
         $.extend(this._defaults, this.regional['']);
@@ -450,7 +452,10 @@
 			.end()
 			.find('.' + this._dayOverClass + ' a')
 				.trigger('mouseover')
-			.end();
+			.end()
+            .find('.ui-timepicker-confirm').bind("click",function() {
+                    $.timepicker._hideTimepicker();
+            }).end();
         },
 
         /* Generate the HTML for the current state of the date picker. */
@@ -474,7 +479,8 @@
                 hours_options = this._get(inst, 'hours'),
                 hoursPerRow = null,
                 hourCounter = 0,
-                hourLabel = this._get(inst, 'hourText');
+                hourLabel = this._get(inst, 'hourText'),
+                showConfirmButton = this._get(inst, 'showConfirmButton');
 
             // prepare all hours and minutes, makes it easier to distribute by rows
             for (h = hours_options.starts; h <= hours_options.ends; h++) {
@@ -551,7 +557,12 @@
                 html += '</td>';
             }
             
-            html += '</tr></table>';
+            html += '</tr>';
+
+            if(showConfirmButton) {
+                html += '<tr><td colspan="3"><input type="submit" class="ui-timepicker-confirm ' + this._get(inst, 'confirmButtonCssClasses') +'"></td></tr>';
+            }
+            html += '</table>';
 
              /* IE6 IFRAME FIX (taken from datepicker 1.5.3, fixed in 0.1.2 */
             html += ($.browser.msie && parseInt($.browser.version,10) < 7 && !inst.inline ?
@@ -640,7 +651,7 @@
                 }
                 html += '</tr>';
             }
-            
+
             html += '</table>';
 
             return html;

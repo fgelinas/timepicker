@@ -1,6 +1,7 @@
 Release 0.2.6 - Not released yet
 Fixed a bug when input ID have more then one special char. (Thamks Jacqueline Krijnen)
-Fixed a bug when parsing hours only or minutes only time. (Thanks protron, <a href="https://github.com/fgelinas/timepicker/issues/20">github issue #20</a>);
+Fixed a bug when parsing hours only or minutes only time. (Thanks protron, <a href="https://github.com/fgelinas/timepicker/issues/20">github issue #20</a>)
+Added 'Now', 'Deselect' and 'Close' buttons. (Thanks Christian Grobmeier for the close button code, <a href="https://github.com/fgelinas/timepicker/issues/20">github issue #22</a>)
 
 Release 0.2.5 - September 13, 2011
 Added support for disable and enable. (Suggested by danielrex, github issue #17)

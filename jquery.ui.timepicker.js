@@ -65,9 +65,9 @@
 
         this.regional = []; // Available regional settings, indexed by language code
         this.regional[''] = { // Default regional settings
-            hourText: 'Hour', // Display text for hours section
-            minuteText: 'Minute', // Display text for minutes link
-            amPmText: ['AM', 'PM'] // Display text for AM PM
+            hourText: 'Hour',           // Display text for hours section
+            minuteText: 'Minute',       // Display text for minutes link
+            amPmText: ['AM', 'PM']     // Display text for AM PM
         };
         this._defaults = { // Global defaults for all the time picker instances
             showOn: 'focus',    // 'focus' for popup on focus,
@@ -113,9 +113,14 @@
             // 2011-08-05 0.2.4
             showHours: true,                // display the hours section of the dialog
             showMinutes: true,              // display the minute section of the dialog
-            showConfirmButton : false,       // shows an OK button to confirm the edit
-            confirmButtonCssClasses : ''    // css classes to be applied to the confirmation button
 
+            // buttons
+            showCloseButton: false,         // shows an OK button to confirm the edit
+            closeButtonText: 'Done',        // Text for the confirmation button (ok button)
+            showNowButton: false,           // Shows the 'now' button
+            nowButtonText: 'Now',           // Text for the now button
+            showDeselectButton: false,      // Shows the deselect time button
+            deselectButtonText: 'Deselect'  // Text for the deselect button
         };
         $.extend(this._defaults, this.regional['']);
 
@@ -132,7 +137,6 @@
                 console.log.apply('', arguments);
         },
 
-        // TODO rename to "widget" when switching to widget factory
         _widgetTimepicker: function () {
             return this.tpDiv;
         },
@@ -453,7 +457,13 @@
 			.find('.' + this._dayOverClass + ' a')
 				.trigger('mouseover')
 			.end()
-            .find('.ui-timepicker-confirm').bind("click",function() {
+            .find('.ui-timepicker-now').bind("click",function() {
+                    $.timepicker.selectNow();
+            }).end()
+            .find('.ui-timepicker-deselect').bind("click",function() {
+                    $.timepicker.deselectTime();
+            }).end()
+            .find('.ui-timepicker-close').bind("click",function() {
                     $.timepicker._hideTimepicker();
             }).end();
         },
@@ -480,7 +490,15 @@
                 hoursPerRow = null,
                 hourCounter = 0,
                 hourLabel = this._get(inst, 'hourText'),
-                showConfirmButton = this._get(inst, 'showConfirmButton');
+                showCloseButton = this._get(inst, 'showCloseButton'),
+                closeButtonText = this._get(inst, 'closeButtonText'),
+                showNowButton = this._get(inst, 'showNowButton'),
+                nowButtonText = this._get(inst, 'nowButtonText'),
+                showDeselectButton = this._get(inst, 'showDeselectButton'),
+                deselectButtonText = this._get(inst, 'deselectButtonText'),
+                showButtonPanel = showCloseButton || showNowButton || showDeselectButton;
+            
+
 
             // prepare all hours and minutes, makes it easier to distribute by rows
             for (h = hours_options.starts; h <= hours_options.ends; h++) {
@@ -559,8 +577,23 @@
             
             html += '</tr>';
 
-            if(showConfirmButton) {
-                html += '<tr><td colspan="3"><input type="submit" class="ui-timepicker-confirm ' + this._get(inst, 'confirmButtonCssClasses') +'"></td></tr>';
+
+            if (showButtonPanel) {
+                var buttonPanel = '<tr><td colspan="3"><div class="ui-timepicker-buttonpane ui-widget-content">';
+                if (showNowButton) {
+                    buttonPanel += '<button type="button" class="ui-timepicker-now ui-state-default ui-corner-all">'
+                                   + nowButtonText + '</button>';
+                }
+                if (showDeselectButton) {
+                    buttonPanel += '<button type="button" class="ui-timepicker-deselect ui-state-default ui-corner-all">'
+                                   + deselectButtonText + '</button>';
+                }
+                if (showCloseButton) {
+                    buttonPanel += '<button type="button" class="ui-timepicker-close ui-state-default ui-corner-all">'
+                                   + closeButtonText + '</button>';
+                }
+
+                html += buttonPanel + '</div></td></tr>';
             }
             html += '</table>';
 
@@ -896,6 +929,8 @@
             }
         },
 
+
+
         /* Tidy up after a dialog display. */
         _tidyDialog: function (inst) {
             inst.tpDiv.removeClass(this._dialogClass).unbind('.ui-timepicker');
@@ -1025,6 +1060,24 @@
             return retVal;
         },
 
+        selectNow: function(input) {
+            var inst = this._curInst;
+            if (!inst || (input && inst != $.data(input, PROP_NAME))) { return; }
+            var currentTime = new Date();
+            inst.hours = currentTime.getHours();
+            inst.minutes = currentTime.getMinutes();
+            this._updateSelectedValue(inst);
+            this._hideTimepicker();
+        },
+
+        deselectTime: function(input) {
+            var inst = this._curInst;
+            if (!inst || (input && inst != $.data(input, PROP_NAME))) { return; }
+            inst.hours = -1;
+            inst.minutes = -1;
+            this._updateSelectedValue(inst);
+            this._hideTimepicker();
+        },
 
 
         selectHours: function (event) {
@@ -1104,6 +1157,10 @@
         /* this function process selected time and return it parsed according to instance options */
         _getParsedTime: function(inst) {
 
+            if (inst.hours == -1 && inst.minutes == -1) {
+                return '';
+            }
+
             if ((inst.hours < 0) || (inst.hours > 23)) { inst.hours = 12; }
             if ((inst.minutes < 0) || (inst.minutes > 59)) { inst.minutes = 0; }
 
@@ -1118,7 +1175,7 @@
                 displayHours = selectedHours ? selectedHours : 0,
                 parsedTime = '';
 
-            if (showPeriod) {
+            if (showPeriod) { 
                 if (inst.hours == 0) {
                     displayHours = 12;
                 }

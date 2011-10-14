@@ -340,6 +340,35 @@ $('#timepicker_minutes').timepicker({
     <hr />
 
     <div>
+        Timepicker with the Now, Deselect and Close buttons
+        <input type="text" style="width: 70px" id="timepicker_buttons" value="12:35">
+        
+        
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $('#timepicker_buttons').timepicker({
+                    showNowButton: true,
+                    showDeselectButton: true,
+                    defaultTime: '',  // removes the highlighted time for when the input is empty.
+                    showCloseButton: true
+                });
+            })
+        </script>
+
+        <a onclick="$('#script_buttonpane').toggle(200)">[Show code]</a>
+<pre id="script_buttonpane" style="display: none" class="code">$('#timepicker_buttons').timepicker({
+    showNowButton: true,
+    showDeselectButton: true,
+    defaultTime: '',  // removes the highlighted time for when the input is empty.
+    showCloseButton: true
+});</pre>
+
+    </div>
+
+
+    <hr />
+
+    <div>
         onSelect (hours and minutes both trigger event), beforeShow and onClose events :
         <input type="text" style="width: 70px" id="timepicker_3" value="13:30" />
         <script type="text/javascript">
@@ -622,14 +651,17 @@ $('#btn_enable_tp').click(function() {
         <pre class="code">$('#timepicker').timepicker({
     // Options
     timeSeparator: ':',           // The character to use to separate hours and minutes. (default: ':')
-    showLeadingZero: true,        // Define whether or not to show a leading zero for hours < 10. (default: true)
-    showMinutesLeadingZero: true, // Define whether or not to show a leading zero for minutes < 10. (default: true)
+    showLeadingZero: true,        // Define whether or not to show a leading zero for hours < 10.
+                                     (default: true)
+    showMinutesLeadingZero: true, // Define whether or not to show a leading zero for minutes < 10.
+                                     (default: true)
     showPeriod: false,            // Define whether or not to show AM/PM with selected time. (default: false)
     showPeriodLabels: true,       // Define if the AM/PM labels on the left are displayed. (default: true)
     periodSeparator: ' ',         // The character to use to separate the time from the time period.
     altField: '#alternate_input', // Define an alternate input to parse selected time to
     defaultTime: '12:34',         // Used as default time when input field is empty or for inline timePicker
-                                  // (set to 'now' for the current time, '' for no highlighted time, default value: now)
+                                  // (set to 'now' for the current time, '' for no highlighted time,
+                                     default value: now)
 
     zIndex: null,                 // Overwrite the default zIndex used by the time picker
 
@@ -667,7 +699,16 @@ $('#btn_enable_tp').click(function() {
     },
     rows: 4,                      // Number of rows for the input tables, minimum 2, makes more sense if you use multiple of 2
     showHours: true,              // Define if the hours section is displayed or not. Set to false to get a minute only dialog
-    showMinutes: true             // Define if the minutes section is displayed or not. Set to false to get an hour only dialog
+    showMinutes: true,            // Define if the minutes section is displayed or not. Set to false to get an hour only dialog
+
+    // buttons
+    showCloseButton: false,       // shows an OK button to confirm the edit
+    closeButtonText: 'Done',      // Text for the confirmation button (ok button)
+    showNowButton: false,         // Shows the 'now' button
+    nowButtonText: 'Now',         // Text for the now button
+    showDeselectButton: false,    // Shows the deselect time button
+    deselectButtonText: 'Deselect' // Text for the deselect button
+
 });</pre>
 
     </div>

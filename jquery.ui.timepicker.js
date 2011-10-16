@@ -113,7 +113,7 @@
             // 2011-08-05 0.2.4
             showHours: true,                // display the hours section of the dialog
             showMinutes: true,              // display the minute section of the dialog
-						optionalMinutes: false,					// optionally parse inputs of whole hours with minutes omitted
+            optionalMinutes: false,         // optionally parse inputs of whole hours with minutes omitted
 						
             // buttons
             showCloseButton: false,         // shows an OK button to confirm the edit

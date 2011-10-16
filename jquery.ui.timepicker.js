@@ -113,7 +113,8 @@
             // 2011-08-05 0.2.4
             showHours: true,                // display the hours section of the dialog
             showMinutes: true,              // display the minute section of the dialog
-
+						optionalMinutes: false,					// optionally parse inputs of whole hours with minutes omitted
+						
             // buttons
             showCloseButton: false,         // shows an OK button to confirm the edit
             closeButtonText: 'Done',        // Text for the confirmation button (ok button)
@@ -1029,6 +1030,7 @@
                 amPmText = this._get(inst, 'amPmText'),
                 showHours = this._get(inst, 'showHours'),
                 showMinutes = this._get(inst, 'showMinutes'),
+                optionalMinutes = this._get(inst, 'optionalMinutes'),
                 showPeriod = (this._get(inst, 'showPeriod') == true),
                 p = timeVal.indexOf(timeSeparator);
 
@@ -1038,7 +1040,7 @@
                 retVal.minutes = parseInt(timeVal.substr(p + 1), 10);
             }
             // check for hours only
-            else if ( (showHours) && ( ! showMinutes) ) {
+            else if ( (showHours) && ( !showMinutes || optionalMinutes ) ) {
                 retVal.hours = parseInt(timeVal, 10);
             }
             // check for minutes only
@@ -1169,6 +1171,7 @@
                 showLeadingZero = (this._get(inst, 'showLeadingZero') == true),
                 showHours = (this._get(inst, 'showHours') == true),
                 showMinutes = (this._get(inst, 'showMinutes') == true),
+                optionalMinutes = (this._get(inst, 'optionalMinutes') == true),
                 amPmText = this._get(inst, 'amPmText'),
                 selectedHours = inst.hours ? inst.hours : 0,
                 selectedMinutes = inst.minutes ? inst.minutes : 0,
@@ -1199,10 +1202,10 @@
             if (showHours) {
                 parsedTime += h;
             }
-            if (showHours && showMinutes) {
+            if (showHours && showMinutes && (!optionalMinutes || m != 0)) {
                 parsedTime += this._get(inst, 'timeSeparator');
             }
-            if (showMinutes) {
+            if (showMinutes && (!optionalMinutes || m != 0)) {
                 parsedTime += m;
             }
             if (showHours) {

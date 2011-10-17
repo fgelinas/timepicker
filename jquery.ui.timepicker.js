@@ -469,7 +469,7 @@
             }).end();
         },
 
-        /* Generate the HTML for the current state of the date picker. */
+        /* Generate the HTML for the current state of the time picker. */
         _generateHTML: function (inst) {
 
             var h, m, row, col, html, hoursHtml, minutesHtml = '',
@@ -979,9 +979,9 @@
 
             $.timepicker._updateTimepicker(inst);
         },
-        /* Set the dates for a jQuery selection.
-	    @param  target   element - the target input field or division or span
-	    @param  date     Date - the new date */
+        /* Set the time for a jQuery selection.
+	    @param  target  element - the target input field or division or span
+	    @param  time    String - the new time */
 	    _setTimeTimepicker: function(target, time) {
 		    var inst = this._getInst(target);
 		    if (inst) {
@@ -1252,7 +1252,7 @@
     @return  jQuery object */
     $.fn.timepicker = function (options) {
 
-        /* Initialise the date picker. */
+        /* Initialise the time picker. */
         if (!$.timepicker.initialized) {
             $(document).mousedown($.timepicker._checkExternalClick).
 			find('body').append($.timepicker.tpDiv);

@@ -1,3 +1,6 @@
+Release 0.2.7 - Not released yet
+Added option to omit minutes in parsed time when user select 0 for minutes. (Thanks tribalvibes, Github issue #23)
+
 Release 0.2.6 - October 12, 2011
 Fixed a bug when input ID have more then one special char. (Thamks Jacqueline Krijnen)
 Fixed a bug when parsing hours only or minutes only time. (Thanks protron, <a href="https://github.com/fgelinas/timepicker/issues/20">github issue #20</a>)

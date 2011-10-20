@@ -1,5 +1,5 @@
 /*
- * jQuery UI Timepicker 0.2.6
+ * jQuery UI Timepicker 0.2.7
  *
  * Copyright 2010-2011, Francois Gelinas
  * Dual licensed under the MIT or GPL Version 2 licenses.
@@ -40,7 +40,7 @@
 
 (function ($, undefined) {
 
-    $.extend($.ui, { timepicker: { version: "0.2.6"} });
+    $.extend($.ui, { timepicker: { version: "0.2.7"} });
 
     var PROP_NAME = 'timepicker';
     var tpuuid = new Date().getTime();
@@ -67,7 +67,10 @@
         this.regional[''] = { // Default regional settings
             hourText: 'Hour',           // Display text for hours section
             minuteText: 'Minute',       // Display text for minutes link
-            amPmText: ['AM', 'PM']     // Display text for AM PM
+            amPmText: ['AM', 'PM'],     // Display text for AM PM
+            closeButtonText: 'Done',        // Text for the confirmation button (ok button)
+            nowButtonText: 'Now',           // Text for the now button
+            deselectButtonText: 'Deselect'  // Text for the deselect button
         };
         this._defaults = { // Global defaults for all the time picker instances
             showOn: 'focus',    // 'focus' for popup on focus,
@@ -117,11 +120,9 @@
 						
             // buttons
             showCloseButton: false,         // shows an OK button to confirm the edit
-            closeButtonText: 'Done',        // Text for the confirmation button (ok button)
             showNowButton: false,           // Shows the 'now' button
-            nowButtonText: 'Now',           // Text for the now button
-            showDeselectButton: false,      // Shows the deselect time button
-            deselectButtonText: 'Deselect'  // Text for the deselect button
+            showDeselectButton: false       // Shows the deselect time button
+
         };
         $.extend(this._defaults, this.regional['']);
 
@@ -582,15 +583,18 @@
             if (showButtonPanel) {
                 var buttonPanel = '<tr><td colspan="3"><div class="ui-timepicker-buttonpane ui-widget-content">';
                 if (showNowButton) {
-                    buttonPanel += '<button type="button" class="ui-timepicker-now ui-state-default ui-corner-all">'
+                    buttonPanel += '<button type="button" class="ui-timepicker-now ui-state-default ui-corner-all" '
+                                   + ' data-timepicker-instance-id="#' + inst.id.replace(/\\\\/g,"\\") + '" >'
                                    + nowButtonText + '</button>';
                 }
                 if (showDeselectButton) {
-                    buttonPanel += '<button type="button" class="ui-timepicker-deselect ui-state-default ui-corner-all">'
+                    buttonPanel += '<button type="button" class="ui-timepicker-deselect ui-state-default ui-corner-all" '
+                                   + ' data-timepicker-instance-id="#' + inst.id.replace(/\\\\/g,"\\") + '" >'
                                    + deselectButtonText + '</button>';
                 }
                 if (showCloseButton) {
-                    buttonPanel += '<button type="button" class="ui-timepicker-close ui-state-default ui-corner-all">'
+                    buttonPanel += '<button type="button" class="ui-timepicker-close ui-state-default ui-corner-all" '
+                                   + ' data-timepicker-instance-id="#' + inst.id.replace(/\\\\/g,"\\") + '" >'
                                    + closeButtonText + '</button>';
                 }
 
@@ -979,6 +983,37 @@
 
             $.timepicker._updateTimepicker(inst);
         },
+
+        /* Update or retrieve the settings for an existing time picker.
+           @param  target  element - the target input field or division or span
+           @param  name    object - the new settings to update or
+                           string - the name of the setting to change or retrieve,
+                           when retrieving also 'all' for all instance settings or
+                           'defaults' for all global defaults
+           @param  value   any - the new value for the setting
+                       (omit if above is an object or to retrieve a value) */
+        _optionTimepicker: function(target, name, value) {
+            var inst = this._getInst(target);
+            if (arguments.length == 2 && typeof name == 'string') {
+                return (name == 'defaults' ? $.extend({}, $.timepicker._defaults) :
+                    (inst ? (name == 'all' ? $.extend({}, inst.settings) :
+                    this._get(inst, name)) : null));
+            }
+            var settings = name || {};
+            if (typeof name == 'string') {
+                settings = {};
+                settings[name] = value;
+            }
+            if (inst) {
+                if (this._curInst == inst) {
+                    this._hideTimepicker();
+                }
+                extendRemove(inst.settings, settings);
+                this._updateTimepicker(inst);
+            }
+        },
+
+
         /* Set the time for a jQuery selection.
 	    @param  target  element - the target input field or division or span
 	    @param  time    String - the new time */
@@ -1062,19 +1097,24 @@
             return retVal;
         },
 
-        selectNow: function(input) {
-            var inst = this._curInst;
-            if (!inst || (input && inst != $.data(input, PROP_NAME))) { return; }
+        selectNow: function() {
+            var id = $(event.target).attr("data-timepicker-instance-id"),
+                $target = $(id),
+                inst = this._getInst($target[0]);
+
+            //if (!inst || (input && inst != $.data(input, PROP_NAME))) { return; }
             var currentTime = new Date();
             inst.hours = currentTime.getHours();
             inst.minutes = currentTime.getMinutes();
             this._updateSelectedValue(inst);
+            this._updateTimepicker(inst);
             this._hideTimepicker();
         },
 
-        deselectTime: function(input) {
-            var inst = this._curInst;
-            if (!inst || (input && inst != $.data(input, PROP_NAME))) { return; }
+        deselectTime: function() {
+            var id = $(event.target).attr("data-timepicker-instance-id"),
+                $target = $(id),
+                inst = this._getInst($target[0]);
             inst.hours = -1;
             inst.minutes = -1;
             this._updateSelectedValue(inst);
@@ -1262,10 +1302,10 @@
         var otherArgs = Array.prototype.slice.call(arguments, 1);
         if (typeof options == 'string' && (options == 'getTime' || options == 'getHour' || options == 'getMinute' ))
             return $.timepicker['_' + options + 'Timepicker'].
-			apply($.timepicker, [this[0]].concat(otherArgs));
+			    apply($.timepicker, [this[0]].concat(otherArgs));
         if (options == 'option' && arguments.length == 2 && typeof arguments[1] == 'string')
             return $.timepicker['_' + options + 'Timepicker'].
-			apply($.timepicker, [this[0]].concat(otherArgs));
+                apply($.timepicker, [this[0]].concat(otherArgs));
         return this.each(function () {
             typeof options == 'string' ?
 			$.timepicker['_' + options + 'Timepicker'].
@@ -1286,7 +1326,7 @@
     $.timepicker = new Timepicker(); // singleton instance
     $.timepicker.initialized = false;
     $.timepicker.uuid = new Date().getTime();
-    $.timepicker.version = "0.2.6";
+    $.timepicker.version = "0.2.7";
 
     // Workaround for #4055
     // Add another global to avoid noConflict issues with inline event handlers

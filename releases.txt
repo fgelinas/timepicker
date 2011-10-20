@@ -1,5 +1,6 @@
-Release 0.2.7 - Not released yet
+Release 0.2.7 - October 19, 2011
 Added option to omit minutes in parsed time when user select 0 for minutes. (Thanks tribalvibes, Github issue #23)
+Added support for internationalisation (fr, de and ja, Thanks Bernd Plagge).
 
 Release 0.2.6 - October 12, 2011
 Fixed a bug when input ID have more then one special char. (Thamks Jacqueline Krijnen)

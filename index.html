@@ -4,7 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
     <title>jQuery UI Time Picker by Francois Gelinas</title>
     <link rel="stylesheet" href="include/jquery-ui-1.8.14.custom.css" type="text/css" />
-    <link rel="stylesheet" href="jquery.ui.timepicker.css?v=0.2.6" type="text/css" />
+    <link rel="stylesheet" href="jquery.ui.timepicker.css?v=0.2.7" type="text/css" />
 
 <!-- uncomment to test with legacy jquery -->
 <!--
@@ -19,7 +19,7 @@
     <script type="text/javascript" src="include/jquery.ui.tabs.min.js"></script>
     <script type="text/javascript" src="include/jquery.ui.position.min.js"></script>
 
-    <script type="text/javascript" src="jquery.ui.timepicker.js?v=0.2.6"></script>
+    <script type="text/javascript" src="jquery.ui.timepicker.js?v=0.2.7"></script>
 
     <script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
     <style type="text/css">
@@ -106,7 +106,7 @@
         <li><a href="#usage">Usage</a></li>
         <li><a href="#requirements">Requirements</a></li>
         <li><a href="#release_notes">Release notes</a></li>
-        <li><a href="#get_timepicker">Get Timepicker version 0.2.6</a></li>
+        <li><a href="#get_timepicker">Get Timepicker version 0.2.7</a></li>
     </ul>
 
     <div id="examples">
@@ -148,8 +148,10 @@
     <hr />
 
     <div>
-        Time picker with labels in another language (Fran&ccedil;ais) :
+        Time picker with buttons and labels in another language (Fran&ccedil;ais) :
         <input type="text" style="width: 70px;" id="timepicker_locale" value="13h30" />
+        <br>
+        See the <a href="i18n/i18n.html">internationalisation page</a> for more information and details.
         <script type="text/javascript">
             $(document).ready(function() {
                 $('#timepicker_locale').timepicker({
@@ -157,7 +159,13 @@
                     minuteText: 'Minutes',
                     amPmText: ['AM', 'PM'],
                     timeSeparator: 'h',
-                    showLeadingZero: false
+                    showLeadingZero: false,
+                    nowButtonText: 'Maintenant',
+                    showNowButton: true,
+                    closeButtonText: 'Fermer',
+                    showCloseButton: true,
+                    deselectButtonText: 'Désélectionner',
+                    showDeselectButton: true
                 });
             });
 
@@ -167,7 +175,13 @@
     hourText: 'Heures',
     minuteText: 'Minutes',
     amPmText: ['AM', 'PM'],
-    timeSeparator: 'h'
+    timeSeparator: 'h',
+    nowButtonText: 'Maintenant',
+    showNowButton: true,
+    closeButtonText: 'Fermer',
+    showCloseButton: true,
+    deselectButtonText: 'Désélectionner',
+    showDeselectButton: true
 });</pre>
     </div>
 
@@ -742,13 +756,13 @@ $('#btn_enable_tp').click(function() {
             </li>
 
             <li>
-                <a href="jquery.ui.timepicker.js?v=0.2.6">
+                <a href="jquery.ui.timepicker.js?v=0.2.7">
                     jquery.ui.timepicker.js
                 </a>
             </li>
 
             <li>
-                <a href="jquery.ui.timepicker.css?v=0.2.6">
+                <a href="jquery.ui.timepicker.css?v=0.2.7">
                     jquery.ui.timepicker.css
                 </a>
             </li>
@@ -765,7 +779,11 @@ $('#btn_enable_tp').click(function() {
 
         <h2>Releases :</h2>
         <dl>
-
+            <dt>Release 0.2.7 - October 19, 2011</dt>
+            <dd>Added option to omit minutes in parsed time when user select 0 for minutes. (Thanks tribalvibes, Github issue #23)</dd>
+            <dd>Added support for internationalisation (fr, de and ja, Thanks Bernd Plagge).</dd>
+            <dd>Added an <a href="i18n/i18n.html">internationalisation page</a></dd>
+            
             <dt>0.2.6 - October 12, 2011</dt>
             <dd>Fixed a bug when input ID have more then one special char. (Thanks Jacqueline Krijnen)</dd>
             <dd>Fixed a bug when parsing hours only or minutes only time. (Thanks protron, <a href="https://github.com/fgelinas/timepicker/issues/20">github issue #20</a>)</dd>
@@ -890,7 +908,7 @@ $('#btn_enable_tp').click(function() {
         <h2>Download Timepicker</h2>
 
         <p>
-            Current version : 0.2.6 - released October 13, 2011
+            Current version : 0.2.7 - released October 19, 2011
         </p>
 
         <p>
@@ -898,7 +916,7 @@ $('#btn_enable_tp').click(function() {
         </p>
 
         <p>
-            <a href="releases/jquery-ui-timepicker-0.2.6.zip">Download from here (.zip)</a>
+            <a href="releases/jquery-ui-timepicker-0.2.7.zip">Download from here (.zip)</a>
         </p>
 
         <hr >
@@ -942,10 +960,6 @@ $('#btn_enable_tp').click(function() {
 </div>
 
 
-
-
-
-
 <hr />
 <!-- =============================================================================================================== -->
 
@@ -957,7 +971,7 @@ $('#btn_enable_tp').click(function() {
         <strong>New! New!</strong> TimePicker is now 100% more social, on GitHub @ <a href="http://github.com/fgelinas/timepicker">http://github.com/fgelinas/timepicker</a>.
     </p>
     <p>
-        Get the release package here : <a href="releases/jquery-ui-timepicker-0.2.6.zip">jquery-ui-timepicker-0.2.6.zip</a>
+        Get the release package here : <a href="releases/jquery-ui-timepicker-0.2.7.zip">jquery-ui-timepicker-0.2.7.zip</a>
     </p>
 
     <hr />
@@ -976,6 +990,8 @@ $('#btn_enable_tp').click(function() {
 
     <hr />
     Bug, ideas or comments : <a href="mailto:frank@fgelinas.com">frank@fgelinas.com</a>
+
+</div>
 
 </div>
 

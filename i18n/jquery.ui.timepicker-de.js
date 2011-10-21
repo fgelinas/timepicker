@@ -4,6 +4,9 @@ jQuery(function($){
     $.timepicker.regional['de'] = {
                 hourText: 'Stunde',
                 minuteText: 'Minuten',
-                amPmText: ['AM', 'PM'] }
+                amPmText: ['AM', 'PM'] ,
+                closeButtonText: 'Schließen',
+                nowButtonText: 'Akt. Uhrzeit',
+                deselectButtonText: 'Entmarkieren' }
     $.timepicker.setDefaults($.timepicker.regional['de']);
 });

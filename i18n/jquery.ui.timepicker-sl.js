@@ -1,6 +1,5 @@
 /* Slovenian localization for the jQuery time picker plugin. */
-/* Written by Bernd Plagge (bplagge@choicenet.ne.jp),
-              Francois Gelinas (frank@fgelinas.com) */
+/* Written by  Blaž Maležič (blaz@malezic.si)              */
 jQuery(function($){
     $.timepicker.regional['sl'] = {
                 hourText: 'Ure',

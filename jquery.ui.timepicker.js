@@ -392,10 +392,17 @@
 
                 // if not zIndex specified in options, use target zIndex + 1
                 if ( ! zIndex) {
-                    zIndex = $(input).attr('zIndex') + 1;
+
+					// set position to 'relative' if not set
+					// - fix for WebKit browsers not setting/getting zIndex on elements with 'static' position
+					if ($(input).css('position') == 'static') { $(input).css('position', 'relative'); }
+
+					zIndex = $(input).css('zIndex') == 'auto' ? 0 : $(input).css('zIndex');
+					
+					// correctly handle zIndex value
+					zIndex = parseFloat(zIndex) + 1;
                 }
                 try {
-                    inst.tpDiv.attr('zIndex', zIndex);
                     inst.tpDiv.css('zIndex', zIndex);
                 } catch (e) {
                     // let's just do nothing for now, it seems to work most of the time,

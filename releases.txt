@@ -1,4 +1,4 @@
-Release 0.3.0 - October 28, 2011
+Release 0.2.8 - October 28, 2011
 Updated "defaultTime" to allow for Date object (github issue #26)
 
 

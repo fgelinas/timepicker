@@ -1,3 +1,7 @@
+Release 0.3.0 - October 28, 2011
+Updated "defaultTime" to allow for Date object (github issue #26)
+
+
 Release 0.2.7 - October 19, 2011
 Added option to omit minutes in parsed time when user select 0 for minutes. (Thanks tribalvibes, Github issue #23)
 Added support for internationalisation (fr, de and ja, Thanks Bernd Plagge).

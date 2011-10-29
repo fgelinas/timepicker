@@ -975,18 +975,21 @@
             var timeToParse = defaultTime == 'now' ? this._getCurrentTimeRounded(inst) : defaultTime;
             if ((inst.inline == false) && (inst.input.val() != '')) { timeToParse = inst.input.val() }
 
-            var timeVal = inst.lastVal = timeToParse;
-
-            
-
-            if (timeToParse == '') {
-                inst.hours = -1;
-                inst.minutes = -1;
+            if (timeToParse instanceof Date) {
+                inst.hours = timeToParse.getHours();
+                inst.minutes = timeToParse.getMinutes();
             } else {
-                var time = this.parseTime(inst, timeVal);
-                inst.hours = time.hours;
-                inst.minutes = time.minutes;
+                var timeVal = inst.lastVal = timeToParse;
+                if (timeToParse == '') {
+                    inst.hours = -1;
+                    inst.minutes = -1;
+                } else {
+                    var time = this.parseTime(inst, timeVal);
+                    inst.hours = time.hours;
+                    inst.minutes = time.minutes;
+                }
             }
+
 
             $.timepicker._updateTimepicker(inst);
         },
@@ -1050,18 +1053,16 @@
 
         /* Return the current time, ready to be parsed, rounded to the closest 5 minute */
         _getCurrentTimeRounded: function (inst) {
-            var currentTime = new Date();
-            var timeSeparator = this._get(inst, 'timeSeparator');
-            // setting selected time , least priority first
-            var currentMinutes = currentTime.getMinutes()
-            // round to closest 5
-            currentMinutes = Math.round( currentMinutes / 5 ) * 5;
-
-            return currentTime.getHours().toString() + timeSeparator + currentMinutes.toString();
+            var currentTime = new Date(),
+                currentMinutes = currentTime.getMinutes(),
+                // round to closest 5
+                adjustedMinutes = Math.round( currentMinutes / 5 ) * 5;
+            currentTime.setMinutes(adjustedMinutes);
+            return currentTime;
         },
 
         /*
-        * Pase a time string into hours and minutes
+        * Parse a time string into hours and minutes
         */
         parseTime: function (inst, timeVal) {
             var retVal = new Object();

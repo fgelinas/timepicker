@@ -1,6 +1,8 @@
-Release 0.2.8 - October 28, 2011
-Updated "defaultTime" to allow for Date object (github issue #26)
 
+
+Release 0.2.8 - November 5, 2011
+Updated "defaultTime" to allow for Date object (github issue #26)
+Fixed the now and deselect buttons in IE
 
 Release 0.2.7 - October 19, 2011
 Added option to omit minutes in parsed time when user select 0 for minutes. (Thanks tribalvibes, Github issue #23)

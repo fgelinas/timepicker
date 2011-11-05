@@ -466,13 +466,13 @@
 			.find('.' + this._dayOverClass + ' a')
 				.trigger('mouseover')
 			.end()
-            .find('.ui-timepicker-now').bind("click",function() {
-                    $.timepicker.selectNow();
+            .find('.ui-timepicker-now').bind("click",function(e) {
+                    $.timepicker.selectNow(e);
             }).end()
-            .find('.ui-timepicker-deselect').bind("click",function() {
-                    $.timepicker.deselectTime();
+            .find('.ui-timepicker-deselect').bind("click",function(e) {
+                    $.timepicker.deselectTime(e);
             }).end()
-            .find('.ui-timepicker-close').bind("click",function() {
+            .find('.ui-timepicker-close').bind("click",function(e) {
                     $.timepicker._hideTimepicker();
             }).end();
         },
@@ -1105,8 +1105,9 @@
             return retVal;
         },
 
-        selectNow: function() {
-            var id = $(event.target).attr("data-timepicker-instance-id"),
+        selectNow: function(e) {
+
+            var id = $(e.target).attr("data-timepicker-instance-id"),
                 $target = $(id),
                 inst = this._getInst($target[0]);
 
@@ -1119,8 +1120,8 @@
             this._hideTimepicker();
         },
 
-        deselectTime: function() {
-            var id = $(event.target).attr("data-timepicker-instance-id"),
+        deselectTime: function(e) {
+            var id = $(e.target).attr("data-timepicker-instance-id"),
                 $target = $(id),
                 inst = this._getInst($target[0]);
             inst.hours = -1;

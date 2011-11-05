@@ -441,14 +441,17 @@
             // then letting the browser interpret the inline events)
             // the binding for the minute cells also exists in _updateMinuteDisplay
             .find('.ui-timepicker-minute-cell')
+                .unbind()
                 .bind("click", { fromDoubleClick:false }, $.proxy($.timepicker.selectMinutes, this))
                 .bind("dblclick", { fromDoubleClick:true }, $.proxy($.timepicker.selectMinutes, this))
             .end()
             .find('.ui-timepicker-hour-cell')
+                .unbind()
                 .bind("click", { fromDoubleClick:false }, $.proxy($.timepicker.selectHours, this))
                 .bind("dblclick", { fromDoubleClick:true }, $.proxy($.timepicker.selectHours, this))
             .end()
 			.find('.ui-timepicker td a')
+                .unbind()
 				.bind('mouseout', function () {
 				    $(this).removeClass('ui-state-hover');
 				    if (this.className.indexOf('ui-timepicker-prev') != -1) $(this).removeClass('ui-timepicker-prev-hover');

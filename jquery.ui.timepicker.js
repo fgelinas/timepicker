@@ -1,5 +1,5 @@
 /*
- * jQuery UI Timepicker 0.2.7
+ * jQuery UI Timepicker 0.2.8
  *
  * Copyright 2010-2011, Francois Gelinas
  * Dual licensed under the MIT or GPL Version 2 licenses.

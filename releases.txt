@@ -1,5 +1,6 @@
 Release 0.2.9 - ????
 Fix a bug where repeatedly clicking on hour cells made the timepicker very slow.
+Added Italian translation, thanks to Serge Margarita.
 
 Release 0.2.8 - November 5, 2011
 Updated "defaultTime" to allow for Date object (github issue #26)

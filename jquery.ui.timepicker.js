@@ -40,7 +40,7 @@
 
 (function ($, undefined) {
 
-    $.extend($.ui, { timepicker: { version: "0.2.8"} });
+    $.extend($.ui, { timepicker: { version: "0.2.9"} });
 
     var PROP_NAME = 'timepicker';
     var tpuuid = new Date().getTime();
@@ -100,8 +100,6 @@
             //NEW: 2011-02-03
             onHourShow: null,			    // callback for enabling / disabling on selectable hours  ex : function(hour) { return true; }
             onMinuteShow: null,             // callback for enabling / disabling on time selection  ex : function(hour,minute) { return true; }
-            // 2011-03-22 - v 0.0.9
-            zIndex: null,                   // specify zIndex
 
             hours: {
                 starts: 0,                  // first displayed hour
@@ -380,7 +378,7 @@
             if ( ! inst.inline ) {
                 var showAnim = $.timepicker._get(inst, 'showAnim');
                 var duration = $.timepicker._get(inst, 'duration');
-                var zIndex = $.timepicker._get(inst, 'zIndex');
+
                 var postProcess = function () {
                     $.timepicker._timepickerShowing = true;
                     var borders = $.timepicker._getBorders(inst.tpDiv);
@@ -390,24 +388,10 @@
 					});
                 };
 
-                // if not zIndex specified in options, use target zIndex + 1
-                if ( ! zIndex) {
-
-					// set position to 'relative' if not set
-					// - fix for WebKit browsers not setting/getting zIndex on elements with 'static' position
-					if ($(input).css('position') == 'static') { $(input).css('position', 'relative'); }
-
-					zIndex = $(input).css('zIndex') == 'auto' ? 0 : $(input).css('zIndex');
-					
-					// correctly handle zIndex value
-					zIndex = parseFloat(zIndex) + 1;
-                }
-                try {
-                    inst.tpDiv.css('zIndex', zIndex);
-                } catch (e) {
-                    // let's just do nothing for now, it seems to work most of the time,
-                    // except for 1MB with jQuery 1.4.2 and IE8. github issue #21
-                }
+                // Fixed the zIndex problem for real (I hope) - FG - v 0.2.9
+                var zIndex = $.timepicker._getZIndex(input) + 1;
+                console.log(zIndex);
+                inst.tpDiv.css('zIndex', $.timepicker._getZIndex(input) +1);
 
                 if ($.effects && $.effects[showAnim]) {
                     inst.tpDiv.show(showAnim, $.timepicker._get(inst, 'showOptions'), duration, postProcess);
@@ -418,6 +402,22 @@
                 if (!showAnim || !duration) { postProcess(); }
                 if (inst.input.is(':visible') && !inst.input.is(':disabled')) { inst.input.focus(); }
                 $.timepicker._curInst = inst;
+            }
+        },
+
+        // This is a copy of the zIndex function of UI core 1.8.??
+        // Copied in the timepicker to stay backward compatible.
+        _getZIndex: function (target) {
+            var elem = $( target ), position, value;
+            while ( elem.length && elem[ 0 ] !== document ) {
+                position = elem.css( "position" );
+                if ( position === "absolute" || position === "relative" || position === "fixed" ) {
+                    value = parseInt( elem.css( "zIndex" ), 10 );
+                    if ( !isNaN( value ) && value !== 0 ) {
+                        return value;
+                    }
+                }
+                elem = elem.parent();
             }
         },
 
@@ -1338,7 +1338,7 @@
     $.timepicker = new Timepicker(); // singleton instance
     $.timepicker.initialized = false;
     $.timepicker.uuid = new Date().getTime();
-    $.timepicker.version = "0.2.8";
+    $.timepicker.version = "0.2.9";
 
     // Workaround for #4055
     // Add another global to avoid noConflict issues with inline event handlers

@@ -4,7 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
     <title>jQuery UI Time Picker by Francois Gelinas</title>
     <link rel="stylesheet" href="include/jquery-ui-1.8.14.custom.css" type="text/css" />
-    <link rel="stylesheet" href="jquery.ui.timepicker.css?v=0.2.8" type="text/css" />
+    <link rel="stylesheet" href="jquery.ui.timepicker.css?v=0.2.9" type="text/css" />
 
 <!-- uncomment to test with legacy jquery -->
 <!--
@@ -19,7 +19,7 @@
     <script type="text/javascript" src="include/jquery.ui.tabs.min.js"></script>
     <script type="text/javascript" src="include/jquery.ui.position.min.js"></script>
 
-    <script type="text/javascript" src="jquery.ui.timepicker.js?v=0.2.8"></script>
+    <script type="text/javascript" src="jquery.ui.timepicker.js?v=0.2.9"></script>
 
     <script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
     <style type="text/css">
@@ -106,7 +106,7 @@
         <li><a href="#usage">Usage</a></li>
         <li><a href="#requirements">Requirements</a></li>
         <li><a href="#release_notes">Release notes</a></li>
-        <li><a href="#get_timepicker">Get Timepicker version 0.2.8</a></li>
+        <li><a href="#get_timepicker">Get Timepicker version 0.2.9</a></li>
     </ul>
 
     <div id="examples">
@@ -677,8 +677,6 @@ $('#btn_enable_tp').click(function() {
                                   // (set to 'now' for the current time, '' for no highlighted time,
                                      default value: now)
 
-    zIndex: null,                 // Overwrite the default zIndex used by the time picker
-
     // trigger options
     showOn: 'focus',              // Define when the timepicker is shown.
                                   // 'focus': when the input gets focus, 'button' when the button trigger element is clicked,
@@ -756,13 +754,13 @@ $('#btn_enable_tp').click(function() {
             </li>
 
             <li>
-                <a href="jquery.ui.timepicker.js?v=0.2.8">
+                <a href="jquery.ui.timepicker.js?v=0.2.9">
                     jquery.ui.timepicker.js
                 </a>
             </li>
 
             <li>
-                <a href="jquery.ui.timepicker.css?v=0.2.8">
+                <a href="jquery.ui.timepicker.css?v=0.2.9">
                     jquery.ui.timepicker.css
                 </a>
             </li>
@@ -779,6 +777,11 @@ $('#btn_enable_tp').click(function() {
 
         <h2>Releases :</h2>
         <dl>
+
+            <dt>Release 0.2.9 - November 13, 2011</dt>
+            <dd>Fixed the zIndex problem and removed the zIndex option (Thanks everyone who reported the problem)</dd>
+            <dd>Fix a bug where repeatedly clicking on hour cells made the timepicker very slow.</dd>
+            <dd>Added Italian translation, thanks to Serge Margarita.</dd>
 
             <dt>Release 0.2.8 - October 28, 2011</dt>
             <dd>Updated defaultTime to allow for Date object (github issue #26)</dd>
@@ -913,7 +916,7 @@ $('#btn_enable_tp').click(function() {
         <h2>Download Timepicker</h2>
 
         <p>
-            Current version : 0.2.8 - released November 5, 2011
+            Current version : 0.2.9 - released November 13, 2011
         </p>
 
         <p>
@@ -921,13 +924,13 @@ $('#btn_enable_tp').click(function() {
         </p>
 
         <p>
-            <a href="releases/jquery-ui-timepicker-0.2.8.zip">Download from here (.zip)</a>
+            <a href="releases/jquery-ui-timepicker-0.2.9.zip">Download from here (.zip)</a>
         </p>
 
         <hr >
 
         <p>
-            I put a lot of time and effort in this project. If you like it, please <span style="text-decoration: line-through">pay me a beer</span> donate
+            I put a lot of time and effort in this project. If you like it, <span style="text-decoration: line-through">buy me a beer</span> please donate
             <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
             <input type="hidden" name="cmd" value="_s-xclick">
             <input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----
@@ -976,14 +979,14 @@ $('#btn_enable_tp').click(function() {
         <strong>New! New!</strong> TimePicker is now 100% more social, on GitHub @ <a href="http://github.com/fgelinas/timepicker">http://github.com/fgelinas/timepicker</a>.
     </p>
     <p>
-        Get the release package here : <a href="releases/jquery-ui-timepicker-0.2.8.zip">jquery-ui-timepicker-0.2.8.zip</a>
+        Get the release package here : <a href="releases/jquery-ui-timepicker-0.2.9.zip">jquery-ui-timepicker-0.2.9.zip</a>
     </p>
 
     <hr />
 
     <p>
         <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
-        I put a lot of time and effort in this project. If you like it, please <span style="text-decoration: line-through">pay me a beer</span> donate 
+        I put a lot of time and effort in this project. If you like it, <span style="text-decoration: line-through">buy me a beer</span> please donate
         <input type="hidden" name="cmd" value="_s-xclick">
         <input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----MIIHXwYJKoZIhvcNAQcEoIIHUDCCB0wCAQExggEwMIIBLAIBADCBlDCBjjELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMRYwFAYDVQQHEw1Nb3VudGFpbiBWaWV3MRQwEgYDVQQKEwtQYXlQYWwgSW5jLjETMBEGA1UECxQKbGl2ZV9jZXJ0czERMA8GA1UEAxQIbGl2ZV9hcGkxHDAaBgkqhkiG9w0BCQEWDXJlQHBheXBhbC5jb20CAQAwDQYJKoZIhvcNAQEBBQAEgYAOOlt0j59m8piNj+eoHdZuDbEkv/TCvP1r0KRrnnprtQLlNhfnFOEmY1MQbrCs/QJb80MxUS1/O2pNK7z+GzdC3CFn41SIAHiaTVQlQ8HO6C7EqWqkwsVXhgkob/WdDw7BzN5UcI/lPfuhtwTZ2pVrS/FhKt14ce1OJlvwdo4kKTELMAkGBSsOAwIaBQAwgdwGCSqGSIb3DQEHATAUBggqhkiG9w0DBwQIsV1Pn/r0+ReAgbih+9Jwqy8FHU2Ba2iAkKRKBmwv7ZzNqVJ9f23bBu8eBG0EDbQuikn7lXozKnq23Qbjf9BtoX5B/92Ma2Ue/hB6WttZm4ka/nAnnK2lyS+mU8YVagQlieWblUiFzCvcltTDgukcI4L88rLtjmgG4x1Zf/ZBqiYrZzKt/J8wQWAvO69X75qULw6FRr+aFPmO668KtSi0Ggp2IDKpGiTMzaTaf3KChQTvgovPim2+4x6XH5888poSsuHAoIIDhzCCA4MwggLsoAMCAQICAQAwDQYJKoZIhvcNAQEFBQAwgY4xCzAJBgNVBAYTAlVTMQswCQYDVQQIEwJDQTEWMBQGA1UEBxMNTW91bnRhaW4gVmlldzEUMBIGA1UEChMLUGF5UGFsIEluYy4xEzARBgNVBAsUCmxpdmVfY2VydHMxETAPBgNVBAMUCGxpdmVfYXBpMRwwGgYJKoZIhvcNAQkBFg1yZUBwYXlwYWwuY29tMB4XDTA0MDIxMzEwMTMxNVoXDTM1MDIxMzEwMTMxNVowgY4xCzAJBgNVBAYTAlVTMQswCQYDVQQIEwJDQTEWMBQGA1UEBxMNTW91bnRhaW4gVmlldzEUMBIGA1UEChMLUGF5UGFsIEluYy4xEzARBgNVBAsUCmxpdmVfY2VydHMxETAPBgNVBAMUCGxpdmVfYXBpMRwwGgYJKoZIhvcNAQkBFg1yZUBwYXlwYWwuY29tMIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDBR07d/ETMS1ycjtkpkvjXZe9k+6CieLuLsPumsJ7QC1odNz3sJiCbs2wC0nLE0uLGaEtXynIgRqIddYCHx88pb5HTXv4SZeuv0Rqq4+axW9PLAAATU8w04qqjaSXgbGLP3NmohqM6bV9kZZwZLR/klDaQGo1u9uDb9lr4Yn+rBQIDAQABo4HuMIHrMB0GA1UdDgQWBBSWn3y7xm8XvVk/UtcKG+wQ1mSUazCBuwYDVR0jBIGzMIGwgBSWn3y7xm8XvVk/UtcKG+wQ1mSUa6GBlKSBkTCBjjELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMRYwFAYDVQQHEw1Nb3VudGFpbiBWaWV3MRQwEgYDVQQKEwtQYXlQYWwgSW5jLjETMBEGA1UECxQKbGl2ZV9jZXJ0czERMA8GA1UEAxQIbGl2ZV9hcGkxHDAaBgkqhkiG9w0BCQEWDXJlQHBheXBhbC5jb22CAQAwDAYDVR0TBAUwAwEB/zANBgkqhkiG9w0BAQUFAAOBgQCBXzpWmoBa5e9fo6ujionW1hUhPkOBakTr3YCDjbYfvJEiv/2P+IobhOGJr85+XHhN0v4gUkEDI8r2/rNk1m0GA8HKddvTjyGw/XqXa+LSTlDYkqI8OwR8GEYj4efEtcRpRYBxV8KxAW93YDWzFGvruKnnLbDAF6VR5w/cCMn5hzGCAZowggGWAgEBMIGUMIGOMQswCQYDVQQGEwJVUzELMAkGA1UECBMCQ0ExFjAUBgNVBAcTDU1vdW50YWluIFZpZXcxFDASBgNVBAoTC1BheVBhbCBJbmMuMRMwEQYDVQQLFApsaXZlX2NlcnRzMREwDwYDVQQDFAhsaXZlX2FwaTEcMBoGCSqGSIb3DQEJARYNcmVAcGF5cGFsLmNvbQIBADAJBgUrDgMCGgUAoF0wGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMTEwODAzMDExOTA1WjAjBgkqhkiG9w0BCQQxFgQUF1zJZYGVyFN/5C0fJiA3xL4Mgr8wDQYJKoZIhvcNAQEBBQAEgYCgdTdP9XXWmEtk2C7m8A1d4zR1UBxLplBAdiIF3lNrEr3zZFXoptVZ5TMbydvkQKhHrXEsBfjFs7lkB1vU0heqpN4fUmVB5nXUsiv8e/W92yOnJb59DQ4hXG6ASibeynTyGXbQxphj/128LC2lmi2waQdRzSdf5gY+bMZ4OgabQg==-----END PKCS7-----
         ">

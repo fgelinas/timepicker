@@ -1,4 +1,5 @@
-Release 0.2.9 - ????
+Release 0.2.9 - November 13, 2011
+Fixed the zIndex problem and removed the zIndex option (Thanks everyone who reported the problem)
 Fix a bug where repeatedly clicking on hour cells made the timepicker very slow.
 Added Italian translation, thanks to Serge Margarita.
 

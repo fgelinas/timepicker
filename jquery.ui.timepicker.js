@@ -1,5 +1,5 @@
 /*
- * jQuery UI Timepicker 0.2.8
+ * jQuery UI Timepicker 0.2.9
  *
  * Copyright 2010-2011, Francois Gelinas
  * Dual licensed under the MIT or GPL Version 2 licenses.
@@ -389,8 +389,6 @@
                 };
 
                 // Fixed the zIndex problem for real (I hope) - FG - v 0.2.9
-                var zIndex = $.timepicker._getZIndex(input) + 1;
-                console.log(zIndex);
                 inst.tpDiv.css('zIndex', $.timepicker._getZIndex(input) +1);
 
                 if ($.effects && $.effects[showAnim]) {

@@ -1,3 +1,6 @@
+Release 0.3.0 - ???
+Fixed a zIndex problem in jQuery Dialog when the user clicked on the input while the timepicker was still visible.
+
 Release 0.2.9 - November 13, 2011
 Fixed the zIndex problem and removed the zIndex option (Thanks everyone who reported the problem)
 Fix a bug where repeatedly clicking on hour cells made the timepicker very slow.

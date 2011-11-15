@@ -267,11 +267,14 @@
                 input[isRTL ? 'before' : 'after'](inst.append);
             }
             input.unbind('focus.timepicker', this._showTimepicker);
+            input.unbind('click.timepicker', this._adjustZIndex);
+
             if (inst.trigger) { inst.trigger.remove(); }
 
             var showOn = this._get(inst, 'showOn');
             if (showOn == 'focus' || showOn == 'both') { // pop-up time picker when in the marked field
                 input.bind("focus.timepicker", this._showTimepicker);
+                input.bind("click.timepicker", this._adjustZIndex);
             }
             if (showOn == 'button' || showOn == 'both') { // pop-up time picker when 'button' element is clicked
                 var button = this._get(inst, 'button');
@@ -303,12 +306,19 @@
             inst.tpDiv.show();
         },
 
+        _adjustZIndex: function(input) {
+            input = input.target || input;
+            var inst = $.timepicker._getInst(input);
+            inst.tpDiv.css('zIndex', $.timepicker._getZIndex(input) +1);
+        },
+
         /* Pop-up the time picker for a given input field.
         @param  input  element - the input field attached to the time picker or
         event - if triggered by focus */
         _showTimepicker: function (input) {
             input = input.target || input;
             if (input.nodeName.toLowerCase() != 'input') { input = $('input', input.parentNode)[0]; } // find from button/image trigger
+
             if ($.timepicker._isDisabledTimepicker(input) || $.timepicker._lastInput == input) { return; } // already here
 
             // fix v 0.0.8 - close current timepicker before showing another one
@@ -389,7 +399,8 @@
                 };
 
                 // Fixed the zIndex problem for real (I hope) - FG - v 0.2.9
-                inst.tpDiv.css('zIndex', $.timepicker._getZIndex(input) +1);
+                $.timepicker._adjustZIndex(input);
+                //inst.tpDiv.css('zIndex', $.timepicker._getZIndex(input) +1);
 
                 if ($.effects && $.effects[showAnim]) {
                     inst.tpDiv.show(showAnim, $.timepicker._get(inst, 'showOptions'), duration, postProcess);

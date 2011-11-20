@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Around the world, around the world -->
+    <!-- Around the world, around the world -->
+    <!-- Around the world, around the world -->
+    <!-- Around the world, around the world -->
+
 	<meta charset="utf-8">
 	<title>Internationalisation page for the jquery ui timepicker</title>
 
@@ -14,7 +19,7 @@
     <style>
         #timepicker { font-size: 10px }
     </style>
-
+    <script src='jquery.ui.timepicker-cs.js'></script>
     <script src='jquery.ui.timepicker-de.js'></script>
     <script src='jquery.ui.timepicker-fr.js'></script>
     <script src='jquery.ui.timepicker-it.js'></script>
@@ -35,22 +40,28 @@
                 showDeselectButton: true
             });
 
-            $('#locale').change(function() {
-                $('#timepicker').timepicker( "option",
-                				$.timepicker.regional[ $( this ).val() ] );
-            });
+            $('#locale').change(updateLocale).keyup(updateLocale);
+
         });
+
+        function updateLocale()
+        {
+            $('#timepicker').timepicker( "option",
+                        				$.timepicker.regional[ $( '#locale' ).val() ] );
+        }
+
     </script>
 
     Select a localisation :
     <select id='locale'>
         <option>Select a localisation</option>
-        <option value='fr'>Fran&ccedil;ais</option>
+        <option value='cs'>Czech</option>
         <option value='de'>Deutsch</option>
-        <option value='id'>Italian</option>
+        <option value='fr'>Fran&ccedil;ais</option>
+        <option value='it'>Italian</option>
+        <option value='ja'>Japanese</option>
         <option value='pl'>Polish</option>
         <option value='sl'>Slovenian</option>
-        <option value='ja'>Japanese</option>
     </select>
 
     <br>
@@ -63,6 +74,10 @@
 
     List of localisations : 
 <ul>
+    <li>
+        <a href="jquery.ui.timepicker-cs.js">Czech (jquery.ui.timepicker-cs.js</a>
+    </li>
+
     <li>
         <a href="jquery.ui.timepicker-de.js">Deutsch (jquery.ui.timepicker-de.js</a>
     </li>

@@ -816,6 +816,9 @@
             else if (nodeName == 'div' || nodeName == 'span') {
                 var inline = $target.children('.' + this._inlineClass);
                 inline.children().removeClass('ui-state-disabled');
+                inline.find('button').each(
+                    function() { this.disabled = false }
+                )
             }
             this._disabledInputs = $.map(this._disabledInputs,
                 function(value) { return (value == target_id ? null : value); }); // delete entry
@@ -840,6 +843,10 @@
             else if (nodeName == 'div' || nodeName == 'span') {
                 var inline = $target.children('.' + this._inlineClass);
                 inline.children().addClass('ui-state-disabled');
+                inline.find('button').each(
+                    function() { this.disabled = true }
+                )
+
             }
             this._disabledInputs = $.map(this._disabledInputs,
                 function(value) { return (value == target ? null : value); }); // delete entry

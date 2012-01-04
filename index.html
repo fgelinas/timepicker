@@ -626,7 +626,11 @@ function tpEndOnMinuteShowCallback(hour, minute) {
         
         <script type="text/javascript">
             $(document).ready(function() {
-                $('#timepicker_disable_inline').timepicker();
+                $('#timepicker_disable_inline').timepicker({
+					showNowButton: true,
+				    showCloseButton: true,
+	    			showDeselectButton: true
+				});
                 $('#timepicker_disable').timepicker({showLeadingZero: false });
                 $('#btn_disable_tp').click(function() {
                     $('#timepicker_disable_inline').timepicker('disable');

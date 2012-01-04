@@ -279,8 +279,11 @@
             if (showOn == 'button' || showOn == 'both') { // pop-up time picker when 'button' element is clicked
                 var button = this._get(inst, 'button');
                 $(button).bind("click.timepicker", function () {
-                    if ($.timepicker._timepickerShowing && $.timepicker._lastInput == input[0]) { $.timepicker._hideTimepicker(); }
-                    else { $.timepicker._showTimepicker(input[0]); }
+                    if ($.timepicker._timepickerShowing && $.timepicker._lastInput == input[0]) {
+                        $.timepicker._hideTimepicker();
+                    } else if (!inst.input.is(':disabled')) {
+                        $.timepicker._showTimepicker(input[0]);
+                    }
                     return false;
                 });
 
@@ -810,6 +813,8 @@
             var nodeName = target.nodeName.toLowerCase();
             if (nodeName == 'input') {
                 target.disabled = false;
+                var button = this._get(inst, 'button');
+                $(button).removeClass('ui-state-disabled').disabled = false;
                 inst.trigger.filter('button').
                     each(function() { this.disabled = false; }).end();
             }
@@ -834,6 +839,9 @@
             }
             var nodeName = target.nodeName.toLowerCase();
             if (nodeName == 'input') {
+                var button = this._get(inst, 'button');
+
+                $(button).addClass('ui-state-disabled').disabled = true;
                 target.disabled = true;
 
                 inst.trigger.filter('button').

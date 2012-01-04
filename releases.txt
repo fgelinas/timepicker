@@ -3,6 +3,8 @@ Fixed a zIndex problem in jQuery Dialog when the user clicked on the input while
 Added Czech translation, thanks David Spohr
 Added Swedish translation, thanks Björn Westlin
 Added Dutch translation, thanks Lowie Hulzinga
+Prevent showing the timepicker dialog with the button when disabled(Thanks ruhley. ref #38)
+Add ui-state-disabled class to button trigger when disabled.
 
 
 Release 0.2.9 - November 13, 2011

@@ -616,6 +616,8 @@ function tpEndOnMinuteShowCallback(hour, minute) {
         <br />
         <div id="timepicker_disable_inline" style="font-size: 10px; float: left;"></div>
         <input type="text" style="width: 70px" id="timepicker_disable" value="9:15" />
+		<div class="timepicker_disable_button_trigger" style="width: 16px; height:16px; background: url(include/ui-lightness/images/ui-icons_222222_256x240.png) -80px, -96px;
+		                    display: inline-block; border-radius: 2px; border: 1px solid #222222; margin-top: 3px; cursor:pointer"></div>
         <br />
         <button id="btn_disable_tp">Disable the time pickers</button>
         <br />
@@ -631,7 +633,11 @@ function tpEndOnMinuteShowCallback(hour, minute) {
 				    showCloseButton: true,
 	    			showDeselectButton: true
 				});
-                $('#timepicker_disable').timepicker({showLeadingZero: false });
+                $('#timepicker_disable').timepicker({
+					showLeadingZero: false,
+					showOn: 'both',
+     				button: '.timepicker_disable_button_trigger'
+				});
                 $('#btn_disable_tp').click(function() {
                     $('#timepicker_disable_inline').timepicker('disable');
                     $('#timepicker_disable').timepicker('disable');
@@ -787,6 +793,8 @@ $('#btn_enable_tp').click(function() {
             <dd>Added Czech translation, thanks David Spohr</dd>
             <dd>Added Swedish translation, thanks Björn Westlin</dd>
 			<dd>Added Dutch translation, thanks Lowie Hulzinga</dd>
+			<dd>Prevent showing the timepicker dialog with the button when disabled(Thanks ruhley. ref #38)</dd>
+			<dd>Add ui-state-disabled class to button trigger when disabled.</dd>
 
             <dt>Release 0.2.9 - November 13, 2011</dt>
             <dd>Fixed the zIndex problem and removed the zIndex option (Thanks everyone who reported the problem)</dd>

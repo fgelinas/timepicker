@@ -5,7 +5,7 @@ Added Swedish translation, thanks Björn Westlin
 Added Dutch translation, thanks Lowie Hulzinga
 Prevent showing the timepicker dialog with the button when disabled(Thanks ruhley. ref #38)
 Add ui-state-disabled class to button trigger when disabled.
-
+Fixed onClose function on first time passes the hours variable as string (Thanks Zanisimo, ref #39)
 
 Release 0.2.9 - November 13, 2011
 Fixed the zIndex problem and removed the zIndex option (Thanks everyone who reported the problem)

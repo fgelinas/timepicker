@@ -1161,7 +1161,7 @@
         selectHours: function (event) {
             var $td = $(event.currentTarget),
                 id = $td.attr("data-timepicker-instance-id"),
-                newHours = $td.attr("data-hour"),
+                newHours = parseInt($td.attr("data-hour")),
                 fromDoubleClick = event.data.fromDoubleClick,
                 $target = $(id),
                 inst = this._getInst($target[0]),
@@ -1194,7 +1194,7 @@
         selectMinutes: function (event) {
             var $td = $(event.currentTarget),
                 id = $td.attr("data-timepicker-instance-id"),
-                newMinutes = $td.attr("data-minute"),
+                newMinutes = parseInt($td.attr("data-minute")),
                 fromDoubleClick = event.data.fromDoubleClick,
                 $target = $(id),
                 inst = this._getInst($target[0]),

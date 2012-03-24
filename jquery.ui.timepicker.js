@@ -38,12 +38,12 @@
                              ->T-Rex<-
 */
 
-(function ($, undefined) {
+(function ($) {
 
     $.extend($.ui, { timepicker: { version: "0.2.9"} });
 
-    var PROP_NAME = 'timepicker';
-    var tpuuid = new Date().getTime();
+    var PROP_NAME = 'timepicker',
+        tpuuid = new Date().getTime();
 
     /* Time picker manager.
     Use the singleton instance of this class, $.timepicker, to interact with the time picker.
@@ -53,7 +53,6 @@
     function Timepicker() {
         this.debug = true; // Change this to true to start debugging
         this._curInst = null; // The current instance in use
-        this._isInline = false; // true if the instance is displayed inline
         this._disabledInputs = []; // List of time picker inputs that have been disabled
         this._timepickerShowing = false; // True if the popup picker is showing , false if not
         this._inDialog = false; // True if showing within a "dialog", false if not
@@ -432,6 +431,16 @@
                 elem = elem.parent();
             }
         },
+
+        /* Refresh the time picker
+           @param   target  element - The target input field or inline container element. */
+        _refreshTimepicker: function(target) {
+            var inst = this._getInst(target);
+            if (inst) {
+                this._updateTimepicker(inst);
+            }
+        },
+
 
         /* Generate the time picker content. */
         _updateTimepicker: function (inst) {
@@ -1334,6 +1343,8 @@
 			find('body').append($.timepicker.tpDiv);
             $.timepicker.initialized = true;
         }
+
+
 
         var otherArgs = Array.prototype.slice.call(arguments, 1);
         if (typeof options == 'string' && (options == 'getTime' || options == 'getHour' || options == 'getMinute' ))

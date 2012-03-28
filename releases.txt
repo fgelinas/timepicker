@@ -1,4 +1,4 @@
-Release 0.3.0 - ???
+Release 0.3.0 - 27 March 2012
 Fixed a zIndex problem in jQuery Dialog when the user clicked on the input while the timepicker was still visible.
 Added Czech translation, thanks David Spohr
 Added Swedish translation, thanks Björn Westlin

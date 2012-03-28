@@ -490,7 +490,7 @@
 			.find('.' + this._dayOverClass + ' a')
 				.trigger('mouseover')
 			.end()
-            .find('.ui-timepicker-now').bind("click",function(e) {
+            .find('.ui-timepicker-now').bind("click", function(e) {
                     $.timepicker.selectNow(e);
             }).end()
             .find('.ui-timepicker-deselect').bind("click",function(e) {
@@ -1141,12 +1141,10 @@
             return retVal;
         },
 
-        selectNow: function(e) {
-
-            var id = $(e.target).attr("data-timepicker-instance-id"),
+        selectNow: function(event) {
+            var id = $(event.target).attr("data-timepicker-instance-id"),
                 $target = $(id),
                 inst = this._getInst($target[0]);
-
             //if (!inst || (input && inst != $.data(input, PROP_NAME))) { return; }
             var currentTime = new Date();
             inst.hours = currentTime.getHours();
@@ -1156,7 +1154,7 @@
             this._hideTimepicker();
         },
 
-        deselectTime: function(e) {
+        deselectTime: function(event) {
             var id = $(e.target).attr("data-timepicker-instance-id"),
                 $target = $(id),
                 inst = this._getInst($target[0]);

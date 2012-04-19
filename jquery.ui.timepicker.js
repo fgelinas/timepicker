@@ -1246,8 +1246,10 @@
                 return '';
             }
 
-            if ((inst.hours < 0) || (inst.hours > 23)) { inst.hours = 12; }
-            if ((inst.minutes < 0) || (inst.minutes > 59)) { inst.minutes = 0; }
+            // default to 0 AM if hours is not valid
+            if ((inst.hours < inst.hours.starts) || (inst.hours > inst.hours.ends )) { inst.hours = 0; }
+            // default to 0 minutes if minute is not valid
+            if ((inst.minutes < inst.minutes.starts) || (inst.minutes > inst.minutes.ends)) { inst.minutes = 0; }
 
             var period = "",
                 showPeriod = (this._get(inst, 'showPeriod') == true),

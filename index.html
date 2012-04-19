@@ -361,6 +361,36 @@ $('#timepicker_minutes').timepicker({
     showHours: false
 });</pre>
 
+        <br>
+
+        Another hour input example arbitrary number of hours, ex: select between 10 and 40 hours
+        <input type="text" style="width: 70px" id="timepicker_hours_2" value="120">
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $('#timepicker_hours_2').timepicker({
+                    hours: {
+                            starts: 10,
+                            ends: 40
+                    },
+                    rows: 8,
+                    showPeriodLabels: false,
+                    showPeriod: false,
+                    showMinutes: false
+                });
+            })
+        </script>
+        <a onclick="$('#script_hours_2').toggle(200)">[Show code]</a>
+        <pre id="script_hours_2" style="display: none" class="code">$('#timepicker_hours_2').timepicker({
+    hours: {
+        starts: 10,
+        ends: 40
+    },
+    rows: 8,
+    showPeriodLabels: false,
+    showPeriod: false,
+    showMinutes: false
+});</pre>
+
     </div>
 
 

@@ -1155,7 +1155,7 @@
         },
 
         deselectTime: function(event) {
-            var id = $(e.target).attr("data-timepicker-instance-id"),
+            var id = $(event.target).attr("data-timepicker-instance-id"),
                 $target = $(id),
                 inst = this._getInst($target[0]);
             inst.hours = -1;

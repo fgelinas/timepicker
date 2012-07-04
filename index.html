@@ -561,6 +561,8 @@ function getHourMinute() {
 
             function tpStartOnHourShowCallback(hour) {
                 var tpEndHour = $('#timepicker_end').timepicker('getHour');
+                // all valid if no end time selected
+                if ($('#timepicker_end').val() == '') { return true; }
                 // Check if proposed hour is prior or equal to selected end time hour
                 if (hour <= tpEndHour) { return true; }
                 // if hour did not match, it can not be selected
@@ -569,6 +571,8 @@ function getHourMinute() {
             function tpStartOnMinuteShowCallback(hour, minute) {
                 var tpEndHour = $('#timepicker_end').timepicker('getHour');
                 var tpEndMinute = $('#timepicker_end').timepicker('getMinute');
+                // all valid if no end time selected
+                if ($('#timepicker_end').val() == '') { return true; }
                 // Check if proposed hour is prior to selected end time hour
                 if (hour < tpEndHour) { return true; }
                 // Check if proposed hour is equal to selected end time hour and minutes is prior
@@ -579,6 +583,8 @@ function getHourMinute() {
 
             function tpEndOnHourShowCallback(hour) {
                 var tpStartHour = $('#timepicker_start').timepicker('getHour');
+                // all valid if no start time selected
+                if ($('#timepicker_start').val() == '') { return true; }
                 // Check if proposed hour is after or equal to selected start time hour
                 if (hour >= tpStartHour) { return true; }
                 // if hour did not match, it can not be selected
@@ -587,6 +593,8 @@ function getHourMinute() {
             function tpEndOnMinuteShowCallback(hour, minute) {
                 var tpStartHour = $('#timepicker_start').timepicker('getHour');
                 var tpStartMinute = $('#timepicker_start').timepicker('getMinute');
+                // all valid if no start time selected
+                if ($('#timepicker_start').val() == '') { return true; }
                 // Check if proposed hour is after selected start time hour
                 if (hour > tpStartHour) { return true; }
                 // Check if proposed hour is equal to selected start time hour and minutes is after

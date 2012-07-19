@@ -4,7 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
     <title>jQuery UI Time Picker by Francois Gelinas</title>
     <link rel="stylesheet" href="include/jquery-ui-1.8.14.custom.css" type="text/css" />
-    <link rel="stylesheet" href="jquery.ui.timepicker.css?v=0.3.0" type="text/css" />
+    <link rel="stylesheet" href="jquery.ui.timepicker.css?v=0.3.1" type="text/css" />
 
 <!-- uncomment to test with legacy jquery -->
 <!--
@@ -19,7 +19,7 @@
     <script type="text/javascript" src="include/jquery.ui.tabs.min.js"></script>
     <script type="text/javascript" src="include/jquery.ui.position.min.js"></script>
 
-    <script type="text/javascript" src="jquery.ui.timepicker.js?v=0.3.0"></script>
+    <script type="text/javascript" src="jquery.ui.timepicker.js?v=0.3.1"></script>
 
     <script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
     <style type="text/css">
@@ -119,7 +119,7 @@
         <li><a href="#usage">Usage</a></li>
         <li><a href="#requirements">Requirements</a></li>
         <li><a href="#release_notes">Release notes</a></li>
-        <li><a href="#get_timepicker">Get Timepicker version 0.3.0</a></li>
+        <li><a href="#get_timepicker">Get Timepicker version 0.3.1</a></li>
     </ul>
 
     <div id="examples">
@@ -823,13 +823,13 @@ $('#btn_enable_tp').click(function() {
             </li>
 
             <li>
-                <a href="jquery.ui.timepicker.js?v=0.3.0">
+                <a href="jquery.ui.timepicker.js?v=0.3.1">
                     jquery.ui.timepicker.js
                 </a>
             </li>
 
             <li>
-                <a href="jquery.ui.timepicker.css?v=0.3.0">
+                <a href="jquery.ui.timepicker.css?v=0.3.1">
                     jquery.ui.timepicker.css
                 </a>
             </li>
@@ -847,10 +847,13 @@ $('#btn_enable_tp').click(function() {
         <h2>Releases :</h2>
         <dl>
 
-            <dt>??? - ???</dt>
-            <dd>Added Croatian/Bosnian translation, thanks Rene Brakus</dd>
-            <dd>Added Portuguese/Brazilan tranlsation, thanks Daniel Almeida</dd>
-            <dd>Added Spanish tranlsation, thanks Jandro González</dd>
+            <dt>0.3.1 - 19 July 2012<dt>
+            <dd>Fixed a bug in the deselect function, thanks Kazu.</dd>
+            <dd>Allow for hours and minutes outside normal time range (0-23, 0-59) for more flexibility.</dd>
+            <dd>Fixed a bug with the onClose callback that could generate an infinite loop.</dd>
+            <dd>Added Croatian/Bosnian translation, thanks Rene Brakus.</dd>
+            <dd>Added Portuguese/Brazilan tranlsation, thanks Daniel Almeida.</dd>
+            <dd>Added Spanish tranlsation, thanks Jandro González.</dd>
 
 
             <dt>Release 0.3.0 - 27 March 2012</dt>
@@ -984,7 +987,7 @@ $('#btn_enable_tp').click(function() {
         <h2>Download Timepicker</h2>
 
         <p>
-            Current version : 0.3.0 - released 27 march 2012
+            Current version : 0.3.1 - released 19 July 2012
         </p>
 
         <p>
@@ -992,7 +995,7 @@ $('#btn_enable_tp').click(function() {
         </p>
 
         <p>
-            <a href="releases/jquery-ui-timepicker-0.3.0.zip">Download from here (.zip)</a>
+            <a href="releases/jquery-ui-timepicker-0.3.1.zip">Download from here (.zip)</a>
         </p>
 
         <hr >

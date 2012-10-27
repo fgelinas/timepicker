@@ -1266,6 +1266,15 @@
         /* this function process selected time and return it parsed according to instance options */
         _getParsedTime: function(inst) {
 
+            if (inst.hours == -1 && inst.minutes == -1) {
+                return '';
+            }
+
+            // default to 0 AM if hours is not valid
+            if ((inst.hours < inst.hours.starts) || (inst.hours > inst.hours.ends )) { inst.hours = 0; }
+            // default to 0 minutes if minute is not valid
+            if ((inst.minutes < inst.minutes.starts) || (inst.minutes > inst.minutes.ends)) { inst.minutes = 0; }
+
             var period = "",
                 showPeriod = (this._get(inst, 'showPeriod') == true),
                 showLeadingZero = (this._get(inst, 'showLeadingZero') == true),
@@ -1278,9 +1287,9 @@
                 displayHours = selectedHours ? selectedHours : 0,
                 parsedTime = '';
 
-            // changed version 0.3.2 - If either hours or minutes is required and missing, time will not be parsed
-            if (showHours && inst.hours == -1) { return '' }
-            if (showMinutes && inst.minutes == -1) { return '' }
+            // fix some display problem when hours or minutes are not selected yet
+            if (displayHours == -1) { displayHours = 0 }
+            if (selectedMinutes == -1) { selectedMinutes = 0 }
 
             if (showPeriod) { 
                 if (inst.hours == 0) {

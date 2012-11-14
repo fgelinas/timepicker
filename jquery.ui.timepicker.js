@@ -598,8 +598,8 @@
                     }
                     html += '</tr>';
                 }
-                html += '</tr></table>' + // Close the hours cells table
-                        '</td>';          // Close the Hour td
+                html += '</table>' + // Close the hours cells table
+                        '</td>'; // Close the Hour td
             }
 
             if (showMinutes) {

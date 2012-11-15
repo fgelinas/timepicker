@@ -23,7 +23,7 @@ There is a legacy version of the plugin made to work with older jQuery 1.2.6 and
 
 Licenses
 --------
-The plugin is licensed under the [MIT](MIT-LICENSE.txt) and [GPL](GPL-LICENSE.txt) licenses.
+The plugin is licensed under the [MIT](https://github.com/fgelinas/timepicker/blob/master/MIT-LICENSE.txt) and [GPL](https://github.com/fgelinas/timepicker/blob/master/GPL-LICENSE.txt) licenses.
 
 Other Stuff
 -----------

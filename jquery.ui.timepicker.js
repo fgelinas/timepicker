@@ -1100,11 +1100,16 @@
         _setTime: function(inst, time, noChange) {
             var origHours = inst.hours;
             var origMinutes = inst.minutes;
-            var time = this.parseTime(inst, time);
-            inst.hours = time.hours;
-            inst.minutes = time.minutes;
+            if (time instanceof Date) {
+                inst.hours = time.getHours();
+                inst.minutes = time.getMinutes();
+            } else {
+                var time = this.parseTime(inst, time);
+                inst.hours = time.hours;
+                inst.minutes = time.minutes;
+            }
 
-            if ((origHours != inst.hours || origMinutes != inst.minuts) && !noChange) {
+            if ((origHours != inst.hours || origMinutes != inst.minutes) && !noChange) {
                 inst.input.trigger('change');
             }
             this._updateTimepicker(inst);
@@ -1338,6 +1343,19 @@
             }
         },
 
+        _getTimeAsDateTimepicker: function(input) {
+            var inst = this._getInst(input);
+            if (inst.hours == -1 && inst.minutes == -1) {
+                return '';
+            }
+
+            // default to 0 AM if hours is not valid
+            if ((inst.hours < inst.hours.starts) || (inst.hours > inst.hours.ends )) { inst.hours = 0; }
+            // default to 0 minutes if minute is not valid
+            if ((inst.minutes < inst.minutes.starts) || (inst.minutes > inst.minutes.ends)) { inst.minutes = 0; }
+
+            return new Date(0, 0, 0, inst.hours, inst.minutes, 0);
+        },
         /* This might look unused but it's called by the $.fn.timepicker function with param getTime */
         /* added v 0.2.3 - gitHub issue #5 - Thanks edanuff */
         _getTimeTimepicker : function(input) {
@@ -1375,7 +1393,7 @@
 
 
         var otherArgs = Array.prototype.slice.call(arguments, 1);
-        if (typeof options == 'string' && (options == 'getTime' || options == 'getHour' || options == 'getMinute' ))
+        if (typeof options == 'string' && (options == 'getTime' || options == 'getTimeAsDate' || options == 'getHour' || options == 'getMinute' ))
             return $.timepicker['_' + options + 'Timepicker'].
 			    apply($.timepicker, [this[0]].concat(otherArgs));
         if (options == 'option' && arguments.length == 2 && typeof arguments[1] == 'string')

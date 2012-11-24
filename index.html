@@ -476,7 +476,7 @@ $('#timepicker').timepicker({
 
     <div>
 
-        <div style="float: left">
+        <div style="float: left; width: 400px;">
             Inline time picker :
             <span style="color: #888;">
                 Alternate field :
@@ -670,58 +670,122 @@ function tpEndOnMinuteShowCallback(hour, minute) {
 
 
 
+
+
+
+    <hr />
+
+      <div>
+          Example to disable and re-enable a timepicker.
+
+          <br />
+
+          <div style="float:left; width: 400px">
+
+            <input type="text" style="width: 70px" id="timepicker_disable" value="9:15" />
+  		    <div class="timepicker_disable_button_trigger" style="width: 16px; height:16px; background: url(include/ui-lightness/images/ui-icons_222222_256x240.png) -80px, -96px;
+  		                    display: inline-block; border-radius: 2px; border: 1px solid #222222; margin-top: 3px; cursor:pointer"></div>
+            <br />
+            <button id="btn_disable_tp">Disable the time pickers</button>
+            <br />
+            <button id="btn_enable_tp">Re-enable the time pickers</button>
+            <br />
+            <a onclick="$('#script_tp_disable').toggle(200); return false;">[Show code]</a>
+          </div>
+
+          <div id="timepicker_disable_inline" style="font-size: 10px;"></div>
+          <div style="clear: both"></div>
+
+          <script type="text/javascript">
+              $(document).ready(function() {
+                  $('#timepicker_disable_inline').timepicker({
+  					showNowButton: true,
+  				    showCloseButton: true,
+  	    			showDeselectButton: true
+  				});
+                  $('#timepicker_disable').timepicker({
+  					showLeadingZero: false,
+  					showOn: 'both',
+       				button: '.timepicker_disable_button_trigger'
+  				});
+                  $('#btn_disable_tp').click(function() {
+                      $('#timepicker_disable_inline').timepicker('disable');
+                      $('#timepicker_disable').timepicker('disable');
+                  });
+                  $('#btn_enable_tp').click(function() {
+                      $('#timepicker_disable_inline').timepicker('enable');
+                      $('#timepicker_disable').timepicker('enable');
+                  });
+              });
+          </script>
+  <pre class="code" style="display: none" id="script_tp_disable">
+  $('#timepicker_disable_inline').timepicker();
+  $('#timepicker_disable').timepicker({showLeadingZero: false });
+  $('#btn_disable_tp').click(function() {
+      $('#timepicker_disable_inline').timepicker('disable');
+      $('#timepicker_disable').timepicker('disable');
+  });
+  $('#btn_enable_tp').click(function() {
+      $('#timepicker_disable_inline').timepicker('enable');
+      $('#timepicker_disable').timepicker('enable');
+  });
+  </pre>
+      </div>
+
+
+
+
     <hr />
 
     <div>
-        Example to disable and re-enable a timepicker.
+        Set the timepicker date with a Date object and get the selected time as a Date object
         <br />
-        <div id="timepicker_disable_inline" style="font-size: 10px; float: left;"></div>
-        <input type="text" style="width: 70px" id="timepicker_disable" value="9:15" />
-		<div class="timepicker_disable_button_trigger" style="width: 16px; height:16px; background: url(include/ui-lightness/images/ui-icons_222222_256x240.png) -80px, -96px;
-		                    display: inline-block; border-radius: 2px; border: 1px solid #222222; margin-top: 3px; cursor:pointer"></div>
-        <br />
-        <button id="btn_disable_tp">Disable the time pickers</button>
-        <br />
-        <button id="btn_enable_tp">Re-enable the time pickers</button>
-        <br />
-        <a onclick="$('#script_tp_disable').toggle(200); return false;">[Show code]</a>
+        <div style="float: left; width: 400px;">
+            <button id="btn_set_time_with_date_obj"> Set the time to now using the Date object </button>
+            <br>
+            <button id="btn_get_time_as_date"> Get selected time as Date object </button>
+            <br>
+            <span id="timepicker_selected_time"></span>
+            <br>
+            <span id="timepicker_selected_time_warning">Also, note that in the returned date object, the time is correct but the yeat/month/day part of the date is wrong, you have to extract the time of the object.</span>
+            <br>
+            <a onclick="$('#script_tp_date_obj').toggle(200); return false;">[Show code]</a>
+        </div>
+        <div id="timepicker_date_obj_inline" style="font-size: 10px;"></div>
         <div style="clear: both"></div>
-        
+
         <script type="text/javascript">
             $(document).ready(function() {
-                $('#timepicker_disable_inline').timepicker({
-					showNowButton: true,
-				    showCloseButton: true,
-	    			showDeselectButton: true
-				});
-                $('#timepicker_disable').timepicker({
-					showLeadingZero: false,
-					showOn: 'both',
-     				button: '.timepicker_disable_button_trigger'
-				});
-                $('#btn_disable_tp').click(function() {
-                    $('#timepicker_disable_inline').timepicker('disable');
-                    $('#timepicker_disable').timepicker('disable');
+                $('#timepicker_date_obj_inline').timepicker();
+
+                $('#btn_set_time_with_date_obj').click(function() {
+                    var newTime =  new Date('2012-11-24 7:10');
+                    console.log(newTime);
+                    $('#timepicker_date_obj_inline').timepicker('setTime', newTime);
                 });
-                $('#btn_enable_tp').click(function() {
-                    $('#timepicker_disable_inline').timepicker('enable');
-                    $('#timepicker_disable').timepicker('enable');
+                $('#btn_get_time_as_date').click(function() {
+                    var selectedTime =  $('#timepicker_date_obj_inline').timepicker('getTimeAsDate');
+                    $('#timepicker_selected_time').html('Selected time as date object returned : ' + selectedTime.toString());
                 });
             });
         </script>
-<pre class="code" style="display: none" id="script_tp_disable">
-$('#timepicker_disable_inline').timepicker();
-$('#timepicker_disable').timepicker({showLeadingZero: false });
-$('#btn_disable_tp').click(function() {
-    $('#timepicker_disable_inline').timepicker('disable');
-    $('#timepicker_disable').timepicker('disable');
-});
-$('#btn_enable_tp').click(function() {
-    $('#timepicker_disable_inline').timepicker('enable');
-    $('#timepicker_disable').timepicker('enable');
+<pre class="code" style="display: none" id="script_tp_date_obj">
+    $('#timepicker_date_obj_inline').timepicker();
+
+    $('#btn_set_time_with_date_obj').click(function() {
+        var newTime = new Date('2012-11-24 7:10');
+        $('#timepicker_date_obj_inline').timepicker('setTime', newTime);
+    });
+    $('#btn_get_time_as_date').click(function() {
+        var selectedTime =  $('#timepicker_date_obj_inline').timepicker('getTimeAsDate');
+        $('#timepicker_selected_time').html('Selected time as date object returned : ' + selectedTime.toString());
+    });
 });
 </pre>
     </div>
+
+
+
 
 
     </div>
@@ -848,6 +912,9 @@ $('#btn_enable_tp').click(function() {
 
         <h2>Releases :</h2>
         <dl>
+
+            <dt>0.3.2 - ???</dt>
+            <dd>Added support for Date object with the setTime and getTimeAsDate function - thanks AAverin</dd>
 
             <dt>0.3.1 - 19 July 2012<dt>
             <dd>Added the "destroy" method.</dd>

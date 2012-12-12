@@ -553,7 +553,7 @@
                 amRows = Math.floor(amItems / hours.length * rows);
                 pmRows = Math.floor(pmItems / hours.length * rows);
 
-                // assign the extra row to the period that is more densly populated
+                // assign the extra row to the period that is more densely populated
                 if (rows != amRows + pmRows) {
                     // Make sure: AM Has Items and either PM Does Not, AM has no rows yet, or AM is more dense
                     if (amItems && (!pmItems || !amRows || (pmRows && amItems / amRows >= pmItems / pmRows))) {
@@ -564,7 +564,14 @@
                 }
                 amFirstRow = Math.min(amRows, 1);
                 pmFirstRow = amRows + 1;
-                hoursPerRow = Math.ceil(Math.max(amItems / amRows, pmItems / pmRows));
+
+                if (amRows == 0) {
+                    hoursPerRow = Math.ceil(pmItems / pmRows);
+                } else if (pmRows == 0) {
+                    hoursPerRow = Math.ceil(amItems / amRows);
+                } else {
+                    hoursPerRow = Math.ceil(Math.max(amItems / amRows, pmItems / pmRows));
+                }
             }
 
 

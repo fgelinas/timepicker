@@ -1140,6 +1140,9 @@
             var retVal = new Object();
             retVal.hours = -1;
             retVal.minutes = -1;
+            
+            if(!timeVal)
+                return '';
 
             var timeSeparator = this._get(inst, 'timeSeparator'),
                 amPmText = this._get(inst, 'amPmText'),

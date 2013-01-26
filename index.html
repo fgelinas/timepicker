@@ -3,14 +3,14 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
     <title>jQuery UI Time Picker by Francois Gelinas</title>
-    <link rel="stylesheet" href="include/ui-1.9.2/ui-lightness/jquery-ui-1.9.2.custom.min.css" type="text/css" />
+    <link rel="stylesheet" href="include/ui-1.10.0/ui-lightness/jquery-ui-1.10.0.custom.min.css" type="text/css" />
     <link rel="stylesheet" href="jquery.ui.timepicker.css?v=0.3.1" type="text/css" />
 
-    <script type="text/javascript" src="include/jquery-1.8.3.min.js"></script>
-    <script type="text/javascript" src="include/ui-1.9.2/jquery.ui.core.min.js"></script>
-    <script type="text/javascript" src="include/ui-1.9.2/jquery.ui.widget.min.js"></script>
-    <script type="text/javascript" src="include/ui-1.9.2/jquery.ui.tabs.min.js"></script>
-    <script type="text/javascript" src="include/ui-1.9.2/jquery.ui.position.min.js"></script>
+    <script type="text/javascript" src="include/jquery-1.9.0.min.js"></script>
+    <script type="text/javascript" src="include/ui-1.10.0/jquery.ui.core.min.js"></script>
+    <script type="text/javascript" src="include/ui-1.10.0/jquery.ui.widget.min.js"></script>
+    <script type="text/javascript" src="include/ui-1.10.0/jquery.ui.tabs.min.js"></script>
+    <script type="text/javascript" src="include/ui-1.10.0/jquery.ui.position.min.js"></script>
 
     <script type="text/javascript" src="jquery.ui.timepicker.js?v=0.3.1"></script>
 
@@ -22,7 +22,6 @@
                    font-family: "Lucida Sans Unicode", "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
                    width: 950px; margin: auto;
         }
-        .box { border: 1px solid #888; padding: 15px; margin:12px; }
         .code { margin: 6px; padding: 9px; background-color: #fdf5ce; border: 1px solid #c77405; }
         fieldset { padding: 0.5em 2em }
         hr { margin: 0.5em 0; clear: both }
@@ -73,7 +72,7 @@
                <input type="hidden" name="cmd" value="_s-xclick">
                <input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----
                ">
-               <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+               <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" name="submit" alt="PayPal - The safer, easier way to pay online!">
                <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
             <br>
             aka beer!
@@ -119,7 +118,7 @@
 
     <div id="examples">
     <div>
-        Default time picker :
+        <label for="timepicker.[1]">Default time picker :</label>
         <input type="text" style="width: 70px;" id="timepicker.[1]" value="" />
         <script type="text/javascript">
             $(document).ready(function() {
@@ -137,7 +136,7 @@
     <hr />
 
     <div>
-        Time picker with period (AM/PM) in input and with hours leading 0s :
+        <label for="timepicker_6">Time picker with period (AM/PM) in input and with hours leading 0s :</label>
         <input type="text" style="width: 70px;" id="timepicker_6" value="01:30 PM" />
         <script type="text/javascript">
             $(document).ready(function() {
@@ -158,7 +157,7 @@
     <hr />
 
     <div>
-        Time picker with buttons and labels in another language (Fran&ccedil;ais) :
+        <label for="timepicker_locale">Time picker with buttons and labels in another language (Fran&ccedil;ais) :</label>
         <input type="text" style="width: 70px;" id="timepicker_locale" value="13h30" />
         <br>
         See the <a href="i18n/i18n.html">internationalisation page</a> for more information and details.
@@ -198,7 +197,7 @@
     <hr />
 
     <div>
-        Time picker with restricted (disabled) hours / minutes. 8:30 PM to 6:30 AM disabled :
+        <label for="timepicker_7">Time picker with restricted (disabled) hours / minutes. 8:30 PM to 6:30 AM disabled :</label>
         <input type="text" style="width: 70px" id="timepicker_7" value="01:30 PM" />
 
         <script type="text/javascript">
@@ -244,10 +243,10 @@ function OnMinuteShowCallback(hour, minute) {
     <hr />
 
     <div>
-        Define when the time picker is shown with the <kbd>showOn</kbd> option and set a trigger element with the <kbd>button</kbd> option
+        <label for="timepicker_showon">Define when the time picker is shown with the <kbd>showOn</kbd> option and set a trigger element with the <kbd>button</kbd> option</label>
         <input type="text" style="width: 70px;" id="timepicker_showon" value="13h30" />
         <div class='timepicker_button_trigger'
-             style="width: 16px; height:16px; background: url(include/ui-lightness/images/ui-icons_222222_256x240.png) -80px, -96px;
+             style="width: 16px; height:16px; background: url(include/ui-1.10.0/ui-lightness/images/ui-icons_222222_256x240.png) -80px, -96px;
                     display: inline-block; border-radius: 2px; border: 1px solid #222222; margin-top: 3px; cursor:pointer"></div>
         <button class='timepicker_button_trigger' id="btn_trigger_timepicker">Show</button>
 
@@ -277,7 +276,7 @@ function OnMinuteShowCallback(hour, minute) {
     <hr />
 
     <div>
-        Time picker without the AM/PM labels on the left (showPeriodLabels option set to false:
+        <label for="timepicker_noPeriodLabels">Time picker without the AM/PM labels on the left (showPeriodLabels option set to false:</label>
         <input type="text" style="width: 70px;" id="timepicker_noPeriodLabels" value="13:30" />
 
         <script type="text/javascript">
@@ -301,7 +300,7 @@ function OnMinuteShowCallback(hour, minute) {
 
     <div>
 
-        Custom defined hours range (Business hours 6am to 7pm) and minutes increment set to 15 instead of 5, on 3 rows
+        <label for="timepicker_customrange">Custom defined hours range (Business hours 6am to 7pm) and minutes increment set to 15 instead of 5, on 3 rows</label>
         <input type="text" style="width: 70px" id="timepicker_customrange" value="13:30">
         <script type="text/javascript">
             $(document).ready(function() {
@@ -330,9 +329,9 @@ function OnMinuteShowCallback(hour, minute) {
     <hr />
 
     <div>
-        Input for hours only :
+        <label for="timepicker_hours">Input for hours only :</label>
         <input type="text" style="width: 70px" id="timepicker_hours" value="5 PM">
-        , input for minutes only :
+        , <label for="timepicker_minutes">input for minutes only :</label>
         <input type="text" style="width: 70px" id="timepicker_minutes" value="45">
 
         <script type="text/javascript">
@@ -360,7 +359,7 @@ $('#timepicker_minutes').timepicker({
 
         <br>
 
-        Another hour input example arbitrary number of hours, ex: select between 10 and 40 hours
+        <label for="timepicker_hours_2">Another hour input example arbitrary number of hours, ex: select between 10 and 40 hours</label>
         <input type="text" style="width: 70px" id="timepicker_hours_2" value="120">
         <script type="text/javascript">
             $(document).ready(function() {
@@ -394,7 +393,7 @@ $('#timepicker_minutes').timepicker({
     <hr />
 
     <div>
-        Timepicker with the Now, Deselect and Close buttons
+        <label for="timepicker_buttons">Timepicker with the Now, Deselect and Close buttons</label>
         <input type="text" style="width: 70px" id="timepicker_buttons" value="12:35">
         
         
@@ -423,7 +422,7 @@ $('#timepicker_minutes').timepicker({
     <hr />
 
     <div>
-        onSelect (hours and minutes both trigger event), beforeShow and onClose events :
+        <label for="timepicker_3">onSelect (hours and minutes both trigger event), beforeShow and onClose events :</label>
         <input type="text" style="width: 70px" id="timepicker_3" value="13:30" />
         <script type="text/javascript">
             $(document).ready(function() {
@@ -474,15 +473,15 @@ $('#timepicker').timepicker({
         <div style="float: left; width: 400px;">
             Inline time picker :
             <span style="color: #888;">
-                Alternate field :
+                <label for="timepicker_alt">Alternate field :</label>
                 <input type="text" style="width: 70px" id="timepicker_alt" value="13:30" readonly="readonly" disabled="disabled"/>
             </span>
             <br />
-            <input type="button" value="Change time to 16:55" onclick="javascript:$('#timepicker_inline_7').timepicker('setTime','16:55');">
+            <input type="button" value="Change time to 16:55" onclick="$('#timepicker_inline_7').timepicker('setTime','16:55');">
             <br>
-            <input type="button" id='tp7_getTime_button' value="Get selected time" onclick="javascript:tp7_getTime();" >
+            <input type="button" id='tp7_getTime_button' value="Get selected time" onclick="tp7_getTime();" >
             <br>
-            <input type="button" id="tp7_getHourMinute_button" value="Get hour and minute" onclick="javascript:tp7_getHourMinute();" >
+            <input type="button" id="tp7_getHourMinute_button" value="Get hour and minute" onclick="tp7_getHourMinute();" >
             <br />
             <a onclick="$('#script_inline').toggle(200); return false;">[Show code]</a>
         </div>
@@ -535,9 +534,9 @@ function getHourMinute() {
 
         Two timepickers to select chronological time range, the first timepicker is restricted to before the time selected in the second timepicker, and vice versa.
         <br>
-        Start time :
+        <label for="timepicker_start">Start time :</label>
         <input type="text" style="width: 70px" id="timepicker_start" value="9:15" />
-        end time :
+        <label for="timepicker_end">end time :</label>
         <input type="text" style="width: 70px" id="timepicker_end" value="16:30" />
 
         <a onclick="$('#script_time_range').toggle(200); return false;">[Show code]</a>
@@ -678,7 +677,7 @@ function tpEndOnMinuteShowCallback(hour, minute) {
           <div style="float:left; width: 400px">
 
             <input type="text" style="width: 70px" id="timepicker_disable" value="9:15" />
-  		    <div class="timepicker_disable_button_trigger" style="width: 16px; height:16px; background: url(include/ui-lightness/images/ui-icons_222222_256x240.png) -80px, -96px;
+  		    <div class="timepicker_disable_button_trigger" style="width: 16px; height:16px; background: url(include/ui-1.10.0/ui-lightness/images/ui-icons_222222_256x240.png) -80px, -96px;
   		                    display: inline-block; border-radius: 2px; border: 1px solid #222222; margin-top: 3px; cursor:pointer"></div>
             <br />
             <button id="btn_disable_tp">Disable the time pickers</button>
@@ -864,12 +863,12 @@ function tpEndOnMinuteShowCallback(hour, minute) {
         <ul>
             <li>
                 <a href="http://jquery.com">
-                    jQuery (tested with version up to 1.8.3)
+                    jQuery (tested with version up to 1.9.0)
                 </a>
             </li>
             <li>
                 <a href="http://jqueryui.com/">
-                    jQuery UI Core (included in jquery-ui-x.x.x.custom.min.js, tested with version 1.9.2)
+                    jQuery UI Core (included in jquery-ui-x.x.x.custom.min.js, tested with version 1.10.0)
                 </a>
             </li>
             <li>
@@ -909,6 +908,7 @@ function tpEndOnMinuteShowCallback(hour, minute) {
         <dl>
 
             <dt>0.3.2 - ???</dt>
+            <dd>Updated to jQuery 1.9.0 and UI 1.10.0. Removed deprecated IE6 hacks.</dd>
             <dd>Added support for Date object with the setTime and getTimeAsDate function - thanks AAverin.</dd>
             <dd>Removed an extra &lt;/tr&gt;, thanks FishB8.</dd>
             <dd>Fixed an error that occurs on some showAnim effects like 'blind'.</dd>
@@ -1072,20 +1072,22 @@ function tpEndOnMinuteShowCallback(hour, minute) {
 
         <p>
             I put a lot of time and effort in this project. If you like it, <span style="text-decoration: line-through">buy me a beer</span> please donate
-            <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
-            <input type="hidden" name="cmd" value="_s-xclick">
-            <input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----
-            ">
-            <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
-            <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
-            </form>
+
         </p>
+
+        <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+        <input type="hidden" name="cmd" value="_s-xclick">
+        <input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----
+        ">
+        <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+        <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+        </form>
 
         <hr />
 
         <p>
             Instruction for legacy jQuery integration (jQuery 1.2.6 and jQuery UI 1.6)
-            <br>
+        </p>
 
             <ul>
                 <li>
@@ -1103,7 +1105,7 @@ function tpEndOnMinuteShowCallback(hour, minute) {
                 </li>
             </ul>
 
-        </p>
+
 
     </div>
 </div>

@@ -640,11 +640,6 @@
             }
             html += '</table>';
 
-             /* IE6 IFRAME FIX (taken from datepicker 1.5.3, fixed in 0.1.2 */
-            /* fix for jquery 1.9+ */
-            html += (navigator.userAgent.toString().toLowerCase().indexOf('msie') != -1 && parseInt($.browser.version,10) < 7 && !inst.inline ?
-                '<iframe src="javascript:false;" class="ui-timepicker-cover" frameborder="0"></iframe>' : '');
-
             return html;
         },
 

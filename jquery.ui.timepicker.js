@@ -1,7 +1,7 @@
 /*
- * jQuery UI Timepicker 0.3.1
+ * jQuery UI Timepicker
  *
- * Copyright 2010-2011, Francois Gelinas
+ * Copyright 2010-2013, Francois Gelinas
  * Dual licensed under the MIT or GPL Version 2 licenses.
  * http://jquery.org/license
  *
@@ -416,20 +416,27 @@
             }
         },
 
-        // This is a copy of the zIndex function of UI core 1.8.??
-        // Copied in the timepicker to stay backward compatible.
+        // This is an enhanced copy of the zIndex function of UI core 1.8.?? For backward compatibility.
+        // Enhancement returns maximum zindex value discovered while traversing parent elements,
+        // rather than the first zindex value found. Ensures the timepicker popup will be in front,
+        // even in funky scenarios like non-jq dialog containers with large fixed zindex values and
+        // nested zindex-influenced elements of their own.
         _getZIndex: function (target) {
-            var elem = $( target ), position, value;
-            while ( elem.length && elem[ 0 ] !== document ) {
-                position = elem.css( "position" );
-                if ( position === "absolute" || position === "relative" || position === "fixed" ) {
-                    value = parseInt( elem.css( "zIndex" ), 10 );
-                    if ( !isNaN( value ) && value !== 0 ) {
-                        return value;
+            var elem = $(target);
+            var maxValue = 0;
+            var position, value;
+            while (elem.length && elem[0] !== document) {
+                position = elem.css("position");
+                if (position === "absolute" || position === "relative" || position === "fixed") {
+                    value = parseInt(elem.css("zIndex"), 10);
+                    if (!isNaN(value) && value !== 0) {
+                        if (value > maxValue) { maxValue = value; }
                     }
                 }
                 elem = elem.parent();
             }
+
+            return maxValue;
         },
 
         /* Refresh the time picker

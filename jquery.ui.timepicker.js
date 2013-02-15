@@ -348,10 +348,6 @@
                 isFixed |= $(this).css('position') == 'fixed';
                 return !isFixed;
             });
-            if (isFixed && $.browser.opera) { // correction for Opera when fixed and scrolled
-                $.timepicker._pos[0] -= document.documentElement.scrollLeft;
-                $.timepicker._pos[1] -= document.documentElement.scrollTop;
-            }
 
             var offset = { left: $.timepicker._pos[0], top: $.timepicker._pos[1] };
 

@@ -83,8 +83,8 @@
     </div>
     <span id="floating_selected_time">
     </span>
-</div> 
-    
+</div>
+
 <h1>jQuery UI Timepicker
     <span style="color: #999; font-size:10px;">(By <a href="http://fgelinas.com">Fran&ccedil;ois G&eacute;linas</a>)</span>
     <g:plusone callback='plusone_clicked'></g:plusone>
@@ -395,8 +395,8 @@ $('#timepicker_minutes').timepicker({
     <div>
         <label for="timepicker_buttons">Timepicker with the Now, Deselect and Close buttons</label>
         <input type="text" style="width: 70px" id="timepicker_buttons" value="12:35">
-        
-        
+
+
         <script type="text/javascript">
             $(document).ready(function() {
                 $('#timepicker_buttons').timepicker({
@@ -836,7 +836,8 @@ function tpEndOnMinuteShowCallback(hour, minute) {
     minutes: {
         starts: 0,                // First displayed minute
         ends: 55,                 // Last displayed minute
-        interval: 5               // Interval of displayed minutes
+        interval: 5,              // Interval of displayed minutes
+        manual: []                // Optional extra entries for minutes
     },
     rows: 4,                      // Number of rows for the input tables, minimum 2, makes more sense if you use multiple of 2
     showHours: true,              // Define if the hours section is displayed or not. Set to false to get a minute only dialog
@@ -953,12 +954,12 @@ function tpEndOnMinuteShowCallback(hour, minute) {
             <dd>Added option to omit minutes in parsed time when user select 0 for minutes. (Thanks tribalvibes, Github issue #23)</dd>
             <dd>Added support for internationalisation (fr, de and ja, Thanks Bernd Plagge).</dd>
             <dd>Added an <a href="i18n/i18n.html">internationalisation page</a></dd>
-            
+
             <dt>0.2.6 - October 12, 2011</dt>
             <dd>Fixed a bug when input ID have more then one special char. (Thanks Jacqueline Krijnen)</dd>
             <dd>Fixed a bug when parsing hours only or minutes only time. (Thanks protron, <a href="https://github.com/fgelinas/timepicker/issues/20">github issue #20</a>)</dd>
             <dd>Added 'Now', 'Deselect' and 'Close' buttons. (Thanks Christian Grobmeier for the close button code, <a href="https://github.com/fgelinas/timepicker/issues/20">github issue #22</a>)</dd>
-            
+
             <dt>0.2.5 - September 13, 2011</dt>
             <dd>Added support for disable and enable. (Suggested by danielrex, github issue #17)</dd>
             <dd>Added an example for 2 timepicker to behave as a period selector (start time and end time). (Thanks Bill Pellowe)</dd>

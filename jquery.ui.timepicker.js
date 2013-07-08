@@ -107,14 +107,15 @@
             minutes: {
                 starts: 0,                  // first displayed minute
                 ends: 55,                   // last displayed minute
-                interval: 5                 // interval of displayed minutes
+                interval: 5,                // interval of displayed minutes
+                manual: []                  // optional extra manual entries for minutes
             },
             rows: 4,                        // number of rows for the input tables, minimum 2, makes more sense if you use multiple of 2
             // 2011-08-05 0.2.4
             showHours: true,                // display the hours section of the dialog
             showMinutes: true,              // display the minute section of the dialog
             optionalMinutes: false,         // optionally parse inputs of whole hours with minutes omitted
-						
+
             // buttons
             showCloseButton: false,         // shows an OK button to confirm the edit
             showNowButton: false,           // Shows the 'now' button
@@ -228,7 +229,7 @@
                     case 13:
                         $.timepicker._updateSelectedValue(inst);
                         $.timepicker._hideTimepicker();
-                            
+
 						return false; // don't submit the form
 						break; // select the value on enter
                     case 27: $.timepicker._hideTimepicker();
@@ -533,7 +534,7 @@
                 showDeselectButton = this._get(inst, 'showDeselectButton'),
                 deselectButtonText = this._get(inst, 'deselectButtonText'),
                 showButtonPanel = showCloseButton || showNowButton || showDeselectButton;
-            
+
 
 
             // prepare all hours and minutes, makes it easier to distribute by rows
@@ -551,7 +552,7 @@
                         pmItems++;
                     }
                 }
-                hourCounter = 0; 
+                hourCounter = 0;
 
                 amRows = Math.floor(amItems / hours.length * rows);
                 pmRows = Math.floor(pmItems / hours.length * rows);
@@ -617,7 +618,7 @@
                 html += this._generateHTMLMinutes(inst);
                 html += '</td>';
             }
-            
+
             html += '</tr>';
 
 
@@ -684,9 +685,28 @@
             if ( ! minutes_options.ends) {
                 minutes_options.ends = 59;
             }
+            if ( ! minutes_options.manual) {
+                minutes_options.manual = [];
+            }
             for (m = minutes_options.starts; m <= minutes_options.ends; m += minutes_options.interval) {
                 minutes.push(m);
             }
+            for (i = 0; i < minutes_options.manual.length;i++) {
+                var currMin = minutes_options.manual[i];
+
+                // Validate & filter duplicates of manual minute input
+                if (typeof currMin != 'number' || currMin < 0 || currMin > 59 || $.inArray(currMin, minutes) >= 0) {
+                    continue;
+                }
+                minutes.push(currMin);
+            }
+
+            // Sort to get correct order after adding manual minutes
+            // Use compare function to sort by number, instead of string (default)
+            minutes.sort(function(a, b) {
+                return a-b;
+            });
+
             minutesPerRow = Math.round(minutes.length / rows + 0.49); // always round up
 
             /*
@@ -711,7 +731,7 @@
                     minuteLabel +
                     '</div>' +
                     '<table class="ui-timepicker">';
-            
+
             minuteCounter = 0;
             for (row = 1; row <= rows; row++) {
                 html += '<tr>';
@@ -841,7 +861,7 @@
             var $target = $(target),
                 target_id = $target.attr('id'),
                 inst = $.data(target, PROP_NAME);
-            
+
             if (!$target.hasClass(this.markerClassName)) {
                 return;
             }
@@ -1139,7 +1159,7 @@
             var retVal = new Object();
             retVal.hours = -1;
             retVal.minutes = -1;
-            
+
             if(!timeVal)
                 return '';
 
@@ -1175,7 +1195,7 @@
                     retVal.hours = 0;
                 }
             }
-            
+
             return retVal;
         },
 
@@ -1222,7 +1242,7 @@
             // added for onMinuteShow callback
             var onMinuteShow = this._get(inst, 'onMinuteShow');
             if (onMinuteShow) {
-                // this will trigger a callback on selected hour to make sure selected minute is allowed. 
+                // this will trigger a callback on selected hour to make sure selected minute is allowed.
                 this._updateMinuteDisplay(inst);
             }
 
@@ -1276,7 +1296,7 @@
             this._updateAlternate(inst, newTime);
             return newTime;
         },
-        
+
         /* this function process selected time and return it parsed according to instance options */
         _getParsedTime: function(inst) {
 
@@ -1305,7 +1325,7 @@
             if (displayHours == -1) { displayHours = 0 }
             if (selectedMinutes == -1) { selectedMinutes = 0 }
 
-            if (showPeriod) { 
+            if (showPeriod) {
                 if (inst.hours == 0) {
                     displayHours = 12;
                 }
@@ -1338,10 +1358,10 @@
             if (showHours) {
                 if (period.length > 0) { parsedTime += this._get(inst, 'periodSeparator') + period; }
             }
-            
+
             return parsedTime;
         },
-        
+
         /* Update any alternate field to synchronise with the main field. */
         _updateAlternate: function(inst, newTime) {
             var altField = this._get(inst, 'altField');

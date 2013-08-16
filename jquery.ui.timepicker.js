@@ -1122,12 +1122,13 @@
             this._updateSelectedValue(inst);
         },
 
-        /* Return the current time, ready to be parsed, rounded to the closest 5 minute */
+        /* Return the current time, ready to be parsed, rounded to the closest minute by interval */
         _getCurrentTimeRounded: function (inst) {
             var currentTime = new Date(),
                 currentMinutes = currentTime.getMinutes(),
-                // round to closest 5
-                adjustedMinutes = Math.round( currentMinutes / 5 ) * 5;
+                minutes_options = this._get(inst, 'minutes'),
+                // round to closest interval
+                adjustedMinutes = Math.round(currentMinutes / minutes_options.interval) * minutes_options.interval;
             currentTime.setMinutes(adjustedMinutes);
             return currentTime;
         },

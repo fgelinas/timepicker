@@ -277,6 +277,13 @@
             }
             if (showOn == 'button' || showOn == 'both') { // pop-up time picker when 'button' element is clicked
                 var button = this._get(inst, 'button');
+
+                // Add button if button element is not set
+                if(button == null) {
+                    button = $('<button class="ui-timepicker-trigger" type="button">...</button>');
+                    input.after(button);
+                }
+
                 $(button).bind("click.timepicker", function () {
                     if ($.timepicker._timepickerShowing && $.timepicker._lastInput == input[0]) {
                         $.timepicker._hideTimepicker();

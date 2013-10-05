@@ -122,12 +122,12 @@
             
             maxTime: {
                 hour: null,
-                minute: null,
+                minute: null
             },
             minTime: {
                 hour: null,
-                minute: null,
-            },
+                minute: null
+            }
 			
         };
         $.extend(this._defaults, this.regional['']);
@@ -771,8 +771,8 @@
             }
 			
             if (enabled) {
-                if ( maxTime.hour && hour > maxTime.hour ) enabled = false;
-                if ( minTime.hour && hour < minTime.hour ) enabled = false;
+                if ( !isNaN(parseInt(maxTime.hour)) && hour > maxTime.hour ) enabled = false;
+                if ( !isNaN(parseInt(minTime.hour)) && hour < minTime.hour ) enabled = false;
             }
 			
             if (enabled) {
@@ -815,9 +815,9 @@
                  return html;
              }
 
-            if (enabled && hour) {
-                if ( maxTime.hour && maxTime.minute && hour >= maxTime.hour && minute > maxTime.minute ) enabled = false;
-                if ( minTime.hour && minTime.minute && hour <= minTime.hour && minute < minTime.minute ) enabled = false;
+            if (enabled && hour !== null) {
+                if ( !isNaN(parseInt(maxTime.hour)) && !isNaN(parseInt(maxTime.minute)) && hour >= maxTime.hour && minute > maxTime.minute ) enabled = false;
+                if ( !isNaN(parseInt(minTime.hour)) && !isNaN(parseInt(minTime.minute)) && hour <= minTime.hour && minute < minTime.minute ) enabled = false;
             }
 			
              if (enabled) {

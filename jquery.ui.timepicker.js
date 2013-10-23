@@ -9,7 +9,7 @@
  *
  * Depends:
  *	jquery.ui.core.js
- *  jquery.ui.position.js (only if position settngs are used)
+ *  jquery.ui.position.js (only if position settings are used)
  *
  * Change version 0.1.0 - moved the t-rex up here
  *

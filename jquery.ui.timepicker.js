@@ -947,7 +947,7 @@
             offset.left -= (isFixed && offset.left == inst.input.offset().left) ? $(document).scrollLeft() : 0;
             offset.top -= (isFixed && offset.top == (inst.input.offset().top + inputHeight)) ? $(document).scrollTop() : 0;
 
-            // now check if datepicker is showing outside window viewport - move to a better place if so.
+            // now check if timepicker is showing outside window viewport - move to a better place if so.
             offset.left -= Math.min(offset.left, (offset.left + tpWidth > viewWidth && viewWidth > tpWidth) ?
 			Math.abs(offset.left + tpWidth - viewWidth) : 0);
             offset.top -= Math.min(offset.top, (offset.top + tpHeight > viewHeight && viewHeight > tpHeight) ?
@@ -1425,7 +1425,7 @@
             $.timepicker.initialized = true;
         }
 
-         /* Append datepicker main container to body if not exist. */
+         /* Append timepicker main container to body if not exist. */
         if ($("#"+$.timepicker._mainDivId).length === 0) {
             $('body').append($.timepicker.tpDiv);
         }

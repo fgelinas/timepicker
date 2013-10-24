@@ -40,7 +40,7 @@
 
 (function ($) {
 
-    $.extend($.ui, { timepicker: { version: "0.3.2"} });
+    $.extend($.ui, { timepicker: { version: "0.3.3"} });
 
     var PROP_NAME = 'timepicker',
         tpuuid = new Date().getTime();
@@ -1487,7 +1487,7 @@
     $.timepicker = new Timepicker(); // singleton instance
     $.timepicker.initialized = false;
     $.timepicker.uuid = new Date().getTime();
-    $.timepicker.version = "0.3.2";
+    $.timepicker.version = "0.3.3";
 
     // Workaround for #4055
     // Add another global to avoid noConflict issues with inline event handlers

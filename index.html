@@ -4,7 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
     <title>jQuery UI Time Picker by Francois Gelinas</title>
     <link rel="stylesheet" href="include/ui-1.10.0/ui-lightness/jquery-ui-1.10.0.custom.min.css" type="text/css" />
-    <link rel="stylesheet" href="jquery.ui.timepicker.css?v=0.3.2" type="text/css" />
+    <link rel="stylesheet" href="jquery.ui.timepicker.css?v=0.3.3" type="text/css" />
 
     <script type="text/javascript" src="include/jquery-1.9.0.min.js"></script>
     <script type="text/javascript" src="include/ui-1.10.0/jquery.ui.core.min.js"></script>
@@ -12,7 +12,7 @@
     <script type="text/javascript" src="include/ui-1.10.0/jquery.ui.tabs.min.js"></script>
     <script type="text/javascript" src="include/ui-1.10.0/jquery.ui.position.min.js"></script>
 
-    <script type="text/javascript" src="jquery.ui.timepicker.js?v=0.3.2"></script>
+    <script type="text/javascript" src="jquery.ui.timepicker.js?v=0.3.3"></script>
 
     <script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
     <style type="text/css">
@@ -113,7 +113,7 @@
         <li><a href="#usage">Usage</a></li>
         <li><a href="#requirements">Requirements</a></li>
         <li><a href="#release_notes">Release notes</a></li>
-        <li><a href="#get_timepicker">Get Timepicker version 0.3.2</a></li>
+        <li><a href="#get_timepicker">Get Timepicker version 0.3.3</a></li>
     </ul>
 
     <div id="examples">
@@ -926,13 +926,13 @@ function tpEndSelect( time, startTimePickerInst ) {
             </li>
 
             <li>
-                <a href="jquery.ui.timepicker.js?v=0.3.2">
+                <a href="jquery.ui.timepicker.js?v=0.3.3">
                     jquery.ui.timepicker.js
                 </a>
             </li>
 
             <li>
-                <a href="jquery.ui.timepicker.css?v=0.3.2">
+                <a href="jquery.ui.timepicker.css?v=0.3.3">
                     jquery.ui.timepicker.css
                 </a>
             </li>
@@ -950,9 +950,13 @@ function tpEndSelect( time, startTimePickerInst ) {
         <h2>Releases :</h2>
         <dl>
 
-            <dt>0.3.3 - ????</dt>
+            <dt>0.3.3 - 23 October 2013</dt>
             <dd>Better zIndex detection - Thanks Mark Larter <a href="https://github.com/fgelinas/timepicker/issues/62">ref #62</a></dd>
             <dd>Added Hungarian localisation - Thanks Bálint Dávid Tarcsa.</dd>
+            <dd>Added the button self if showOn is "button" or "both" and the button element is not explicitely set. Thanks Kevin Reintjes <a href="https://github.com/fgelinas/timepicker/issues/75">ref #75</a></dd>
+            <dd>Fixed rounding time using not 5 minutes but using minutes from interval. Thanks Jan Dvořák <a href="https://github.com/fgelinas/timepicker/issues/73">ref #73</a></dd>
+            <dd>Added Option for adding manual entries in minutes display. Thanks Mischa Gorinskat <a href="https://github.com/fgelinas/timepicker/issues/71">ref #71</a> </dd>
+            <dd>Added support for minTime and maxTime options. Thanks @phazei <a href="https://github.com/fgelinas/timepicker/issues/76">ref #76</a></dd>
 
             <dt>0.3.2 - 25 January 2013</dt>
             <dd>Updated to jQuery 1.9.0 and UI 1.10.0. Removed deprecated IE6 hacks.</dd>
@@ -1104,7 +1108,7 @@ function tpEndSelect( time, startTimePickerInst ) {
         <h2>Download Timepicker</h2>
 
         <p>
-            Current version : 0.3.2 - released 25 January 2013
+            Current version : 0.3.3 - released 25 January 2013
         </p>
 
         <p>
@@ -1112,7 +1116,7 @@ function tpEndSelect( time, startTimePickerInst ) {
         </p>
 
         <p>
-            <a href="releases/jquery-ui-timepicker-0.3.2.zip">Download from here (.zip)</a>
+            <a href="releases/jquery-ui-timepicker-0.3.3.zip">Download from here (.zip)</a>
         </p>
 
         <hr >

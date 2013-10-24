@@ -1138,6 +1138,9 @@
                     this._hideTimepicker();
                 	this._updateTimepicker(inst);
                 }
+                if (inst.inline) {
+                    this._updateTimepicker(inst);
+                }
             }
         },
 

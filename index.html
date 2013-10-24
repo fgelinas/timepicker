@@ -561,7 +561,7 @@ function getHourMinute() {
 
     <div>
 
-        Two timepickers to select chronological time range, the first timepicker is restricted to before the time selected in the second timepicker, and vice versa.
+        Two timepickers to select chronological time range, the first timepicker is restricted to before the time selected in the second timepicker, and vice versa. Updated code to use the new minTime and maxTime options
         <br>
         <label for="timepicker_start">Start time :</label>
         <input type="text" style="width: 70px" id="timepicker_start" value="9:15" />
@@ -574,118 +574,77 @@ function getHourMinute() {
             $(document).ready(function() {
                 $('#timepicker_start').timepicker({
                     showLeadingZero: false,
-                    onHourShow: tpStartOnHourShowCallback,
-                    onMinuteShow: tpStartOnMinuteShowCallback
+                    onSelect: tpStartSelect,
+                    maxTime: {
+                        hour: 16, minute: 30
+                    }
                 });
                 $('#timepicker_end').timepicker({
                     showLeadingZero: false,
-                    onHourShow: tpEndOnHourShowCallback,
-                    onMinuteShow: tpEndOnMinuteShowCallback
+                    onSelect: tpEndSelect,
+                    minTime: {
+                        hour: 9, minute: 15
+                    }
                 });
             });
 
-            function tpStartOnHourShowCallback(hour) {
-                var tpEndHour = $('#timepicker_end').timepicker('getHour');
-                // all valid if no end time selected
-                if ($('#timepicker_end').val() == '') { return true; }
-                // Check if proposed hour is prior or equal to selected end time hour
-                if (hour <= tpEndHour) { return true; }
-                // if hour did not match, it can not be selected
-                return false;
-            }
-            function tpStartOnMinuteShowCallback(hour, minute) {
-                var tpEndHour = $('#timepicker_end').timepicker('getHour');
-                var tpEndMinute = $('#timepicker_end').timepicker('getMinute');
-                // all valid if no end time selected
-                if ($('#timepicker_end').val() == '') { return true; }
-                // Check if proposed hour is prior to selected end time hour
-                if (hour < tpEndHour) { return true; }
-                // Check if proposed hour is equal to selected end time hour and minutes is prior
-                if ( (hour == tpEndHour) && (minute < tpEndMinute) ) { return true; }
-                // if minute did not match, it can not be selected
-                return false;
+            // when start time change, update minimum for end timepicker
+            function tpStartSelect( time, endTimePickerInst ) {
+                $('#timepicker_end').timepicker('option', {
+                    minTime: {
+                        hour: endTimePickerInst.hours,
+                        minute: endTimePickerInst.minutes
+                    }
+                });
             }
 
-            function tpEndOnHourShowCallback(hour) {
-                var tpStartHour = $('#timepicker_start').timepicker('getHour');
-                // all valid if no start time selected
-                if ($('#timepicker_start').val() == '') { return true; }
-                // Check if proposed hour is after or equal to selected start time hour
-                if (hour >= tpStartHour) { return true; }
-                // if hour did not match, it can not be selected
-                return false;
+            // when end time change, update maximum for start timepicker
+            function tpEndSelect( time, startTimePickerInst ) {
+                $('#timepicker_start').timepicker('option', {
+                    maxTime: {
+                        hour: startTimePickerInst.hours,
+                        minute: startTimePickerInst.minutes
+                    }
+                });
             }
-            function tpEndOnMinuteShowCallback(hour, minute) {
-                var tpStartHour = $('#timepicker_start').timepicker('getHour');
-                var tpStartMinute = $('#timepicker_start').timepicker('getMinute');
-                // all valid if no start time selected
-                if ($('#timepicker_start').val() == '') { return true; }
-                // Check if proposed hour is after selected start time hour
-                if (hour > tpStartHour) { return true; }
-                // Check if proposed hour is equal to selected start time hour and minutes is after
-                if ( (hour == tpStartHour) && (minute > tpStartMinute) ) { return true; }
-                // if minute did not match, it can not be selected
-                return false;
-            }
-
         </script>
 
 <pre class="code" id="script_time_range" style="display: none">
 $(document).ready(function() {
-    $('#timepicker_start').timepicker({
-        showLeadingZero: false,
-        onHourShow: tpStartOnHourShowCallback,
-        onMinuteShow: tpStartOnMinuteShowCallback
-    });
-    $('#timepicker_end').timepicker({
-        showLeadingZero: false,
-        onHourShow: tpEndOnHourShowCallback,
-        onMinuteShow: tpEndOnMinuteShowCallback
-    });
+   $('#timepicker_start').timepicker({
+       showLeadingZero: false,
+       onSelect: tpStartSelect,
+       maxTime: {
+           hour: 16, minute: 30
+       }
+   });
+   $('#timepicker_end').timepicker({
+       showLeadingZero: false,
+       onSelect: tpEndSelect,
+       minTime: {
+           hour: 9, minute: 15
+       }
+   });
 });
 
-function tpStartOnHourShowCallback(hour) {
-    var tpEndHour = $('#timepicker_end').timepicker('getHour');
-    // all valid if no end time selected
-    if ($('#timepicker_end').val() == '') { return true; }
-    // Check if proposed hour is prior or equal to selected end time hour
-    if (hour <= tpEndHour) { return true; }
-    // if hour did not match, it can not be selected
-    return false;
-}
-function tpStartOnMinuteShowCallback(hour, minute) {
-    var tpEndHour = $('#timepicker_end').timepicker('getHour');
-    var tpEndMinute = $('#timepicker_end').timepicker('getMinute');
-    // all valid if no end time selected
-    if ($('#timepicker_end').val() == '') { return true; }
-    // Check if proposed hour is prior to selected end time hour
-    if (hour < tpEndHour) { return true; }
-    // Check if proposed hour is equal to selected end time hour and minutes is prior
-    if ( (hour == tpEndHour) && (minute < tpEndMinute) ) { return true; }
-    // if minute did not match, it can not be selected
-    return false;
+// when start time change, update minimum for end timepicker
+function tpStartSelect( time, endTimePickerInst ) {
+   $('#timepicker_end').timepicker('option', {
+       minTime: {
+           hour: endTimePickerInst.hours,
+           minute: endTimePickerInst.minutes
+       }
+   });
 }
 
-function tpEndOnHourShowCallback(hour) {
-    var tpStartHour = $('#timepicker_start').timepicker('getHour');
-    // all valid if no start time selected
-    if ($('#timepicker_start').val() == '') { return true; }
-    // Check if proposed hour is after or equal to selected start time hour
-    if (hour >= tpStartHour) { return true; }
-    // if hour did not match, it can not be selected
-    return false;
-}
-function tpEndOnMinuteShowCallback(hour, minute) {
-    var tpStartHour = $('#timepicker_start').timepicker('getHour');
-    var tpStartMinute = $('#timepicker_start').timepicker('getMinute');
-    // all valid if no start time selected
-    if ($('#timepicker_start').val() == '') { return true; }
-    // Check if proposed hour is after selected start time hour
-    if (hour > tpStartHour) { return true; }
-    // Check if proposed hour is equal to selected start time hour and minutes is after
-    if ( (hour == tpStartHour) && (minute > tpStartMinute) ) { return true; }
-    // if minute did not match, it can not be selected
-    return false;
+// when end time change, update maximum for start timepicker
+function tpEndSelect( time, startTimePickerInst ) {
+   $('#timepicker_start').timepicker('option', {
+       maxTime: {
+           hour: startTimePickerInst.hours,
+           minute: startTimePickerInst.minutes
+       }
+   });
 }
 </pre>
 
@@ -694,6 +653,49 @@ function tpEndOnMinuteShowCallback(hour, minute) {
 
 
 
+    <hr>
+    <div>
+        <div style="float: left; width: 400px">
+            Example of using the new minTime and maxTime options
+            <br>
+            <button onclick="tpMinMaxSetMinTime(9,15)">Set min time to 9:15</button>
+            <br>
+            <button onclick="tpMinMaxSetMaxTime(16,30)">Set max time to 16:30</button>
+            <br>
+            <a onclick="$('#script_tp_min_max_time').toggle(200); return false;">[Show code]</a>
+        </div>
+
+        <div id="timepicker_minmax_inline" style="font-size: 10px;"></div>
+        <div style="clear: both"></div>
+
+        <script>
+            $(document).ready(function() {
+                $('#timepicker_minmax_inline').timepicker({
+                    showLeadingZero: true
+                });
+            });
+            function tpMinMaxSetMinTime( hour, minute ) {
+                $('#timepicker_minmax_inline').timepicker('option', { minTime: { hour: hour, minute: minute} });
+            }
+            function tpMinMaxSetMaxTime( hour, minute ) {
+                $('#timepicker_minmax_inline').timepicker('option', { maxTime: { hour: hour, minute: minute} });
+            }
+        </script>
+<pre class="code" style="display: none" id="script_tp_min_max_time">
+    $('#timepicker_minmax_inline').timepicker({
+        minTime: { hour: 9, minute: 15 },
+        maxTime: { hour: 16, minute: 30 },
+        showLeadingZero: true
+    });
+    // to dinamically set the min and max time :
+    function tpMinMaxSetMinTime( hour, minute ) {
+        $('#timepicker_minmax_inline').timepicker('option', { minTime: { hour: hour, minute: minute} });
+    }
+    function tpMinMaxSetMaxTime( hour, minute ) {
+        $('#timepicker_minmax_inline').timepicker('option', { maxTime: { hour: hour, minute: minute} });
+    }
+</pre>
+    </div>
 
 
     <hr />
@@ -871,6 +873,17 @@ function tpEndOnMinuteShowCallback(hour, minute) {
     rows: 4,                      // Number of rows for the input tables, minimum 2, makes more sense if you use multiple of 2
     showHours: true,              // Define if the hours section is displayed or not. Set to false to get a minute only dialog
     showMinutes: true,            // Define if the minutes section is displayed or not. Set to false to get an hour only dialog
+
+    // Min and Max time
+    minTime: {                    // Set the minimum time selectable by the user, disable hours and minutes
+        hour: minHour,            // previous to min time
+        minute: minMinute
+    },
+    maxTime: {                    // Set the minimum time selectable by the user, disable hours and minutes
+        hour: maxHour,            // after max time
+        minute: maxMinute
+    },
+
 
     // buttons
     showCloseButton: false,       // shows an OK button to confirm the edit

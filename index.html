@@ -326,6 +326,35 @@ function OnMinuteShowCallback(hour, minute) {
 </pre>
     </div>
 
+
+    <!-- Example / test for custom minute parameter -->
+     <hr />
+     <div>
+         <label for="timepicker_customrange">Custom defined minute choice, 15 minute interval + 01 and 59</label>
+         <input type="text" style="width: 70px" id="timepicker_customminutes" value="13:30">
+         <script type="text/javascript">
+             $(document).ready(function() {
+                $('#timepicker_customminutes').timepicker({
+                    minutes: {
+                        interval: 15,
+                        manual: [ 0, 1, 30, 59 ]
+                    },
+                    showPeriodLabels: true
+                })
+             });
+
+         </script>
+
+         <a onclick="$('#script_minutes').toggle(200)">[Show code]</a>
+<pre id="script_minutes" style="display: none" class="code"> $('#timepicke').timepicker({
+    minutes: {
+        interval: 15,
+        manual: [ 0, 1, 30, 59 ]
+    },
+});
+</pre>
+     </div>
+
     <hr />
 
     <div>

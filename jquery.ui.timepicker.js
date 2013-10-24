@@ -278,6 +278,13 @@
             }
             if (showOn == 'button' || showOn == 'both') { // pop-up time picker when 'button' element is clicked
                 var button = this._get(inst, 'button');
+
+                // Add button if button element is not set
+                if(button == null) {
+                    button = $('<button class="ui-timepicker-trigger" type="button">...</button>');
+                    input.after(button);
+                }
+
                 $(button).bind("click.timepicker", function () {
                     if ($.timepicker._timepickerShowing && $.timepicker._lastInput == input[0]) {
                         $.timepicker._hideTimepicker();
@@ -1412,15 +1419,16 @@
     Object - settings for attaching new timepicker functionality
     @return  jQuery object */
     $.fn.timepicker = function (options) {
-
         /* Initialise the time picker. */
         if (!$.timepicker.initialized) {
-            $(document).mousedown($.timepicker._checkExternalClick).
-			find('body').append($.timepicker.tpDiv);
+            $(document).mousedown($.timepicker._checkExternalClick);
             $.timepicker.initialized = true;
         }
 
-
+         /* Append datepicker main container to body if not exist. */
+        if ($("#"+$.timepicker._mainDivId).length === 0) {
+            $('body').append($.timepicker.tpDiv);
+        }
 
         var otherArgs = Array.prototype.slice.call(arguments, 1);
         if (typeof options == 'string' && (options == 'getTime' || options == 'getTimeAsDate' || options == 'getHour' || options == 'getMinute' ))

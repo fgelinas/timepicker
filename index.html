@@ -4,7 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
     <title>jQuery UI Time Picker by Francois Gelinas</title>
     <link rel="stylesheet" href="include/ui-1.10.0/ui-lightness/jquery-ui-1.10.0.custom.min.css" type="text/css" />
-    <link rel="stylesheet" href="jquery.ui.timepicker.css?v=0.3.2" type="text/css" />
+    <link rel="stylesheet" href="jquery.ui.timepicker.css?v=0.3.3" type="text/css" />
 
     <script type="text/javascript" src="include/jquery-1.9.0.min.js"></script>
     <script type="text/javascript" src="include/ui-1.10.0/jquery.ui.core.min.js"></script>
@@ -12,7 +12,7 @@
     <script type="text/javascript" src="include/ui-1.10.0/jquery.ui.tabs.min.js"></script>
     <script type="text/javascript" src="include/ui-1.10.0/jquery.ui.position.min.js"></script>
 
-    <script type="text/javascript" src="jquery.ui.timepicker.js?v=0.3.2"></script>
+    <script type="text/javascript" src="jquery.ui.timepicker.js?v=0.3.3"></script>
 
     <script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
     <style type="text/css">
@@ -83,8 +83,8 @@
     </div>
     <span id="floating_selected_time">
     </span>
-</div> 
-    
+</div>
+
 <h1>jQuery UI Timepicker
     <span style="color: #999; font-size:10px;">(By <a href="http://fgelinas.com">Fran&ccedil;ois G&eacute;linas</a>)</span>
     <g:plusone callback='plusone_clicked'></g:plusone>
@@ -113,7 +113,7 @@
         <li><a href="#usage">Usage</a></li>
         <li><a href="#requirements">Requirements</a></li>
         <li><a href="#release_notes">Release notes</a></li>
-        <li><a href="#get_timepicker">Get Timepicker version 0.3.2</a></li>
+        <li><a href="#get_timepicker">Get Timepicker version 0.3.3</a></li>
     </ul>
 
     <div id="examples">
@@ -326,6 +326,35 @@ function OnMinuteShowCallback(hour, minute) {
 </pre>
     </div>
 
+
+    <!-- Example / test for custom minute parameter -->
+     <hr />
+     <div>
+         <label for="timepicker_customrange">Custom defined minute choice, 15 minute interval + 01 and 59</label>
+         <input type="text" style="width: 70px" id="timepicker_customminutes" value="13:30">
+         <script type="text/javascript">
+             $(document).ready(function() {
+                $('#timepicker_customminutes').timepicker({
+                    minutes: {
+                        interval: 15,
+                        manual: [ 0, 1, 30, 59 ]
+                    },
+                    showPeriodLabels: true
+                })
+             });
+
+         </script>
+
+         <a onclick="$('#script_minutes').toggle(200)">[Show code]</a>
+<pre id="script_minutes" style="display: none" class="code"> $('#timepicke').timepicker({
+    minutes: {
+        interval: 15,
+        manual: [ 0, 1, 30, 59 ]
+    },
+});
+</pre>
+     </div>
+
     <hr />
 
     <div>
@@ -395,8 +424,8 @@ $('#timepicker_minutes').timepicker({
     <div>
         <label for="timepicker_buttons">Timepicker with the Now, Deselect and Close buttons</label>
         <input type="text" style="width: 70px" id="timepicker_buttons" value="12:35">
-        
-        
+
+
         <script type="text/javascript">
             $(document).ready(function() {
                 $('#timepicker_buttons').timepicker({
@@ -532,7 +561,7 @@ function getHourMinute() {
 
     <div>
 
-        Two timepickers to select chronological time range, the first timepicker is restricted to before the time selected in the second timepicker, and vice versa.
+        Two timepickers to select chronological time range, the first timepicker is restricted to before the time selected in the second timepicker, and vice versa. Updated code to use the new minTime and maxTime options
         <br>
         <label for="timepicker_start">Start time :</label>
         <input type="text" style="width: 70px" id="timepicker_start" value="9:15" />
@@ -545,118 +574,77 @@ function getHourMinute() {
             $(document).ready(function() {
                 $('#timepicker_start').timepicker({
                     showLeadingZero: false,
-                    onHourShow: tpStartOnHourShowCallback,
-                    onMinuteShow: tpStartOnMinuteShowCallback
+                    onSelect: tpStartSelect,
+                    maxTime: {
+                        hour: 16, minute: 30
+                    }
                 });
                 $('#timepicker_end').timepicker({
                     showLeadingZero: false,
-                    onHourShow: tpEndOnHourShowCallback,
-                    onMinuteShow: tpEndOnMinuteShowCallback
+                    onSelect: tpEndSelect,
+                    minTime: {
+                        hour: 9, minute: 15
+                    }
                 });
             });
 
-            function tpStartOnHourShowCallback(hour) {
-                var tpEndHour = $('#timepicker_end').timepicker('getHour');
-                // all valid if no end time selected
-                if ($('#timepicker_end').val() == '') { return true; }
-                // Check if proposed hour is prior or equal to selected end time hour
-                if (hour <= tpEndHour) { return true; }
-                // if hour did not match, it can not be selected
-                return false;
-            }
-            function tpStartOnMinuteShowCallback(hour, minute) {
-                var tpEndHour = $('#timepicker_end').timepicker('getHour');
-                var tpEndMinute = $('#timepicker_end').timepicker('getMinute');
-                // all valid if no end time selected
-                if ($('#timepicker_end').val() == '') { return true; }
-                // Check if proposed hour is prior to selected end time hour
-                if (hour < tpEndHour) { return true; }
-                // Check if proposed hour is equal to selected end time hour and minutes is prior
-                if ( (hour == tpEndHour) && (minute < tpEndMinute) ) { return true; }
-                // if minute did not match, it can not be selected
-                return false;
+            // when start time change, update minimum for end timepicker
+            function tpStartSelect( time, endTimePickerInst ) {
+                $('#timepicker_end').timepicker('option', {
+                    minTime: {
+                        hour: endTimePickerInst.hours,
+                        minute: endTimePickerInst.minutes
+                    }
+                });
             }
 
-            function tpEndOnHourShowCallback(hour) {
-                var tpStartHour = $('#timepicker_start').timepicker('getHour');
-                // all valid if no start time selected
-                if ($('#timepicker_start').val() == '') { return true; }
-                // Check if proposed hour is after or equal to selected start time hour
-                if (hour >= tpStartHour) { return true; }
-                // if hour did not match, it can not be selected
-                return false;
+            // when end time change, update maximum for start timepicker
+            function tpEndSelect( time, startTimePickerInst ) {
+                $('#timepicker_start').timepicker('option', {
+                    maxTime: {
+                        hour: startTimePickerInst.hours,
+                        minute: startTimePickerInst.minutes
+                    }
+                });
             }
-            function tpEndOnMinuteShowCallback(hour, minute) {
-                var tpStartHour = $('#timepicker_start').timepicker('getHour');
-                var tpStartMinute = $('#timepicker_start').timepicker('getMinute');
-                // all valid if no start time selected
-                if ($('#timepicker_start').val() == '') { return true; }
-                // Check if proposed hour is after selected start time hour
-                if (hour > tpStartHour) { return true; }
-                // Check if proposed hour is equal to selected start time hour and minutes is after
-                if ( (hour == tpStartHour) && (minute > tpStartMinute) ) { return true; }
-                // if minute did not match, it can not be selected
-                return false;
-            }
-
         </script>
 
 <pre class="code" id="script_time_range" style="display: none">
 $(document).ready(function() {
-    $('#timepicker_start').timepicker({
-        showLeadingZero: false,
-        onHourShow: tpStartOnHourShowCallback,
-        onMinuteShow: tpStartOnMinuteShowCallback
-    });
-    $('#timepicker_end').timepicker({
-        showLeadingZero: false,
-        onHourShow: tpEndOnHourShowCallback,
-        onMinuteShow: tpEndOnMinuteShowCallback
-    });
+   $('#timepicker_start').timepicker({
+       showLeadingZero: false,
+       onSelect: tpStartSelect,
+       maxTime: {
+           hour: 16, minute: 30
+       }
+   });
+   $('#timepicker_end').timepicker({
+       showLeadingZero: false,
+       onSelect: tpEndSelect,
+       minTime: {
+           hour: 9, minute: 15
+       }
+   });
 });
 
-function tpStartOnHourShowCallback(hour) {
-    var tpEndHour = $('#timepicker_end').timepicker('getHour');
-    // all valid if no end time selected
-    if ($('#timepicker_end').val() == '') { return true; }
-    // Check if proposed hour is prior or equal to selected end time hour
-    if (hour <= tpEndHour) { return true; }
-    // if hour did not match, it can not be selected
-    return false;
-}
-function tpStartOnMinuteShowCallback(hour, minute) {
-    var tpEndHour = $('#timepicker_end').timepicker('getHour');
-    var tpEndMinute = $('#timepicker_end').timepicker('getMinute');
-    // all valid if no end time selected
-    if ($('#timepicker_end').val() == '') { return true; }
-    // Check if proposed hour is prior to selected end time hour
-    if (hour < tpEndHour) { return true; }
-    // Check if proposed hour is equal to selected end time hour and minutes is prior
-    if ( (hour == tpEndHour) && (minute < tpEndMinute) ) { return true; }
-    // if minute did not match, it can not be selected
-    return false;
+// when start time change, update minimum for end timepicker
+function tpStartSelect( time, endTimePickerInst ) {
+   $('#timepicker_end').timepicker('option', {
+       minTime: {
+           hour: endTimePickerInst.hours,
+           minute: endTimePickerInst.minutes
+       }
+   });
 }
 
-function tpEndOnHourShowCallback(hour) {
-    var tpStartHour = $('#timepicker_start').timepicker('getHour');
-    // all valid if no start time selected
-    if ($('#timepicker_start').val() == '') { return true; }
-    // Check if proposed hour is after or equal to selected start time hour
-    if (hour >= tpStartHour) { return true; }
-    // if hour did not match, it can not be selected
-    return false;
-}
-function tpEndOnMinuteShowCallback(hour, minute) {
-    var tpStartHour = $('#timepicker_start').timepicker('getHour');
-    var tpStartMinute = $('#timepicker_start').timepicker('getMinute');
-    // all valid if no start time selected
-    if ($('#timepicker_start').val() == '') { return true; }
-    // Check if proposed hour is after selected start time hour
-    if (hour > tpStartHour) { return true; }
-    // Check if proposed hour is equal to selected start time hour and minutes is after
-    if ( (hour == tpStartHour) && (minute > tpStartMinute) ) { return true; }
-    // if minute did not match, it can not be selected
-    return false;
+// when end time change, update maximum for start timepicker
+function tpEndSelect( time, startTimePickerInst ) {
+   $('#timepicker_start').timepicker('option', {
+       maxTime: {
+           hour: startTimePickerInst.hours,
+           minute: startTimePickerInst.minutes
+       }
+   });
 }
 </pre>
 
@@ -665,6 +653,49 @@ function tpEndOnMinuteShowCallback(hour, minute) {
 
 
 
+    <hr>
+    <div>
+        <div style="float: left; width: 400px">
+            Example of using the new minTime and maxTime options
+            <br>
+            <button onclick="tpMinMaxSetMinTime(9,15)">Set min time to 9:15</button>
+            <br>
+            <button onclick="tpMinMaxSetMaxTime(16,30)">Set max time to 16:30</button>
+            <br>
+            <a onclick="$('#script_tp_min_max_time').toggle(200); return false;">[Show code]</a>
+        </div>
+
+        <div id="timepicker_minmax_inline" style="font-size: 10px;"></div>
+        <div style="clear: both"></div>
+
+        <script>
+            $(document).ready(function() {
+                $('#timepicker_minmax_inline').timepicker({
+                    showLeadingZero: true
+                });
+            });
+            function tpMinMaxSetMinTime( hour, minute ) {
+                $('#timepicker_minmax_inline').timepicker('option', { minTime: { hour: hour, minute: minute} });
+            }
+            function tpMinMaxSetMaxTime( hour, minute ) {
+                $('#timepicker_minmax_inline').timepicker('option', { maxTime: { hour: hour, minute: minute} });
+            }
+        </script>
+<pre class="code" style="display: none" id="script_tp_min_max_time">
+    $('#timepicker_minmax_inline').timepicker({
+        minTime: { hour: 9, minute: 15 },
+        maxTime: { hour: 16, minute: 30 },
+        showLeadingZero: true
+    });
+    // to dinamically set the min and max time :
+    function tpMinMaxSetMinTime( hour, minute ) {
+        $('#timepicker_minmax_inline').timepicker('option', { minTime: { hour: hour, minute: minute} });
+    }
+    function tpMinMaxSetMaxTime( hour, minute ) {
+        $('#timepicker_minmax_inline').timepicker('option', { maxTime: { hour: hour, minute: minute} });
+    }
+</pre>
+    </div>
 
 
     <hr />
@@ -836,11 +867,23 @@ function tpEndOnMinuteShowCallback(hour, minute) {
     minutes: {
         starts: 0,                // First displayed minute
         ends: 55,                 // Last displayed minute
-        interval: 5               // Interval of displayed minutes
+        interval: 5,              // Interval of displayed minutes
+        manual: []                // Optional extra entries for minutes
     },
     rows: 4,                      // Number of rows for the input tables, minimum 2, makes more sense if you use multiple of 2
     showHours: true,              // Define if the hours section is displayed or not. Set to false to get a minute only dialog
     showMinutes: true,            // Define if the minutes section is displayed or not. Set to false to get an hour only dialog
+
+    // Min and Max time
+    minTime: {                    // Set the minimum time selectable by the user, disable hours and minutes
+        hour: minHour,            // previous to min time
+        minute: minMinute
+    },
+    maxTime: {                    // Set the minimum time selectable by the user, disable hours and minutes
+        hour: maxHour,            // after max time
+        minute: maxMinute
+    },
+
 
     // buttons
     showCloseButton: false,       // shows an OK button to confirm the edit
@@ -883,13 +926,13 @@ function tpEndOnMinuteShowCallback(hour, minute) {
             </li>
 
             <li>
-                <a href="jquery.ui.timepicker.js?v=0.3.2">
+                <a href="jquery.ui.timepicker.js?v=0.3.3">
                     jquery.ui.timepicker.js
                 </a>
             </li>
 
             <li>
-                <a href="jquery.ui.timepicker.css?v=0.3.2">
+                <a href="jquery.ui.timepicker.css?v=0.3.3">
                     jquery.ui.timepicker.css
                 </a>
             </li>
@@ -907,9 +950,13 @@ function tpEndOnMinuteShowCallback(hour, minute) {
         <h2>Releases :</h2>
         <dl>
 
-            <dt>0.3.3 - ????</dt>
+            <dt>0.3.3 - 23 October 2013</dt>
             <dd>Better zIndex detection - Thanks Mark Larter <a href="https://github.com/fgelinas/timepicker/issues/62">ref #62</a></dd>
             <dd>Added Hungarian localisation - Thanks Bálint Dávid Tarcsa.</dd>
+            <dd>Added the button self if showOn is "button" or "both" and the button element is not explicitely set. Thanks Kevin Reintjes <a href="https://github.com/fgelinas/timepicker/issues/75">ref #75</a></dd>
+            <dd>Fixed rounding time using not 5 minutes but using minutes from interval. Thanks Jan Dvořák <a href="https://github.com/fgelinas/timepicker/issues/73">ref #73</a></dd>
+            <dd>Added Option for adding manual entries in minutes display. Thanks Mischa Gorinskat <a href="https://github.com/fgelinas/timepicker/issues/71">ref #71</a> </dd>
+            <dd>Added support for minTime and maxTime options. Thanks @phazei <a href="https://github.com/fgelinas/timepicker/issues/76">ref #76</a></dd>
 
             <dt>0.3.2 - 25 January 2013</dt>
             <dd>Updated to jQuery 1.9.0 and UI 1.10.0. Removed deprecated IE6 hacks.</dd>
@@ -953,12 +1000,12 @@ function tpEndOnMinuteShowCallback(hour, minute) {
             <dd>Added option to omit minutes in parsed time when user select 0 for minutes. (Thanks tribalvibes, Github issue #23)</dd>
             <dd>Added support for internationalisation (fr, de and ja, Thanks Bernd Plagge).</dd>
             <dd>Added an <a href="i18n/i18n.html">internationalisation page</a></dd>
-            
+
             <dt>0.2.6 - October 12, 2011</dt>
             <dd>Fixed a bug when input ID have more then one special char. (Thanks Jacqueline Krijnen)</dd>
             <dd>Fixed a bug when parsing hours only or minutes only time. (Thanks protron, <a href="https://github.com/fgelinas/timepicker/issues/20">github issue #20</a>)</dd>
             <dd>Added 'Now', 'Deselect' and 'Close' buttons. (Thanks Christian Grobmeier for the close button code, <a href="https://github.com/fgelinas/timepicker/issues/20">github issue #22</a>)</dd>
-            
+
             <dt>0.2.5 - September 13, 2011</dt>
             <dd>Added support for disable and enable. (Suggested by danielrex, github issue #17)</dd>
             <dd>Added an example for 2 timepicker to behave as a period selector (start time and end time). (Thanks Bill Pellowe)</dd>
@@ -1061,7 +1108,7 @@ function tpEndOnMinuteShowCallback(hour, minute) {
         <h2>Download Timepicker</h2>
 
         <p>
-            Current version : 0.3.2 - released 25 January 2013
+            Current version : 0.3.3 - released 25 January 2013
         </p>
 
         <p>
@@ -1069,7 +1116,7 @@ function tpEndOnMinuteShowCallback(hour, minute) {
         </p>
 
         <p>
-            <a href="releases/jquery-ui-timepicker-0.3.2.zip">Download from here (.zip)</a>
+            <a href="releases/jquery-ui-timepicker-0.3.3.zip">Download from here (.zip)</a>
         </p>
 
         <hr >

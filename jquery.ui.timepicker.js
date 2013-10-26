@@ -1279,7 +1279,7 @@
             var onMinuteShow = this._get(inst, 'onMinuteShow'),
                 maxTime = this._get(inst, 'maxTime'),
                 minTime = this._get(inst, 'minTime');
-            if (onMinuteShow || maxTime.minute || minTime.minute) {
+            if (onMinuteShow || !isNaN(parseInt(maxTime.minute)) || !isNaN(parseInt(minTime.minute))) {
                 // this will trigger a callback on selected hour to make sure selected minute is allowed. 
                 this._updateMinuteDisplay(inst);
             }

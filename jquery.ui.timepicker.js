@@ -421,7 +421,7 @@
                     inst.tpDiv.show(showAnim, $.timepicker._get(inst, 'showOptions'), duration, postProcess);
                 }
                 else {
-                    inst.tpDiv.show((showAnim ? duration : null), postProcess);
+                    inst.tpDiv[showAnim || 'show']((showAnim ? duration : null), postProcess);
                 }
                 if (!showAnim || !duration) { postProcess(); }
                 if (inst.input.is(':visible') && !inst.input.is(':disabled')) { inst.input.focus(); }

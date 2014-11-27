@@ -297,7 +297,7 @@
                 $(button).bind("click.timepicker", function () {
                     if ($.timepicker._timepickerShowing && $.timepicker._lastInput == input[0]) {
                         $.timepicker._hideTimepicker();
-                    } else if (!inst.input.is(':disabled')) {
+                    } else {
                         $.timepicker._showTimepicker(input[0]);
                     }
                     return false;
@@ -330,6 +330,11 @@
             var inst = $.timepicker._getInst(input);
             inst.tpDiv.css('zIndex', $.timepicker._getZIndex(input) +1);
         },
+        
+        /* Checks if can show popup */
+        _canShowPopup: function(element) {
+            return ( (!element.readOnly) && (!element.disabled) && (!$.timepicker._isDisabledTimepicker(element)) && ($.timepicker._lastInput != element) );
+        },
 
         /* Pop-up the time picker for a given input field.
         @param  input  element - the input field attached to the time picker or
@@ -338,7 +343,7 @@
             input = input.target || input;
             if (input.nodeName.toLowerCase() != 'input') { input = $('input', input.parentNode)[0]; } // find from button/image trigger
 
-            if ($.timepicker._isDisabledTimepicker(input) || $.timepicker._lastInput == input) { return; } // already here
+            if (!$.timepicker._canShowPopup(input)) { return; }
 
             // fix v 0.0.8 - close current timepicker before showing another one
             $.timepicker._hideTimepicker();

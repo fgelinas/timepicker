@@ -1080,9 +1080,22 @@
         },
 
         /* Get a setting value, defaulting if necessary. */
-        _get: function (inst, name) {
-            return inst.settings[name] !== undefined ?
-			inst.settings[name] : this._defaults[name];
+        /**
+         * AB Modification
+         * Merge the default's settings with user's when array or object
+         * NOTE: Simply returns the user property when string/integer/other
+        **/
+        _get: function (inst, name) {            
+            var userProp = inst.settings[name];
+            if (userProp !== undefined) {
+                if (($.type(userProp) == 'array') || ($.type(userProp) == 'object')) {
+                    return $.extend(true,this._defaults[name], userProp);
+                } else {
+                    return userProp;
+                }                
+            } else {
+                return  this._defaults[name];
+            }
         },
 
         /* Parse existing time and initialise time picker. */

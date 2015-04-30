@@ -1,0 +1,22 @@
+{
+  "name": "jquery.ui.timepicker",
+  "version": "0.3.3",
+  "homepage": "https://github.com/fgelinas/timepicker",
+  "authors": [
+    "Francois Gelinas <frank@fgelinas.com>"
+  ],
+  "description": "jQuery UI Timepicker",
+  "main": "jquery.ui.timepicker.css",
+  "keywords": [
+    "time",
+    "jquery"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

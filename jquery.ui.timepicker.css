@@ -33,7 +33,7 @@
 .ui-timepicker-table td a {
     display:block;
     padding:0.2em 0.3em 0.2em 0.5em;
-    width: 1.2em;
+    width: 100%;
     cursor: pointer;
     text-align:right;
     text-decoration:none;

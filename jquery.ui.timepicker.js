@@ -85,6 +85,7 @@
             onClose: null,                  // Define a callback function when the timepicker is closed
 
             timeSeparator: ':',             // The character to use to separate hours and minutes.
+            timeWithoutSeparator: true,     // Accept time input without seperator.
             periodSeparator: ' ',           // The character to use to separate the time from the time period.
             showPeriod: false,              // Define whether or not to show AM/PM with selected time
             showPeriodLabels: true,         // Show the AM/PM labels on the left of the time picker
@@ -1201,6 +1202,7 @@
                 return retVal;
 
             var timeSeparator = this._get(inst, 'timeSeparator'),
+                timeWithoutSeparator = this._get(inst,'timeWithoutSeparator'),
                 amPmText = this._get(inst, 'amPmText'),
                 showHours = this._get(inst, 'showHours'),
                 showMinutes = this._get(inst, 'showMinutes'),
@@ -1220,6 +1222,11 @@
             // check for minutes only
             else if ( ( ! showHours) && (showMinutes) ) {
                 retVal.minutes = parseInt(timeVal, 10);
+            }
+            // check if time seperator requirement is waived and at least 4 characters were entered
+            else if ( (timeWithoutSeparator) && (timeVal.length >= 4) ){
+                retVal.hours = parseInt(timeVal.substr(0, 2), 10);
+                retVal.minutes = parseInt(timeVal.substr(2, 3), 10);
             }
 
             if (showHours) {

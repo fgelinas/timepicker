@@ -641,7 +641,7 @@
 
 
             if (showButtonPanel) {
-                var buttonPanel = '<tr><td colspan="3"><div class="ui-timepicker-buttonpane ui-widget-content">';
+                var buttonPanel = '<tr><td colspan="2"><div class="ui-timepicker-buttonpane ui-widget-content">';
                 if (showNowButton) {
                     buttonPanel += '<button type="button" class="ui-timepicker-now ui-state-default ui-corner-all" '
                                    + ' data-timepicker-instance-id="#' + inst.id.replace(/\\\\/g,"\\") + '" >'

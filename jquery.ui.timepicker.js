@@ -1247,6 +1247,8 @@
             var id = $(event.target).attr("data-timepicker-instance-id"),
                 $target = $(id),
                 inst = this._getInst($target[0]);
+            if ($target.is(':disabled') || this._isDisabledTimepicker($target.attr('id'))) { return false; }
+
             //if (!inst || (input && inst != $.data(input, PROP_NAME))) { return; }
             var currentTime = new Date();
             inst.hours = currentTime.getHours();
@@ -1260,6 +1262,8 @@
             var id = $(event.target).attr("data-timepicker-instance-id"),
                 $target = $(id),
                 inst = this._getInst($target[0]);
+            if ($target.is(':disabled') || this._isDisabledTimepicker($target.attr('id'))) { return false; }
+
             inst.hours = -1;
             inst.minutes = -1;
             this._updateSelectedValue(inst);
@@ -1277,7 +1281,7 @@
                 showMinutes = (this._get(inst, 'showMinutes') == true);
 
             // don't select if disabled
-            if ( $.timepicker._isDisabledTimepicker($target.attr('id')) ) { return false }
+            if ($target.is(':disabled') || this._isDisabledTimepicker($target.attr('id'))) { return false; }
 
             $td.parents('.ui-timepicker-hours:first').find('a').removeClass('ui-state-active');
             $td.children('a').addClass('ui-state-active');
@@ -1312,7 +1316,7 @@
                 showHours = (this._get(inst, 'showHours') == true);
 
             // don't select if disabled
-            if ( $.timepicker._isDisabledTimepicker($target.attr('id')) ) { return false }
+            if ($target.is(':disabled') || this._isDisabledTimepicker($target.attr('id'))) { return false; }
 
             $td.parents('.ui-timepicker-minutes:first').find('a').removeClass('ui-state-active');
             $td.children('a').addClass('ui-state-active');
